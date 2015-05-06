@@ -21,21 +21,14 @@ public class WifiApAdmin {
     private static final String TAG = "WifiApAdmin";
 
     public static final int WIFI_AP_STATE_DISABLING = 10;
-
     public static final int WIFI_AP_STATE_DISABLED = 11;
-
     public static final int WIFI_AP_STATE_ENABLING = 12;
-
     public static final int WIFI_AP_STATE_ENABLED = 13;
-
     public static final int WIFI_AP_STATE_FAILED = 14;
-
+    
     private static final String METHOD_GET_WIFI_AP_STATE = "getWifiApState";
-
     private static final String METHOD_SET_WIFI_AP_ENABLED = "setWifiApEnabled";
-
     private static final String METHOD_GET_WIFI_AP_CONFIG = "getWifiApConfiguration";
-
     private static final String METHOD_IS_WIFI_AP_ENABLED = "isWifiApEnabled";
 
     private static final Map<String, Method> mMethodMap = new HashMap<String, Method>();

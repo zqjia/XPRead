@@ -7,7 +7,7 @@ public final class LogUtil {
 
     private static final String TAG = "LogUtil";
 
-    private static final boolean IS_LOG = false;
+    private static final boolean IS_LOG = true;
 
     public static boolean isLog = true;
 

@@ -69,41 +69,26 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private static final String TAG = "WifiSearchFriendActivity";
 
     public static final int WIFI_AP_STATE_DISABLING = 10;
-
     public static final int WIFI_AP_STATE_DISABLED = 11;
-
     public static final int WIFI_AP_STATE_ENABLING = 12;
-
     public static final int WIFI_AP_STATE_ENABLED = 13;
-
     public static final int WIFI_AP_STATE_FAILED = 14;
 
     private static final int ANIMATION_START = 2;
-
     private static final int SCAN_TIMEOUT = 3;
 
     private ImageView mFriendOneIcon;
-
     private ImageView mFriendTwoIcon;
-
     private ImageView mFriendThreeIcon;
-
     private ImageView mFriendFourIcon;
-
     private ImageView mFriendFiveIcon;
-
     private ImageView mFriendSixIcon;
 
     private RobotoTextView mFriendOneName;
-
     private RobotoTextView mFriendTwoName;
-
     private RobotoTextView mFriendThreeName;
-
     private RobotoTextView mFriendFourName;
-
     private RobotoTextView mFriendFiveName;
-
     private RobotoTextView mFriendSixName;
 
     private ImageView mBackView;
@@ -111,7 +96,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private Controller mController;
 
     private WifiAdmin mWifiAdmin;
-
     private WifiApAdmin mWifiApAdmin;
 
     private ArrayList<ScanResult> mFriendsList;
@@ -121,7 +105,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private final String FRIENDLIST_KEY = "friend_list";
 
     private Timer mTimer;
-
     private ScanFriendTask mTimerTask;
 
     private static final int TYPE_WPA = 3;
@@ -131,11 +114,8 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private HashMap<ImageView, FriendEntity> mFriendMap;
 
     private AnimationSet mCircleAnimationSet;
-
     private ImageView mCircleBlue1;
-
     private ImageView mCircleBlue2;
-
     private ImageView mCircleBlue3;
 
     private RoundImageView mUserIcon;
@@ -149,7 +129,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private ObjectAnimator mRadarAnimator;
 
     private static final int FRIEND_BUTTON_STATE_HAVE_CLICK = 1;
-
     private static final int FRIEND_BUTTON_STATE_HAVENOT_CLICK = 0;
 
     private int mFriendButtonClickCount = 0;
@@ -157,7 +136,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private final String INTENT_TYPE = "type";
 
     private final int WAIT_CONNECTTED = 0x0010;
-
     private final int SEARCH_TIME_OUT = 0x0011;
 
     private NetworkStateChangeListener mNetworkStateChangeListener = new NetworkStateChangeListener() {
@@ -165,7 +143,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void stateChangeListener(int state) {
             if (state == Const.REFRESH_ESTIBALE) {
-
                 Intent intent = new Intent(SearchFriendActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -174,13 +151,13 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     };
 
     private ImageView[] mFriendIconArray = {
-            mFriendOneIcon, mFriendTwoIcon, mFriendThreeIcon, mFriendFourIcon, mFriendFiveIcon,
-            mFriendSixIcon
+            mFriendOneIcon, mFriendTwoIcon, mFriendThreeIcon, 
+            mFriendFourIcon, mFriendFiveIcon, mFriendSixIcon
     };
 
     private RobotoTextView[] mFriendNameArray = {
-            mFriendOneName, mFriendTwoName, mFriendThreeName, mFriendFourName, mFriendFiveName,
-            mFriendSixName
+            mFriendOneName, mFriendTwoName, mFriendThreeName, 
+            mFriendFourName, mFriendFiveName, mFriendSixName
     };
 
     ScanResultListener mScanResultListener = new ScanResultListener() {
@@ -429,13 +406,9 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                 // 1--------------------------------------------------------------
                 // --------------------------------------------------------------------------------
                 if (mWifiAdmin.connectFriend(ssid, PASSWORD, TYPE_WPA)) {
-                    if (LogUtil.isLog) {
-                        Log.e(TAG, "connect to friend success");
-                    }
+                    LogUtil.l(Log.ERROR, "connect to friend success");
                 } else {
-                    if (LogUtil.isLog) {
-                        Log.e(TAG, "connect to friend fail");
-                    }
+                    LogUtil.l(Log.ERROR, "connect to friend fail");
                 }
                 Toast.makeText(this, getResources().getString(R.string.connect_is_connecting),
                         Toast.LENGTH_LONG).show();
@@ -444,6 +417,12 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                         friendEntity.deviceId);
                 mController.getUerInfo().setConnectedFriendSsid(ssid);
 
+                //改变交互逻辑，点击连接好友后跳转到记录界面
+                
+               /* Intent intent = new Intent(SearchFriendActivity.this, RecordsActivity.class);
+                startActivity(intent);*/
+                
+                
                 // FIXME
                 /*
                  * add by zqjia jump to MainActivity

@@ -11,13 +11,9 @@ public class UserInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public final static String USER_INFO = "user_info";
-
     public final static String USER_NAME = "user_name";
-
     public final static String USER_PICTURE_ID = "user_picture_id";
-
     public final static String USER_DEVICES_ID = "user_devices_id";
-
     public final static String DEFAULT_NAME = "User";
 
     public final static int DEFAULT_PICTURE_ID = 1;
@@ -25,9 +21,7 @@ public class UserInfo implements Serializable {
     public final static String DEFAULT_DEVICE_NAME = "phone";
 
     private String mUserName = DEFAULT_NAME;
-
     private String mDeviceName = DEFAULT_DEVICE_NAME;
-
     private int mPictureID = DEFAULT_PICTURE_ID;
 
     // FIXME
@@ -35,9 +29,12 @@ public class UserInfo implements Serializable {
     // save the wifi state before open the app
     /*---------begin-------------*/
     
-    //connected friend ssid , save it for remove the config
-    private String mConnectedFriendSsid;
+    //the default ssid 
+    private String mDefaultSsid;
 
+    //the connected friend ssid
+    private String mConnectedFriendSsid;
+    
     /*
      *  default        -1
      *  not connected   0 
@@ -54,8 +51,16 @@ public class UserInfo implements Serializable {
         return this.mIsWifiConnectedBefore;
     }
     
-    public void setConnectedFriendSsid(String connectedFriendSsid) {
-        this.mConnectedFriendSsid = connectedFriendSsid;
+    public void setDefaultSsid(String defaultSsid) {
+        this.mDefaultSsid = defaultSsid;
+    }
+    
+    public String getDefaultSsid() {
+        return this.mDefaultSsid;
+    }
+    
+    public void setConnectedFriendSsid(String friendSsid) {
+        this.mConnectedFriendSsid = friendSsid;
     }
     
     public String getConnectedFriendSsid() {

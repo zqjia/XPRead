@@ -44,7 +44,6 @@ public class WaitFriendActivity extends BaseActivity {
     private Controller mController;
 
     private WifiAdmin mWifiAdmin;
-
     private WifiApAdmin mWifiApAdmin;
 
     private ImageView mBackView;
@@ -52,29 +51,21 @@ public class WaitFriendActivity extends BaseActivity {
     private RoundImageView mUserIcon;
 
     public static final int WIFI_AP_STATE_DISABLING = 10;
-
     public static final int WIFI_AP_STATE_DISABLED = 11;
-
     public static final int WIFI_AP_STATE_ENABLING = 12;
-
     public static final int WIFI_AP_STATE_ENABLED = 13;
-
     public static final int WIFI_AP_STATE_FAILED = 14;
-
+    
     private static final int AP_ENABLED_MSG = 1;
-
     private static final int AP_ENABLED_FAIL_MSG = 3;
 
     private static final int TIME_OUT = 10;
 
     private TextView mWaitHintBegin;
-
     private TextView mWaitHintReceive;
 
     private ImageView mCircleBlue1;
-
     private ImageView mCircleBlue2;
-
     private ImageView mCircleBlue3;
 
     private ImageView mCancelWait;
@@ -84,7 +75,6 @@ public class WaitFriendActivity extends BaseActivity {
     private static final int ANIMATION_START = 2;
 
     private ImageView mRadar;
-
     private ObjectAnimator mRadarAnimator;
 
     private WaitWifiApThread mWaitWifiApThread;
@@ -296,7 +286,6 @@ public class WaitFriendActivity extends BaseActivity {
 
             @Override
             public void onAnimationUpdate(ValueAnimator arg0) {
-                // TODO Auto-generated method stub
                 int count = (int)Math.floor((-mRadar.getRotation()) / 90);
                 switch (count) {
                     case 0:
@@ -462,9 +451,6 @@ public class WaitFriendActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
 
-        // FIXME 取消注册？onCreate中注册
-//        Log.e("***********WaitActivity************", "onDestroy ----- " + mController.isConnected()
-//                + "---unregist  " + mNetworkStateChangeListener.hashCode());
         Controller.getInstance(WaitFriendActivity.this).unRegisterNetworkStateChangeListener(
                 mNetworkStateChangeListener);
 

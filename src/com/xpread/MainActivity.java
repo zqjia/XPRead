@@ -86,17 +86,13 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     private Controller mController;
 
     private RoundImageButton mSendButton;
-
     private RoundImageButton mReceiveButton;
-
     private RoundImageButton mDisconnectButton;
 
     private RelativeLayout mUserInfoLayout;
-
     private RelativeLayout mConnectedUserInfoLayout;
 
     RoundImageView mFaceImage;
-
     TextView mUserName;
 
     ImageView mUserHistory;
@@ -108,21 +104,13 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     int iconId;
 
     DrawerLayout mDrawerLayout;
-
     ImageView mMenu;
-
     RelativeLayout mDrawerContent;
-
     ListView mDrawerListView;
-
     TextView mDrawerBottomText;
-
     ImageView mShare;
-
     RoundImageView mOwerIcon;
-
     RoundImageView mGuestIcon;
-
     TextView mGuestName;
 
     CircleAnimation mAnimationSend = null;
@@ -167,9 +155,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
             mWaitConnectCircleBmp3, mWaitConnectCircleBmp4, mWaitConnectCircleBmp5};
 
     class WaitConnectIndex {
-
         int index;
-
         boolean flag;
     }
 
@@ -188,13 +174,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     private static final int PROGRESS_MAX = 100;
 
     public static final int WIFI_AP_STATE_DISABLING = 10;
-
     public static final int WIFI_AP_STATE_DISABLED = 11;
-
     public static final int WIFI_AP_STATE_ENABLING = 12;
-
     public static final int WIFI_AP_STATE_ENABLED = 13;
-
     public static final int WIFI_AP_STATE_FAILED = 14;
 
     private static final String GOOGLE_PLAY_PACKAGE_NAME = "com.android.vending";
@@ -203,21 +185,16 @@ public class MainActivity extends BaseActivity implements OnClickListener {
             "com.android.vending.AssetBrowserActivity";
 
     private boolean mIsNameValid = false;
-
     private boolean mIsWaitConnected = false;
 
     private final String INTENT_TYPE = "type";
 
     private Timer mWaitConnectTimer = new Timer();
-
     private TimerTask mWaitConnectTask;
 
     private boolean mIsOwnerTrackAnimationStart = false;
-
     private boolean mIsDisconnected = false;
-
     private boolean mIsSenderFirstSetProgress = true;
-
     private boolean mIsReceiverFirstSetProgress = true;
 
     NetworkStateChangeListener mNetworkStateChangeListener = new NetworkStateChangeListener() {
@@ -233,12 +210,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 return;
             }
             if (state == Const.REFRESH_DISCONNECTION) {
-
                 if (LogUtil.isLog) {
                     Log.e(TAG, "--------->recieve the disconnect message");
                 }
                 resetAllTrackView();
-
                 resetDefaultState();
 
             } else if (state == Const.REFRESH_ESTIBALE) {
@@ -1707,6 +1682,12 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 }
 
                 userInfo.setIsWifiConnectedBefore(1); // save the state
+                
+                //保存用户的热点设置名称
+                WifiApAdmin wifiApAdmin = this.mController.getWifiApAdmin();
+                WifiConfiguration wcg = wifiApAdmin.getWifiApConfiguration();
+                userInfo.setDefaultSsid(wcg.SSID);
+                
             } else {
                 if (LogUtil.isLog) {
                     Log.e(TAG, "wifi is not open before open xpread");
@@ -1714,6 +1695,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 userInfo.setIsWifiConnectedBefore(0); // save the state
             }
         }
+        
+        
 
     }
 
@@ -1761,12 +1744,18 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 }
             }
             wifiAdmin.reconnect();
+            
+            //恢复用户的热点设置名称
+            WifiApAdmin wifiApAdmin = this.mController.getWifiApAdmin();
+            WifiConfiguration wcg = wifiApAdmin.getWifiApConfiguration();
+            String defaultSsid = userInfo.getDefaultSsid();
+            wcg.SSID = defaultSsid;
         } else if (isWifiConnectedBefore == 0) {
             wifiAdmin.closeWifi();
         }
 
         userInfo.setIsWifiConnectedBefore(-1);
-
+        userInfo.setDefaultSsid(null);
     }
 
     /*
