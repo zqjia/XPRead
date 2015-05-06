@@ -1,0 +1,998 @@
+com.nostra13.universalimageloader.cache.disc.DiscCacheAware:
+    public abstract java.io.File getDirectory()
+    public abstract boolean remove(java.lang.String)
+    public abstract void close()
+    public abstract void clear()
+com.nostra13.universalimageloader.cache.disc.impl.BaseDiscCache:
+    public static final int DEFAULT_BUFFER_SIZE
+    public static final int DEFAULT_COMPRESS_QUALITY
+    private static final java.lang.String ERROR_ARG_NULL
+    private static final java.lang.String TEMP_IMAGE_POSTFIX
+    61:62:public BaseDiscCache(java.io.File)
+    69:70:public BaseDiscCache(java.io.File,java.io.File)
+    93:93:public java.io.File getDirectory()
+    148:148:public boolean remove(java.lang.String)
+    154:154:public void close()
+    158:164:public void clear()
+    179:180:public void setBufferSize(int)
+    183:184:public void setCompressFormat(android.graphics.Bitmap$CompressFormat)
+    187:188:public void setCompressQuality(int)
+com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiscCache
+com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache:
+    32:33:public UnlimitedDiscCache(java.io.File)
+    40:41:public UnlimitedDiscCache(java.io.File,java.io.File)
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache:
+    static final java.lang.String JOURNAL_FILE
+    static final java.lang.String JOURNAL_FILE_TEMP
+    static final java.lang.String JOURNAL_FILE_BACKUP
+    static final java.lang.String MAGIC
+    static final java.lang.String VERSION_1
+    static final long ANY_SEQUENCE_NUMBER
+    private static final java.lang.String CLEAN
+    private static final java.lang.String DIRTY
+    private static final java.lang.String REMOVE
+    private static final java.lang.String READ
+    491:491:public java.io.File getDirectory()
+    499:499:public synchronized long getMaxSize()
+    504:504:public synchronized int getMaxFileCount()
+    512:514:public synchronized void setMaxSize(long)
+    522:522:public synchronized long size()
+    531:531:public synchronized long fileCount()
+    637:637:public synchronized boolean isClosed()
+    648:652:public synchronized void flush()
+    702:702:private static java.lang.String inputStreamToString(java.io.InputStream)
+    87:87:static synthetic com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor access$1700(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache,java.lang.String,long)
+    87:87:static synthetic java.lang.String access$1800(java.io.InputStream)
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor:
+    781:793:public java.io.InputStream newInputStream(int)
+    801:802:public java.lang.String getString(int)
+    840:847:public void set(int,java.lang.String)
+    872:878:public void abortUnlessCommitted()
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Snapshot:
+    727:727:public com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor edit()
+    737:737:public java.io.InputStream getInputStream(int)
+    742:742:public java.lang.String getString(int)
+    747:747:public long getLength(int)
+com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiscCache:
+    public static final int DEFAULT_BUFFER_SIZE
+    public static final int DEFAULT_COMPRESS_QUALITY
+    private static final java.lang.String ERROR_ARG_NULL
+    private static final java.lang.String ERROR_ARG_NEGATIVE
+    69:70:public LruDiscCache(java.io.File,com.nostra13.universalimageloader.cache.disc.naming.FileNameGenerator,long)
+    126:126:public java.io.File getDirectory()
+    192:195:public boolean remove(java.lang.String)
+    202:207:public void close()
+    212:221:public void clear()
+    228:229:public void setBufferSize(int)
+    232:233:public void setCompressFormat(android.graphics.Bitmap$CompressFormat)
+    236:237:public void setCompressQuality(int)
+com.nostra13.universalimageloader.cache.disc.impl.ext.StrictLineReader:
+    private static final byte CR
+    private static final byte LF
+com.nostra13.universalimageloader.cache.disc.impl.ext.Util:
+    30:31:private Util()
+    35:43:static java.lang.String readFully(java.io.Reader)
+com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator:
+    private static final java.lang.String HASH_ALGORITHM
+    private static final int RADIX
+com.nostra13.universalimageloader.cache.memory.BaseMemoryCache:
+    66:67:public void clear()
+com.nostra13.universalimageloader.cache.memory.LimitedMemoryCache
+com.nostra13.universalimageloader.cache.memory.MemoryCacheAware:
+    public abstract void clear()
+com.nostra13.universalimageloader.cache.memory.impl.FIFOLimitedMemoryCache
+com.nostra13.universalimageloader.cache.memory.impl.FuzzyKeyMemoryCache:
+    74:75:public void clear()
+com.nostra13.universalimageloader.cache.memory.impl.LRULimitedMemoryCache
+com.nostra13.universalimageloader.cache.memory.impl.LargestLimitedMemoryCache
+com.nostra13.universalimageloader.cache.memory.impl.LimitedAgeMemoryCache
+com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache:
+    128:129:public void clear()
+com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache
+com.nostra13.universalimageloader.core.DefaultConfigurationFactory:
+    54:137:public DefaultConfigurationFactory()
+com.nostra13.universalimageloader.core.DisplayBitmapTask:
+    private static final java.lang.String LOG_DISPLAY_IMAGE_IN_IMAGEAWARE
+    private static final java.lang.String LOG_TASK_CANCELLED_IMAGEAWARE_REUSED
+    private static final java.lang.String LOG_TASK_CANCELLED_IMAGEAWARE_COLLECTED
+com.nostra13.universalimageloader.core.DisplayImageOptions$Builder:
+    237:238:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder showStubImage(int)
+    258:259:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder showImageOnLoading(android.graphics.drawable.Drawable)
+    281:282:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder showImageForEmptyUri(android.graphics.drawable.Drawable)
+    304:305:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder showImageOnFail(android.graphics.drawable.Drawable)
+    315:316:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder resetViewBeforeLoading()
+    324:325:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder resetViewBeforeLoading(boolean)
+    335:336:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder cacheInMemory()
+    352:352:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder cacheOnDisc()
+    362:362:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder cacheOnDisc(boolean)
+    396:398:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder decodingOptions(android.graphics.BitmapFactory$Options)
+    403:404:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder delayBeforeLoading(int)
+    409:410:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder extraForDownloader(java.lang.Object)
+    425:426:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder preProcessor(com.nostra13.universalimageloader.core.process.BitmapProcessor)
+    435:436:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder postProcessor(com.nostra13.universalimageloader.core.process.BitmapProcessor)
+    444:446:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder displayer(com.nostra13.universalimageloader.core.display.BitmapDisplayer)
+    450:451:com.nostra13.universalimageloader.core.DisplayImageOptions$Builder syncLoading(boolean)
+    459:460:public com.nostra13.universalimageloader.core.DisplayImageOptions$Builder handler(android.os.Handler)
+com.nostra13.universalimageloader.core.ImageLoader:
+    static final java.lang.String LOG_INIT_CONFIG
+    static final java.lang.String LOG_DESTROY
+    static final java.lang.String LOG_LOAD_IMAGE_FROM_MEMORY_CACHE
+    private static final java.lang.String WARNING_RE_INIT_CONFIG
+    private static final java.lang.String ERROR_WRONG_ARGUMENTS
+    private static final java.lang.String ERROR_NOT_INIT
+    private static final java.lang.String ERROR_INIT_CONFIG_WITH_NULL
+    109:109:public boolean isInited()
+    125:126:public void displayImage(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware)
+    143:144:public void displayImage(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.listener.ImageLoadingListener)
+    161:162:public void displayImage(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.DisplayImageOptions)
+    182:183:public void displayImage(java.lang.String,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.DisplayImageOptions,com.nostra13.universalimageloader.core.listener.ImageLoadingListener)
+    286:287:public void displayImage(java.lang.String,android.widget.ImageView)
+    320:321:public void displayImage(java.lang.String,android.widget.ImageView,com.nostra13.universalimageloader.core.listener.ImageLoadingListener)
+    380:381:public void loadImage(java.lang.String,com.nostra13.universalimageloader.core.listener.ImageLoadingListener)
+    400:401:public void loadImage(java.lang.String,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.listener.ImageLoadingListener)
+    419:420:public void loadImage(java.lang.String,com.nostra13.universalimageloader.core.DisplayImageOptions,com.nostra13.universalimageloader.core.listener.ImageLoadingListener)
+    444:445:public void loadImage(java.lang.String,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.DisplayImageOptions,com.nostra13.universalimageloader.core.listener.ImageLoadingListener)
+    474:484:public void loadImage(java.lang.String,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.DisplayImageOptions,com.nostra13.universalimageloader.core.listener.ImageLoadingListener,com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener)
+    498:498:public android.graphics.Bitmap loadImageSync(java.lang.String)
+    514:514:public android.graphics.Bitmap loadImageSync(java.lang.String,com.nostra13.universalimageloader.core.DisplayImageOptions)
+    532:532:public android.graphics.Bitmap loadImageSync(java.lang.String,com.nostra13.universalimageloader.core.assist.ImageSize)
+    551:558:public android.graphics.Bitmap loadImageSync(java.lang.String,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.DisplayImageOptions)
+    578:579:public com.nostra13.universalimageloader.cache.memory.MemoryCache getMemoryCache()
+    588:590:public void clearMemoryCache()
+    600:600:public com.nostra13.universalimageloader.cache.disc.DiskCache getDiscCache()
+    609:610:public com.nostra13.universalimageloader.cache.disc.DiskCache getDiskCache()
+    621:622:public void clearDiscCache()
+    630:632:public void clearDiskCache()
+    639:639:public java.lang.String getLoadingUriForView(com.nostra13.universalimageloader.core.imageaware.ImageAware)
+    647:647:public java.lang.String getLoadingUriForView(android.widget.ImageView)
+    658:659:public void cancelDisplayTask(com.nostra13.universalimageloader.core.imageaware.ImageAware)
+    668:669:public void cancelDisplayTask(android.widget.ImageView)
+    682:683:public void denyNetworkDownloads(boolean)
+    693:694:public void handleSlowNetwork(boolean)
+    718:719:public void stop()
+    727:732:public void destroy()
+com.nostra13.universalimageloader.core.ImageLoader$1
+com.nostra13.universalimageloader.core.ImageLoader$SyncImageLoadingListener
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration:
+    127:127:public static com.nostra13.universalimageloader.core.ImageLoaderConfiguration createDefault(android.content.Context)
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder:
+    private static final java.lang.String WARNING_OVERLAP_DISK_CACHE_PARAMS
+    private static final java.lang.String WARNING_OVERLAP_DISK_CACHE_NAME_GENERATOR
+    private static final java.lang.String WARNING_OVERLAP_MEMORY_CACHE
+    private static final java.lang.String WARNING_OVERLAP_EXECUTOR
+    public static final int DEFAULT_THREAD_POOL_SIZE
+    public static final int DEFAULT_THREAD_PRIORITY
+    208:210:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder memoryCacheExtraOptions(int,int)
+    221:221:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder discCacheExtraOptions(int,int,com.nostra13.universalimageloader.core.process.BitmapProcessor)
+    234:237:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder diskCacheExtraOptions(int,int,com.nostra13.universalimageloader.core.process.BitmapProcessor)
+    254:259:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder taskExecutor(java.util.concurrent.Executor)
+    281:286:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder taskExecutorForCachedImages(java.util.concurrent.Executor)
+    359:366:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder memoryCacheSize(int)
+    379:389:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder memoryCacheSizePercentage(int)
+    414:414:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder discCacheSize(int)
+    439:439:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder discCacheFileCount(int)
+    451:458:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder diskCacheFileCount(int)
+    464:464:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder discCacheFileNameGenerator(com.nostra13.universalimageloader.cache.disc.naming.FileNameGenerator)
+    485:485:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder discCache(com.nostra13.universalimageloader.cache.disc.DiskCache)
+    503:511:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder diskCache(com.nostra13.universalimageloader.cache.disc.DiskCache)
+    521:522:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder imageDownloader(com.nostra13.universalimageloader.core.download.ImageDownloader)
+    532:533:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder imageDecoder(com.nostra13.universalimageloader.core.decode.ImageDecoder)
+    543:544:public com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder defaultDisplayImageOptions(com.nostra13.universalimageloader.core.DisplayImageOptions)
+com.nostra13.universalimageloader.core.ImageLoaderEngine:
+    140:141:void denyNetworkDownloads(boolean)
+    151:152:void handleSlowNetwork(boolean)
+    178:187:void stop()
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask:
+    private static final java.lang.String LOG_WAITING_FOR_RESUME
+    private static final java.lang.String LOG_RESUME_AFTER_PAUSE
+    private static final java.lang.String LOG_DELAY_BEFORE_LOADING
+    private static final java.lang.String LOG_START_DISPLAY_IMAGE_TASK
+    private static final java.lang.String LOG_WAITING_FOR_IMAGE_LOADED
+    private static final java.lang.String LOG_GET_IMAGE_FROM_MEMORY_CACHE_AFTER_WAITING
+    private static final java.lang.String LOG_LOAD_IMAGE_FROM_NETWORK
+    private static final java.lang.String LOG_LOAD_IMAGE_FROM_DISK_CACHE
+    private static final java.lang.String LOG_RESIZE_CACHED_IMAGE_FILE
+    private static final java.lang.String LOG_PREPROCESS_IMAGE
+    private static final java.lang.String LOG_POSTPROCESS_IMAGE
+    private static final java.lang.String LOG_CACHE_IMAGE_IN_MEMORY
+    private static final java.lang.String LOG_CACHE_IMAGE_ON_DISK
+    private static final java.lang.String LOG_PROCESS_IMAGE_BEFORE_CACHE_ON_DISK
+    private static final java.lang.String LOG_TASK_CANCELLED_IMAGEAWARE_REUSED
+    private static final java.lang.String LOG_TASK_CANCELLED_IMAGEAWARE_COLLECTED
+    private static final java.lang.String LOG_TASK_INTERRUPTED
+    private static final java.lang.String ERROR_PRE_PROCESSOR_NULL
+    private static final java.lang.String ERROR_POST_PROCESSOR_NULL
+    private static final java.lang.String ERROR_PROCESSOR_FOR_DISK_CACHE_NULL
+com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask:
+    private static final java.lang.String LOG_POSTPROCESS_IMAGE
+com.nostra13.universalimageloader.core.assist.FailReason:
+    37:37:public com.nostra13.universalimageloader.core.assist.FailReason$FailType getType()
+    42:42:public java.lang.Throwable getCause()
+com.nostra13.universalimageloader.core.assist.ImageSize:
+    private static final int TO_STRING_MAX_LENGHT
+    private static final java.lang.String SEPARATOR
+com.nostra13.universalimageloader.core.assist.deque.BlockingDeque:
+    public abstract void addFirst(java.lang.Object)
+    public abstract void addLast(java.lang.Object)
+    public abstract boolean offerFirst(java.lang.Object)
+    public abstract boolean offerLast(java.lang.Object)
+    public abstract void putFirst(java.lang.Object)
+    public abstract void putLast(java.lang.Object)
+    public abstract boolean offerFirst(java.lang.Object,long,java.util.concurrent.TimeUnit)
+    public abstract boolean offerLast(java.lang.Object,long,java.util.concurrent.TimeUnit)
+    public abstract java.lang.Object takeFirst()
+    public abstract java.lang.Object takeLast()
+    public abstract java.lang.Object pollFirst(long,java.util.concurrent.TimeUnit)
+    public abstract java.lang.Object pollLast(long,java.util.concurrent.TimeUnit)
+    public abstract boolean removeFirstOccurrence(java.lang.Object)
+    public abstract boolean removeLastOccurrence(java.lang.Object)
+    public abstract boolean add(java.lang.Object)
+    public abstract boolean offer(java.lang.Object)
+    public abstract void put(java.lang.Object)
+    public abstract boolean offer(java.lang.Object,long,java.util.concurrent.TimeUnit)
+    public abstract java.lang.Object remove()
+    public abstract java.lang.Object poll()
+    public abstract java.lang.Object take()
+    public abstract java.lang.Object poll(long,java.util.concurrent.TimeUnit)
+    public abstract java.lang.Object element()
+    public abstract java.lang.Object peek()
+    public abstract boolean remove(java.lang.Object)
+    public abstract boolean contains(java.lang.Object)
+    public abstract int size()
+    public abstract java.util.Iterator iterator()
+    public abstract void push(java.lang.Object)
+com.nostra13.universalimageloader.core.assist.deque.Deque:
+    public abstract void addFirst(java.lang.Object)
+    public abstract void addLast(java.lang.Object)
+    public abstract boolean offerFirst(java.lang.Object)
+    public abstract boolean offerLast(java.lang.Object)
+    public abstract java.lang.Object removeFirst()
+    public abstract java.lang.Object removeLast()
+    public abstract java.lang.Object pollFirst()
+    public abstract java.lang.Object pollLast()
+    public abstract java.lang.Object getFirst()
+    public abstract java.lang.Object getLast()
+    public abstract java.lang.Object peekFirst()
+    public abstract java.lang.Object peekLast()
+    public abstract boolean removeFirstOccurrence(java.lang.Object)
+    public abstract boolean removeLastOccurrence(java.lang.Object)
+    public abstract boolean add(java.lang.Object)
+    public abstract boolean offer(java.lang.Object)
+    public abstract java.lang.Object remove()
+    public abstract java.lang.Object poll()
+    public abstract java.lang.Object element()
+    public abstract java.lang.Object peek()
+    public abstract void push(java.lang.Object)
+    public abstract java.lang.Object pop()
+    public abstract boolean remove(java.lang.Object)
+    public abstract boolean contains(java.lang.Object)
+    public abstract int size()
+    public abstract java.util.Iterator iterator()
+    public abstract java.util.Iterator descendingIterator()
+com.nostra13.universalimageloader.core.assist.deque.LIFOLinkedBlockingDeque:
+    private static final long serialVersionUID
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque:
+    private static final long serialVersionUID
+    165:178:public LinkedBlockingDeque(java.util.Collection)
+    294:296:public void addFirst(java.lang.Object)
+    342:352:public void putFirst(java.lang.Object)
+    377:390:public boolean offerFirst(java.lang.Object,long,java.util.concurrent.TimeUnit)
+    430:432:public java.lang.Object removeLast()
+    446:451:public java.lang.Object pollLast()
+    469:477:public java.lang.Object takeLast()
+    501:513:public java.lang.Object pollLast(long,java.util.concurrent.TimeUnit)
+    530:532:public java.lang.Object getLast()
+    546:551:public java.lang.Object peekLast()
+    573:585:public boolean removeLastOccurrence(java.lang.Object)
+    738:739:public void push(java.lang.Object)
+    745:745:public java.lang.Object pop()
+    1007:1007:public java.util.Iterator descendingIterator()
+    1133:1146:private void writeObject(java.io.ObjectOutputStream)
+    1155:1167:private void readObject(java.io.ObjectInputStream)
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$DescendingItr
+com.nostra13.universalimageloader.core.decode.BaseImageDecoder:
+    protected static final java.lang.String LOG_SUBSAMPLE_IMAGE
+    protected static final java.lang.String LOG_SCALE_IMAGE
+    protected static final java.lang.String LOG_ROTATE_IMAGE
+    protected static final java.lang.String LOG_FLIP_IMAGE
+    protected static final java.lang.String ERROR_CANT_DECODE_IMAGE
+com.nostra13.universalimageloader.core.decode.ImageDecodingInfo:
+    107:107:public java.lang.String getOriginalImageUri()
+com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer
+com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer
+com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer$RoundedDrawable
+com.nostra13.universalimageloader.core.display.RoundedVignetteBitmapDisplayer
+com.nostra13.universalimageloader.core.display.RoundedVignetteBitmapDisplayer$RoundedVignetteDrawable
+com.nostra13.universalimageloader.core.download.BaseImageDownloader:
+    public static final int DEFAULT_HTTP_CONNECT_TIMEOUT
+    public static final int DEFAULT_HTTP_READ_TIMEOUT
+    protected static final int BUFFER_SIZE
+    protected static final java.lang.String ALLOWED_URI_CHARS
+    protected static final int MAX_REDIRECT_COUNT
+    protected static final java.lang.String CONTENT_CONTACTS_URI_PREFIX
+    private static final java.lang.String ERROR_UNSUPPORTED_SCHEME
+    75:79:public BaseImageDownloader(android.content.Context,int,int)
+com.nostra13.universalimageloader.core.imageaware.ImageViewAware:
+    65:66:public ImageViewAware(android.widget.ImageView,boolean)
+com.nostra13.universalimageloader.core.imageaware.NonViewAware
+com.nostra13.universalimageloader.core.imageaware.ViewAware:
+    public static final java.lang.String WARN_CANT_SET_DRAWABLE
+    public static final java.lang.String WARN_CANT_SET_BITMAP
+com.nostra13.universalimageloader.utils.DiskCacheUtils
+com.nostra13.universalimageloader.utils.ImageSizeUtils:
+    private static final int DEFAULT_MAX_BITMAP_DIMENSION
+    45:46:private ImageSizeUtils()
+com.nostra13.universalimageloader.utils.IoUtils:
+    public static final int DEFAULT_BUFFER_SIZE
+    public static final int DEFAULT_IMAGE_TOTAL_SIZE
+    public static final int CONTINUE_LOADING_PERCENTAGE
+    38:39:private IoUtils()
+    52:52:public static boolean copyStream(java.io.InputStream,java.io.OutputStream,com.nostra13.universalimageloader.utils.IoUtils$CopyListener)
+com.nostra13.universalimageloader.utils.L:
+    private static final java.lang.String LOG_FORMAT
+    33:34:private L()
+    43:44:public static void enableLogging()
+    53:54:public static void disableLogging()
+    68:69:public static void writeLogs(boolean)
+    94:95:public static varargs void e(java.lang.Throwable,java.lang.String,java.lang.Object[])
+com.nostra13.universalimageloader.utils.MemoryCacheUtils:
+    private static final java.lang.String URI_AND_SIZE_SEPARATOR
+    private static final java.lang.String WIDTH_AND_HEIGHT_SEPARATOR
+    39:40:private MemoryCacheUtils()
+    68:74:public static java.util.List findCachedBitmapsForImageUri(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCache)
+    84:90:public static java.util.List findCacheKeysForImageUri(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCache)
+    100:109:public static void removeFromCache(java.lang.String,com.nostra13.universalimageloader.cache.memory.MemoryCache)
+com.nostra13.universalimageloader.utils.StorageUtils:
+    private static final java.lang.String EXTERNAL_STORAGE_PERMISSION
+    private static final java.lang.String INDIVIDUAL_DIR_NAME
+    38:39:private StorageUtils()
+    116:123:public static java.io.File getOwnCacheDirectory(android.content.Context,java.lang.String)
+com.uc.base.encryption.M8Helper:
+    15:15:public M8Helper()
+    24:24:public static byte[] m8Decode(byte[],int[])
+com.uc.base.wa.WaBodyBuilder:
+    68:72:public com.uc.base.wa.WaBodyBuilder buildLast(java.lang.String,java.lang.String)
+    80:84:public com.uc.base.wa.WaBodyBuilder buildLast(java.util.HashMap)
+    93:97:public com.uc.base.wa.WaBodyBuilder buildAvg(java.lang.String,double)
+    105:109:public com.uc.base.wa.WaBodyBuilder buildAvg(java.util.HashMap)
+    130:134:public com.uc.base.wa.WaBodyBuilder buildSum(java.util.HashMap)
+    143:147:public com.uc.base.wa.WaBodyBuilder buildMax(java.lang.String,long)
+    155:159:public com.uc.base.wa.WaBodyBuilder buildMax(java.util.HashMap)
+    168:172:public com.uc.base.wa.WaBodyBuilder buildMin(java.lang.String,long)
+    180:184:public com.uc.base.wa.WaBodyBuilder buildMin(java.util.HashMap)
+com.uc.base.wa.WaEntry:
+    public static final int MSG_UPLOAD_FILE
+    public static final int MSG_UPLOAD_UC_INFO
+    public static final int MSG_PAUSED
+    public static final int MSG_EXITED
+    public static final int MSG_CRASHED
+    public static final int CFG_TYPE_DISABLE_ID
+    private static final long DAY_TIME
+    private com.uc.base.wa.WaEntry$CacheStruct mCacheStruct
+    private com.uc.base.wa.WaEntry$WaItemInterface mWaItem
+    215:219:private WaEntry(java.lang.String,com.uc.base.wa.WaEntry$CacheStruct,com.uc.base.wa.WaEntry$WaItemInterface)
+    255:256:public static void initPutCategorieId(java.lang.String)
+    265:266:public static void initSetUploadUcInfo(java.lang.Runnable)
+    281:293:public static varargs void stat(java.lang.String,com.uc.base.wa.WaEntry$WaItemInterface,com.uc.base.wa.WaBodyBuilder,java.lang.String[])
+    304:305:public static varargs void stat(java.lang.String,com.uc.base.wa.WaEntry$WaItemInterface,java.lang.String[])
+    315:318:public static void timeBegin(java.lang.String,java.lang.String)
+    329:331:public static long timeEnd(java.lang.String,java.lang.String)
+    407:417:public static varargs void statPv(java.lang.String,com.uc.base.wa.WaBodyBuilder,java.lang.String[])
+    424:433:public static varargs void upload(java.lang.String,com.uc.base.wa.WaEntry$WaItemInterface,com.uc.base.wa.cache.WaBody,java.lang.String[])
+    440:457:public static varargs void blockUpload(java.lang.String,com.uc.base.wa.WaEntry$WaItemInterface,com.uc.base.wa.cache.WaBody,java.lang.String[])
+    461:470:private static varargs void doUpload(java.lang.String,com.uc.base.wa.WaEntry$WaUploadCallback,com.uc.base.wa.WaEntry$WaItemInterface,com.uc.base.wa.cache.WaBody,java.lang.String[])
+    494:495:public static void unRegisterListener(java.lang.String)
+    508:514:public static com.uc.base.wa.WaEntry create(java.lang.String,com.uc.base.wa.WaEntry$WaItemInterface)
+    528:536:public static com.uc.base.wa.WaEntry createEv(java.lang.String,int)
+    553:554:public void stat(com.uc.base.wa.WaBodyBuilder)
+    565:566:public varargs void stat(java.lang.String[])
+    579:585:public varargs void stat(com.uc.base.wa.WaBodyBuilder,java.lang.String[])
+    596:617:public static boolean updateConfig(int,java.lang.String)
+com.uc.base.wa.WaEntry$1
+com.uc.base.wa.WaEntry$2
+com.uc.base.wa.WaEntry$ConfigIniter
+com.uc.base.wa.WaEntry$WaErrorCode
+com.uc.base.wa.WaEntry$WaListenerInterface:
+    public static final int INVOKED_TYPE_UPLOADING
+    public static final int INVOKED_TYPE_UPLOADING_END
+    public static final int INVOKED_TYPE_UPLOADED_RET
+com.uc.base.wa.WaEntry$WaListenerInterface$InvokeHelper:
+    public static final java.lang.String E_INFO_OVERFLOW_INVALID
+    public static final java.lang.String E_INFO_OVERFLOW_NONE
+    public static final java.lang.String E_INFO_OVERFLOW_OK_MOBILE
+    public static final java.lang.String E_INFO_OVERFLOW_OK_WIFI
+    public static final java.lang.String E_INFO_OVERFLOW_MOBILE
+    public static final java.lang.String E_INFO_OVERFLOW_WIFI
+    public abstract void setUploadParams(long,int)
+    public abstract boolean writeLine(java.util.Map)
+    public abstract boolean writeLine(java.lang.String)
+    public abstract boolean getUploadedRet()
+    public abstract java.lang.String getUploadedInfo()
+com.uc.base.wa.WaEvent:
+    public static final int TYPE_USER
+    public static final int TYPE_SYSTEM
+    71:72:public WaEvent()
+com.uc.base.wa.WaState
+com.uc.base.wa.WaState$1
+com.uc.base.wa.cache.WaCache:
+    private static final boolean DEBUG
+    private static int mI
+    private java.util.HashMap mTimes
+    84:84:public void onStop()
+    93:107:public static void setDisableWaCategoryIds(java.util.Set)
+    260:261:public varargs void uploadData(com.uc.base.wa.cache.WaCacheItemInterface,com.uc.base.wa.WaEntry$WaUploadCallback,com.uc.base.wa.cache.WaCacheConfig,com.uc.base.wa.cache.WaBody,java.lang.String[])
+    433:433:public java.util.HashMap getTmpData()
+    442:446:public void pushTime(java.lang.String)
+    454:463:public long pullTime(java.lang.String)
+com.uc.base.wa.cache.WaCacheCreater:
+    25:25:public WaCacheCreater()
+com.uc.base.wa.cache.WaCacheInterface:
+    public varargs abstract void uploadData(com.uc.base.wa.cache.WaCacheItemInterface,com.uc.base.wa.WaEntry$WaUploadCallback,com.uc.base.wa.cache.WaCacheConfig,com.uc.base.wa.cache.WaBody,java.lang.String[])
+    public abstract java.util.HashMap getTmpData()
+    public abstract void pushTime(java.lang.String)
+    public abstract long pullTime(java.lang.String)
+com.uc.base.wa.cache.WaFsmCore:
+    public static final int STATE_MAIN
+    public static final int STATE_BACKGROUND
+    public static final int STATE_OTHER
+    public static final int STATE_FINISHED
+    public static final int EVENT_SYNC
+    public static final int EVENT_MAIN
+    public static final int EVENT_BACKGROUND
+    public static final int EVENT_FINISHED
+com.uc.base.wa.cache.WaOperStrategyInterface:
+    public static final int THREAD_MAIN
+    public static final int THREAD_WA
+    public static final int THREAD_SYNC
+    public static final int THREAD_DEFAULT
+com.uc.base.wa.cache.WaTmpBody:
+    49:56:public static void mergeLast(com.uc.base.wa.cache.WaTmpBody,java.lang.String,java.lang.String)
+    69:74:public static void mergeAvg(com.uc.base.wa.cache.WaTmpBody,java.lang.String,java.lang.Double)
+    76:83:public static void mergeAvg(com.uc.base.wa.cache.WaTmpBody,java.util.HashMap)
+com.uc.base.wa.config.WaConfig:
+    public static final boolean ENABLE_GRAY
+    public static final boolean ENABLE_UPLOAD_GZIP
+    public static final int LEVEL_NONE
+    public static final int LEVEL_FORCE
+    public static final int LEVEL_IMPORTANT
+    public static final int LEVEL_SYSTEM
+    public static final int LEVEL_BUSINESS_CORE
+    public static final int LEVEL_BUSINESS
+    public static final int LEVEL_OTHER
+    private static final java.lang.String gWaPath
+    private static final java.lang.String gSavePath
+    private static final java.lang.String gUploadPath
+    private static final java.lang.String gUploadedPath
+    private static final java.lang.String gWifiPath
+    private static final java.lang.String gMobilePath
+    169:170:public static void setDisableWaCategoryIds(java.util.Set)
+    278:279:public void setDisable(boolean)
+    310:310:public static java.lang.String getUploadPath()
+    399:400:public varargs com.uc.base.wa.config.WaConfig buildAutoWaKeys(java.lang.String[])
+    404:405:public com.uc.base.wa.config.WaConfig buildUploadOnlyWifi(boolean)
+com.uc.base.wa.config.WaDef
+com.uc.base.wa.context.WaContext
+com.uc.base.wa.model.WaModel:
+    36:36:public WaModel()
+com.uc.base.wa.net.WaNet:
+    61:63:private WaNet()
+    91:94:public static void unRegisterListener(java.lang.String)
+com.uc.base.wa.net.WaNet$WaUploadProtoctol:
+    1037:1064:private byte[] gzipEnc(byte[])
+    132:132:static synthetic boolean access$6(com.uc.base.wa.net.WaNet$WaUploadProtoctol)
+com.uc.base.wa.net.WaNet$WaUploadProtoctol$1FileUploadFillDataHelper:
+    243:243:static synthetic com.uc.base.wa.net.WaNet$WaUploadProtoctol access$0(com.uc.base.wa.net.WaNet$WaUploadProtoctol$1FileUploadFillDataHelper)
+com.uc.base.wa.net.WaNet$WaUploadProtoctol$1FileUploadFillDataHelper$InvokeHelperImpl:
+    262:269:public void setUploadParams(long,int)
+    274:308:public boolean writeLine(java.util.Map)
+    315:337:public boolean writeLine(java.lang.String)
+    343:343:public boolean getUploadedRet()
+    348:362:public java.lang.String getUploadedInfo()
+com.uc.base.wa.thread.WaThreadHelper:
+    public static final int THREAD_MAIN
+    public static final int THREAD_WA
+    20:20:public WaThreadHelper()
+com.xpread.AboutUsActivity:
+    private static final java.lang.String TAG
+    private static final java.lang.String GOOGLE_PLAY_PACKAGE_NAME
+    private static final java.lang.String GOOGLE_PLAY_ACTIVITY_NAME
+    private static final java.lang.String GOOGLE_PLAY_URL
+com.xpread.BaseActivity:
+    private static final java.lang.String TAG
+    public static final int WIFI_AP_STATE_DISABLING
+    public static final int WIFI_AP_STATE_DISABLED
+    public static final int WIFI_AP_STATE_ENABLING
+    public static final int WIFI_AP_STATE_ENABLED
+    public static final int WIFI_AP_STATE_FAILED
+com.xpread.BuildConfig
+com.xpread.MainActivity:
+    private static final java.lang.String TAG
+    private static final float COLUM_NUMBER
+    private static final int PROGRESS_MAX
+    public static final int WIFI_AP_STATE_DISABLING
+    public static final int WIFI_AP_STATE_DISABLED
+    public static final int WIFI_AP_STATE_ENABLING
+    public static final int WIFI_AP_STATE_ENABLED
+    public static final int WIFI_AP_STATE_FAILED
+    private static final java.lang.String GOOGLE_PLAY_PACKAGE_NAME
+    private static final java.lang.String GOOGLE_PLAY_ACTIVITY_NAME
+    private static final int CONNECT_TIMEOUT
+    private static final int TRACK_TIME_GAP
+    1528:1529:private int dip2px(float)
+    1533:1534:public int px2dip(float)
+com.xpread.R:
+    10:10:public R()
+com.xpread.R$attr
+com.xpread.R$color
+com.xpread.R$dimen
+com.xpread.R$drawable
+com.xpread.R$id
+com.xpread.R$layout
+com.xpread.R$string
+com.xpread.R$style
+com.xpread.R$styleable:
+    732:732:public R$styleable()
+com.xpread.SearchFriendActivity:
+    private static final java.lang.String TAG
+    public static final int WIFI_AP_STATE_DISABLING
+    public static final int WIFI_AP_STATE_DISABLED
+    public static final int WIFI_AP_STATE_ENABLING
+    public static final int WIFI_AP_STATE_ENABLED
+    public static final int WIFI_AP_STATE_FAILED
+    private static final int ANIMATION_START
+    private static final int SCAN_TIMEOUT
+    private static final int TYPE_WPA
+    private static final java.lang.String PASSWORD
+    private static final int FRIEND_BUTTON_STATE_HAVE_CLICK
+    private static final int FRIEND_BUTTON_STATE_HAVENOT_CLICK
+com.xpread.ShareActivity:
+    private static final java.lang.String TAG
+com.xpread.WaitFriendActivity:
+    public static final int WIFI_AP_STATE_DISABLING
+    public static final int WIFI_AP_STATE_DISABLED
+    public static final int WIFI_AP_STATE_ENABLING
+    public static final int WIFI_AP_STATE_ENABLED
+    public static final int WIFI_AP_STATE_FAILED
+    private static final int AP_ENABLED_MSG
+    private static final int AP_ENABLED_FAIL_MSG
+    private static final int TIME_OUT
+    private static final int ANIMATION_START
+com.xpread.control.Controller:
+    private static final java.lang.String TAG
+    375:380:public void clearTempFiles()
+    394:397:public void saveUserInformation(com.xpread.provider.UserInfo)
+    605:605:public com.xpread.control.Controller$NetworkStateChangeListener getNetworkStateChangeListener()
+    656:656:public void updateTargetInfo()
+    693:695:public void setWifiStateBeforeUse(boolean)
+    698:699:public void setIsFirstOpen(boolean)
+    702:702:public boolean isWifiOpenBeforeUse()
+    706:706:public boolean isFirstOpen()
+com.xpread.control.ProgressDisplay:
+    private static final int PROGRESS_MAX
+    private static final int PROGRESS_MAX_GAP
+    private static final int REFRESH_PROGRESS
+    private static final int REFRESH_TIME_GAP
+    230:231:public void removeAllMessage()
+com.xpread.control.TotalFileProgress:
+    336:336:public com.xpread.control.TotalFileProgress$RefreshInitProgress getRefreshInitProgress()
+com.xpread.control.WifiAdmin:
+    private static final java.lang.String TAG
+    private static final int TYPE_NOPASSWORD
+    private static final int TYPE_WEP
+    private static final int TYPE_WPA
+    54:54:public boolean isWifiOpen()
+    202:208:public boolean connectedHotpot(java.lang.String)
+com.xpread.control.WifiApAdmin:
+    private static final java.lang.String TAG
+    public static final int WIFI_AP_STATE_DISABLING
+    public static final int WIFI_AP_STATE_DISABLED
+    public static final int WIFI_AP_STATE_ENABLING
+    public static final int WIFI_AP_STATE_ENABLED
+    public static final int WIFI_AP_STATE_FAILED
+    private static final java.lang.String METHOD_GET_WIFI_AP_STATE
+    private static final java.lang.String METHOD_SET_WIFI_AP_ENABLED
+    private static final java.lang.String METHOD_GET_WIFI_AP_CONFIG
+    private static final java.lang.String METHOD_IS_WIFI_AP_ENABLED
+    private static final java.lang.String PASSWORD
+    312:322:public boolean isWifiApEnabled()
+com.xpread.control.WifiStateReceiver:
+    private static final java.lang.String TAG
+com.xpread.file.AppFragment:
+    private static final java.lang.String TAG
+    private static final int PARTIAL_DATA_LOAD_FINISH
+    private static final int TOTAL_DATA_LOAD_FINISH
+com.xpread.file.FileFragment:
+    private static final java.lang.String TAG
+    private static final int DATA_LOAD_FINISH
+    private static final int ENPTY_BUCKET
+com.xpread.file.FilePickActivity:
+    private static final java.lang.String TAG
+    private com.xpread.widget.CircleAnimation mCircleAnimation
+    private android.widget.RelativeLayout mRootView
+    public static final int WIFI_AP_STATE_DISABLING
+    public static final int WIFI_AP_STATE_DISABLED
+    public static final int WIFI_AP_STATE_ENABLING
+    public static final int WIFI_AP_STATE_ENABLED
+    public static final int WIFI_AP_STATE_FAILED
+com.xpread.file.ImageFragment:
+    private static final java.lang.String TAG
+    private static final int DATA_LOAD_FINISH
+com.xpread.file.MusicFragment:
+    private static final java.lang.String TAG
+    private static final int DATA_LOAD_FINISH
+com.xpread.file.VideoFragment:
+    private static final java.lang.String TAG
+    private static final int DATA_LOAD_FINISH
+com.xpread.provider.FileBean:
+    public int status
+    public int size
+    public long timeStamp
+    public java.lang.String target
+    public int role
+    46:47:public void setFileName(java.lang.String)
+com.xpread.provider.History:
+    public static final java.lang.String AUTHORITY
+    public static final java.lang.String CONTENT_TYPE
+    public static final java.lang.String CONTENT_ITEM_TYPE
+    7:7:public History()
+com.xpread.provider.History$FriendsColumns:
+    public static final java.lang.String DEFAULT_SORT_ORDER
+    public static final java.lang.String TABLE_NAME
+    public static final java.lang.String USER_NAME
+    public static final java.lang.String PHOTO
+    public static final java.lang.String DEVICE_ID
+    public static final java.lang.String USER_ID
+    41:41:public History$FriendsColumns()
+com.xpread.provider.History$RecordsColumns:
+    public static final java.lang.String DEFAULT_SORT_ORDER
+    public static final java.lang.String TABLE_NAME
+    public static final java.lang.String DISPLAY_NAME
+    public static final java.lang.String DATA
+    public static final java.lang.String DISPLAY_ICON
+    public static final java.lang.String TYPE
+    public static final java.lang.String STATUS
+    public static final java.lang.String SIZE
+    public static final java.lang.String TIME_STAMP
+    public static final java.lang.String TARGET
+    public static final java.lang.String ROLE
+    14:14:public History$RecordsColumns()
+com.xpread.provider.HistoryDatabaseHelper:
+    private static final java.lang.String DATABASE_NAME
+    private static final int DATABASE_VERSION
+com.xpread.provider.HistoryProvider:
+    private static final int RECORDS
+    private static final int RECORDS_ID
+    private static final int FRIENDS
+    private static final int FRIENDS_ID
+com.xpread.provider.UserInfo:
+    private static final long serialVersionUID
+    public static final java.lang.String USER_INFO
+    public static final java.lang.String USER_NAME
+    public static final java.lang.String USER_PICTURE_ID
+    public static final java.lang.String USER_DEVICES_ID
+    public static final java.lang.String DEFAULT_NAME
+    public static final int DEFAULT_PICTURE_ID
+    public static final java.lang.String DEFAULT_DEVICE_NAME
+    79:83:public UserInfo(java.lang.String,java.lang.String,java.lang.String)
+com.xpread.service.HTTPClientCommand:
+    600:603:public final void unRegistExcuteHttpConnection(com.xpread.service.HTTPClientCommand$ExcuteHttpConnection)
+    685:685:public final int getNeedSendFilesSize()
+    735:743:public java.lang.String getLocalFilePath(java.lang.String)
+com.xpread.service.HTTPResponse:
+    public static final java.lang.String MIME_HTML
+    97:97:public java.lang.String getHeader(java.lang.String)
+    221:221:public com.xpread.service.HTTPResponse$IStatus getStatus()
+    225:226:public void setStatus(com.xpread.service.HTTPResponse$Status)
+    229:229:public java.lang.String getMimeType()
+    233:234:public void setMimeType(java.lang.String)
+    237:237:public java.io.InputStream getData()
+    241:242:public void setData(java.io.InputStream)
+    245:245:public com.xpread.service.HTTPMethod getRequestMethod()
+    253:254:public void setChunkedTransfer(boolean)
+com.xpread.service.HTTPResponse$IStatus:
+    public abstract int getRequestStatus()
+com.xpread.service.HTTPResponse$ResponseException:
+    private static final long serialVersionUID
+com.xpread.service.HTTPResponse$Status:
+    284:284:public int getRequestStatus()
+com.xpread.service.HTTPServerCommand:
+    97:97:public int getNeedSendFilesSize()
+    205:213:public java.lang.String getLocalFilePath(java.lang.String)
+com.xpread.service.HTTPSession:
+    public static final int BUFSIZE
+    public static final int SOCKET_READ_TIMEOUT
+    public static final java.lang.String MIME_PLAINTEXT
+    public static final java.lang.String MIME_HTML
+    private static final java.lang.String QUERY_STRING_PARAMETER
+    92:101:public HTTPSession(java.io.InputStream,java.io.OutputStream,java.net.InetAddress)
+    508:508:public final java.io.InputStream getInputStream()
+    513:513:public com.xpread.service.HTTPSession$CookieHandler getCookies()
+com.xpread.service.HTTPSession$Cookie:
+    689:693:public HTTPSession$Cookie(java.lang.String,java.lang.String,java.lang.String)
+    696:697:public HTTPSession$Cookie(java.lang.String,java.lang.String)
+    699:703:public HTTPSession$Cookie(java.lang.String,java.lang.String,int)
+    711:716:public static java.lang.String getHTTPTime(int)
+com.xpread.service.HTTPSession$CookieHandler:
+    618:618:public java.lang.String read(java.lang.String)
+    629:630:public void set(java.lang.String,java.lang.String,int)
+    633:634:public void set(com.xpread.service.HTTPSession$Cookie)
+    643:644:public void delete(java.lang.String)
+com.xpread.service.IHTTPSession:
+    public abstract void execute()
+    public abstract java.io.InputStream getInputStream()
+    public abstract com.xpread.service.HTTPSession$CookieHandler getCookies()
+com.xpread.service.MyLog:
+    172:173:public void l(int,java.lang.String)
+    180:181:public void w(java.lang.String)
+    184:185:public void i(java.lang.String)
+    188:189:public void d(java.lang.String)
+com.xpread.service.ServiceFileTransfer:
+    private static final int SERVICE_TIME_OUT
+    private static final int SERVICE_CHECK_CONNECT_TIME
+    private static final int CONNECT_TIME_OUT
+    public static final int READ_TIME_OUT
+    private static final int DISCONNECT_TIME_OUT
+    private static final int RECONNECT_TIME
+    private static final int RECONNECT_TIMES
+    private static final int SERVICE_CLIENT_TYPE
+    private static final int SERVICE_SERVER_TYPE
+    private static final java.lang.String STR_IP
+com.xpread.service.ServiceRequest:
+    private static final java.lang.String FILES_LIST
+    private static final java.lang.String FILE_PATH
+    private static final java.lang.String FILE_NAME
+    private static final java.lang.String REQUEST_COMMAND
+    private static final java.lang.String USER_INFO
+    public static final int START_SERVER
+    public static final int ESTABLISH_CONNECTION
+    public static final int DISCONNECTION
+    public static final int USER_INFORMATION_EXCHANGE
+    public static final int SEND_FILES
+    public static final int CANCEL_FILE_SEND
+com.xpread.service.ServiceResponse
+com.xpread.service.ThreadFactory
+com.xpread.service.TokenCommand:
+    public static final int MESSAGE_TYPE_SEND_FILES
+    public static final int MESSAGE_TYPE_READY_FOR_RECEIVE_FILE
+    public static final int MESSAGE_TYPE_CANCEL_FILE
+    public static final int MESSAGE_TYPE_USER_INFORMAITION
+    public static final int MESSAGE_TYPE_CONNECT_ESTABLE
+    public static final int MESSAGE_TYPE_DISCONNECT
+    public static final int MESSAGE_TYPE_ACK_DISCONNECT
+    47:48:private TokenCommand()
+    198:221:public static byte[] createFileCancelMessage(java.lang.String,int,boolean)
+com.xpread.service.TokenRequest:
+    public static final java.lang.String TOKEN_REQUEST
+    24:29:public TokenRequest(java.util.HashMap,java.util.HashMap,java.util.HashMap,int)
+    35:35:public int getTokenRequestType()
+    42:43:public void setTokenRequestType(int)
+    49:49:public java.util.HashMap getParams()
+    56:57:public void setParams(java.util.HashMap)
+    63:63:public java.util.HashMap getFileSizeMaps()
+    70:71:public void setFileSizeMaps(java.util.HashMap)
+    77:77:public java.util.Map getFileStateMaps()
+    84:85:public void setFileStateMaps(java.util.HashMap)
+com.xpread.service.TokenSession:
+    public static final int BUFFSIZE
+    68:69:public static synchronized void addMessageBeforeConnected(byte[])
+com.xpread.service.UIUpdate:
+    public static final java.lang.String REFRESH_TYPE
+    public static final java.lang.String FILE_PATH
+    public static final java.lang.String FILE_SIZE
+    public static final java.lang.String FILE_STATE
+    public static final java.lang.String REFRESH_LENGTH
+    public static final java.lang.String REFRESH_TIME
+    public static final java.lang.String REFRESH_PROGRESS
+    public static final java.lang.String CLIENT_NAME
+    public static final java.lang.String CLIENT_PICTURE_ID
+    public static final java.lang.String CLIENT_DEVICE_ID
+    public static final java.lang.String FILES_RECEIVE_NAME
+    public static final java.lang.String FILES_RECEIVE_SIZE
+    public static final java.lang.String FILES_RECEIVE_STATE
+    64:68:public void unRegistHandler(android.os.Handler)
+com.xpread.swipelistview.SwipeListView:
+    public static final java.lang.String TAG
+    public static final boolean DEBUG
+    public static final int SWIPE_MODE_DEFAULT
+    public static final int SWIPE_MODE_NONE
+    public static final int SWIPE_MODE_BOTH
+    public static final int SWIPE_MODE_RIGHT
+    public static final int SWIPE_MODE_LEFT
+    public static final int SWIPE_ACTION_REVEAL
+    public static final int SWIPE_ACTION_DISMISS
+    public static final int SWIPE_ACTION_CHOICE
+    public static final int SWIPE_ACTION_NONE
+    public static final java.lang.String SWIPE_DEFAULT_FRONT_VIEW
+    public static final java.lang.String SWIPE_DEFAULT_BACK_VIEW
+    private static final int TOUCH_STATE_REST
+    private static final int TOUCH_STATE_SCROLLING_X
+    private static final int TOUCH_STATE_SCROLLING_Y
+    262:274:public void recycle(android.view.View,int)
+    283:283:public boolean isChecked(int)
+    308:309:public void unselectedChoiceStates()
+    337:346:public void dismiss(int)
+    352:370:public void dismissSelected()
+    378:379:public void openAnimate(int)
+com.xpread.swipelistview.SwipeListViewTouchListener:
+    private static final int DISPLACE_CHOICE
+    220:220:public boolean isListViewMoving()
+    443:454:protected void unselectedChoiceStates()
+    464:475:protected int dismiss(int)
+    501:511:protected void reloadSwipeStateInView(android.view.View,int)
+    1213:1220:protected void handlerPendingDismisses(int)
+com.xpread.swipelistview.SwipeListViewTouchListener$11
+com.xpread.transfer.exception.CrashHandler:
+    public static final java.lang.String TAG
+    public static final int WIFI_AP_STATE_DISABLING
+    public static final int WIFI_AP_STATE_DISABLED
+    public static final int WIFI_AP_STATE_ENABLING
+    public static final int WIFI_AP_STATE_ENABLED
+    public static final int WIFI_AP_STATE_FAILED
+com.xpread.transfer.exception.FileNotReadyException:
+    private static final long serialVersionUID
+com.xpread.transfer.exception.FileTransferCancelException:
+    private static final long serialVersionUID
+com.xpread.util.Const
+com.xpread.util.FileUtil:
+    38:40:private FileUtil()
+    214:245:public static void writeBytes(java.lang.String,java.lang.String,byte[])
+com.xpread.util.HomeWatcher:
+    private static final java.lang.String TAG
+com.xpread.util.LaboratoryData:
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_BUFFER
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_HEAP_IDEA
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_HEAP_ONE_FILE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_HEAP_TWO_FILE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_HEAP_THREE_FILE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_HEAP_MAIN_ACTIVITY
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_HEAP_FILE_PICK_ACTIVITY
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_HEAP_RECORD_ACTIVITY
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_ERROR_101
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_ERROR_102
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_ERROR_103
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_ERROR_104
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_ERROR_105
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_ERROR_106
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_ERROR_107
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_COUNT_TOTAL_FILES
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_COUNT_FAIL_FILES
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_COUNT_SUCCESS_FILES
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_COUNT_CANCEL_FILES
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_SPEED_SD_READ
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_SPEED_NET_WRITE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_SPEED_TOTAL
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_SEND_SUCCESS_RATE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_COUNT_FILES
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_COUNT_FAIL_FILES
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_COUNT_SUCCESS_FILES
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_COUNT_CANCEL_FILES
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_SPEED_NET_READ
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_SPEED_SD_WRITE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_SPEED_TOTAL
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_SUCCESS_RATE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_ERROR_201
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_ERROR_202
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_ERROR_203
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_ERROR_204
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_ERROR_205
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_ERROR_206
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_RECEIVE_ERROR_207
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_TOTAL_FILE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_TOTAL_SUCCESS_FILE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_TOTAL_CANCEL_FILE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_TOTAL_FAIL_FILE
+    public static final java.lang.String KEY_XPRAD_DATA_TRANSFER_TOTAL_SPEED
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_TOTAL_RATE_SUCCESS
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_TOTAL_SIZE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_TOTAL_SEND_SIZE
+    public static final java.lang.String KEY_XPREAD_DATA_TRANSFER_TOTAL_RECEIVE_SIZE
+    public static final java.lang.String KEY_XPREAD_DATA_CONNECT_DISCONNECT_ACK_TIME_OUT
+    public static final java.lang.String KEY_XPREAD_DATA_CONNECT_DISCONNECT_ACK_SUCCESS
+    public static final java.lang.String KEY_XPREAD_DATA_CONNECT_DISCONNECT_COUNT
+    public static final java.lang.String KEY_XPREAD_DATA_CONNECT_DISCONNECT_NO_FILE_SEND_TIME_OUT
+    public static final java.lang.String KEY_XPREAD_DATA_WIFI_AP_ESTABLISH_SUCCESS
+    public static final java.lang.String KEY_XPREAD_DATA_WIFI_AP_ESTABLISH_SUCCESS_TIME
+    public static final java.lang.String KEY_XPREAD_DATA_WIFI_AP_ESTABLISH_FAILURE
+    public static final java.lang.String KEY_XPREAD_DATA_WIFI_AP_ESTABLISH_TOTAL_COUNT
+    public static final java.lang.String KEY_XPREAD_DATA_WIFI_AP_WAIT_WIFI_ESTABLISH_TIME_OUT
+    public static final java.lang.String KEY_XPREAD_DATA_WIFI_ESTABLISH_SUCCESS
+    public static final java.lang.String KEY_XPREAD_DATA_WIFI_ESTABLISH_TOTAL_COUNT
+    public static final java.lang.String KEY_XPREAD_DATA_WIFI_ESTABLISH_SUCCESS_TIME
+    public static final java.lang.String KEY_XPREAD_DATA_CPU_APP_RATE
+    public static final java.lang.String KEY_XPREAD_DATA_CPU_SERIVCE_RATE
+    public static final java.lang.String KEY_XPREAD_DATA_BLUETOOTH_SEND_COUNT
+    public static final java.lang.String KEY_XPREAD_DATA_PHONE_ANDROID_VERSION
+    public static final java.lang.String KEY_XPREAD_DATA_PHONE_SDK_INT
+    public static final java.lang.String KEY_XPREAD_DATA_PHONE_DEVICE_MODEL
+    326:330:public static void initAppBeginCPUTime()
+    333:337:public static void initAppEndCPUTime()
+    340:344:public static void initTotalAPPBeginCPUTime()
+    347:351:public static void initTotalAPPEndCPUTime()
+    354:356:private static float getAPPCPU()
+    469:469:public static long getgSDWriteSize()
+    473:474:public static void setgSDWriteSize(long)
+    477:477:public static long getgSDReadSize()
+    481:482:public static void setgSDReadSize(long)
+    485:485:public static long getgSDWriteTime()
+    489:490:public static void setgSDWriteTime(long)
+    493:493:public static long getgSDReadTime()
+    497:498:public static void setgSDReadTime(long)
+    501:501:public static long getgNetWorkWriteTime()
+    505:506:public static void setgNetWorkWriteTime(long)
+    509:509:public static long getgNetWorkReadTime()
+    513:514:public static void setgNetWorkReadTime(long)
+    517:517:public static long getgNetWorkWriteSize()
+    521:522:public static void setgNetWorkWriteSize(long)
+    525:525:public static long getgNetWorkReadSize()
+    529:530:public static void setgNetWorkReadSize(long)
+    533:533:public static long getgSendFileTotalSize()
+    537:538:public static void setgSendFileTotalSize(long)
+    541:541:public static long getgReceiveFileTotalSize()
+    545:546:public static void setgReceiveFileTotalSize(long)
+com.xpread.util.LogUtil:
+    private static final java.lang.String TAG
+    private static final boolean IS_LOG
+    15:16:private LogUtil()
+    38:39:public static void l(int,java.lang.String)
+    46:47:public static void w(java.lang.String)
+    50:51:public static void i(java.lang.String)
+com.xpread.util.NetworkUtil:
+    private static final java.lang.String TAG
+    12:13:private NetworkUtil()
+com.xpread.util.SDCardUtil:
+    23:24:private SDCardUtil()
+    56:63:public static long getSDCardAllSize()
+    75:82:public static long getFreeBytes(java.lang.String)
+    91:91:public static java.lang.String getRootDirectoryPath()
+com.xpread.util.ScreenUtil:
+    12:15:private ScreenUtil()
+    57:69:public static int getStatusHeight(android.content.Context)
+    80:89:public static android.graphics.Bitmap snapShotWithStatusBar(android.app.Activity)
+    101:115:public static android.graphics.Bitmap snapShotWithoutStatusBar(android.app.Activity)
+com.xpread.util.Utils:
+    28:28:public Utils()
+    45:49:public static boolean hasSdcard()
+    71:71:public static android.graphics.Bitmap getDataFromBlob(byte[])
+    75:99:public static android.graphics.Bitmap getOwnerPhoto(android.content.Context)
+com.xpread.util.WaUtils:
+    43:43:public WaUtils()
+    152:155:public static int getPhoneType()
+    237:263:public static byte[] readBytes(java.io.File)
+com.xpread.wa.DefaultAdapter:
+    public static final boolean ENABLE_TEST
+    public static final boolean ENABLE_SAVE_M8
+    public static final int WA_LOCAL_FILE_HEAD_VER0_SIZE
+    public static final int WA_LOCAL_FILE_HEAD_VER1_SIZE
+    public static final byte LOCAL_FILE_VERSION_0
+    public static final byte LOCAL_FILE_VERSION_1
+    public static final byte LOCAL_FILE_VERSION
+    public static final int LOCAL_ENCRYPTION_TYPE_M8
+    public static final int LOCAL_ENCRYPTION_TYPE
+    public static final int LOCAL_ENCRYPTION_KEY_MAX
+    public static final int LOCAL_ENCRYPTION_KEY_WA
+    public static final int LOCAL_ENCRYPTION_KEY
+com.xpread.wa.WaKeys
+com.xpread.widget.CircleAnimation:
+    19:22:public CircleAnimation(android.content.Context)
+    25:28:public CircleAnimation(android.content.Context,android.util.AttributeSet)
+    32:35:public CircleAnimation(android.content.Context,android.util.AttributeSet,int)
+    38:42:private void initPaint()
+    45:47:public void setRadius(int,int)
+com.xpread.widget.CircleBackgroudView:
+    private static final java.lang.String TAG
+com.xpread.widget.FriendViewgroup:
+    private static final java.lang.String TAG
+com.xpread.widget.RadarView
+com.xpread.widget.RobotoTextView:
+    private static final int LIGHT
+    private static final int REGULAR
+com.xpread.widget.RoundProgressBar:
+    private static final java.lang.String TAG
+    private static final int MAX
+com.xpread.widget.SearchFriendViewgroup:
+    private static final java.lang.String TAG
+com.xpread.widget.ShareViewgroup:
+    private static final java.lang.String TAG
+    79:80:public int dip2px(float)
+com.xpread.widget.WaitFriendViewgroup:
+    private static final java.lang.String TAG

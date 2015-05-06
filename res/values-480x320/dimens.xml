@@ -1,0 +1,42 @@
+<resources>
+
+    <dimen name="user_opra_height">140dp</dimen>
+    <dimen name="user_icon_top">49dp</dimen>
+    <dimen name="guest_icon_top">47dp</dimen>
+    <dimen name="guest_name_top">3dp</dimen>
+    <dimen name="guest_progress_top">45dp</dimen>
+    <dimen name="user_opra_button_side">100dp</dimen>
+    <dimen name="user_opra_button_textsize">14dp</dimen>
+    <dimen name="user_history_icon_side">53dp</dimen>
+    <dimen name="user_history_icon_padding">18dp</dimen>
+    <dimen name="user_history_icon_top">-28dp</dimen>
+    <dimen name="record_backview_margin">100dp</dimen>
+    <dimen name="search_friend_position_top">148dp</dimen>
+    <dimen name="search_friend_background_top">-35dp</dimen>
+    
+    <dimen name="first_circle_top">3dp</dimen>
+    <dimen name="second_circle_top">12dp</dimen>
+    <dimen name="third_circle_top">21dp</dimen>
+    <dimen name="fourth_circle_top">30dp</dimen>
+    <dimen name="fiveth_circle_top">39dp</dimen>
+    <dimen name="wait_circle_size">5dp</dimen>
+    <dimen name="track_distance">45dp</dimen>
+    <dimen name="about_layout_info_height">248dp</dimen>
+    <dimen name="about_icon_size">75dp</dimen>
+    <dimen name="about_opra_item_height">60dp</dimen>
+    
+    <dimen name="user_icon_side">100dp</dimen>
+    <dimen name="user_name_size">18dp</dimen>
+    <dimen name="user_icon_connected_side">70dp</dimen>
+    <dimen name="user_progressbar_owner_side">70dp</dimen>
+    <dimen name="guest_icon_connected_side">50dp</dimen>
+    <dimen name="guest_name_size">10dp</dimen>
+    <dimen name="user_progressbar_guest_side">60dp</dimen>
+    <dimen name="select_icon_side">65dp</dimen>
+    <dimen name="select_icon_top">37dp</dimen>
+    <dimen name="drawer_content_width">213dp</dimen>
+    <dimen name="drawer_list_item_height">50dp</dimen>
+
+    <dimen name="activity_share_radius">75dp</dimen>
+    <dimen name="activity_share_gap">40dp</dimen>
+</resources>

@@ -1,0 +1,49 @@
+<!-- ?xml version="1.0" encoding="utf-8"? -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <HorizontalScrollView
+        android:id="@+id/current_path_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#e7e7e7" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/current_path_scroll_view"
+        android:background="?android:attr/listDivider" />
+
+    <ProgressBar
+        android:id="@+id/file_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateDrawable="@drawable/progressbar_style" />
+
+    <ListView
+        android:id="@+id/file_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/current_path_scroll_view"
+        android:background="#fafafa"
+        android:cacheColorHint="#00000000"
+        android:divider="#e4e4e4"
+        android:dividerHeight="0.5dp"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent"
+        android:visibility="gone" />
+
+    <com.xpread.widget.RobotoTextView 
+        android:id="@+id/file_empty_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="20dp"
+        android:text="@string/file_fragment_empty_hint"
+        android:visibility="gone"/>
+
+</RelativeLayout>

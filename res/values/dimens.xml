@@ -1,0 +1,48 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_share_radius">85dp</dimen>
+    <dimen name="activity_share_gap">68dp</dimen>
+    <dimen name="activity_wait_center_height">113dp</dimen>
+    <dimen name="fragment_image_width">90dp</dimen>
+    <dimen name="fragment_image_height">95dp</dimen>
+    <dimen name="fragmnet_video_thumb_width">40dp</dimen>
+    <dimen name="fragment_video_thumb_height">40dp</dimen>
+    <dimen name="title_height">56dp</dimen>
+    <dimen name="progressbar_width">6dp</dimen>
+    <dimen name="user_opra_height">232dp</dimen>
+    <dimen name="user_icon_top">74dp</dimen>
+    <dimen name="guest_icon_top">80dp</dimen>
+    <dimen name="guest_name_top">10dp</dimen>
+    <dimen name="guest_progress_top">75dp</dimen>
+    <dimen name="user_opra_button_side">150dp</dimen>
+    <dimen name="user_opra_button_textsize">20dp</dimen>
+    <dimen name="user_history_icon_side">64dp</dimen>
+    <dimen name="user_history_icon_padding">22dp</dimen>
+    <dimen name="user_history_icon_top">-32dp</dimen>
+    <dimen name="record_backview_margin">120dp</dimen>
+    <dimen name="search_friend_position_top">198dp</dimen>
+    <dimen name="search_friend_background_top">0dp</dimen>
+    <dimen name="first_circle_top">4dp</dimen>
+    <dimen name="second_circle_top">20dp</dimen>
+    <dimen name="third_circle_top">36dp</dimen>
+    <dimen name="fourth_circle_top">52dp</dimen>
+    <dimen name="fiveth_circle_top">68dp</dimen>
+    <dimen name="wait_circle_size">8dp</dimen>
+    <dimen name="track_distance">72dp</dimen>
+    <dimen name="about_layout_info_height">298.5dp</dimen>
+    <dimen name="about_icon_size">100dp</dimen>
+    <dimen name="about_opra_item_height">80dp</dimen>
+    <dimen name="user_icon_side">120dp</dimen>
+    <dimen name="user_name_size">20dp</dimen>
+    <dimen name="user_icon_connected_side">100dp</dimen>
+    <dimen name="user_progressbar_owner_side">110dp</dimen>
+    <dimen name="guest_icon_connected_side">70dp</dimen>
+    <dimen name="guest_name_size">14dp</dimen>
+    <dimen name="user_progressbar_guest_side">80dp</dimen>
+
+    <dimen name="share_circle_size">150dp</dimen>
+
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/about_opra_item_height" >
+
+    <ImageView
+        android:id="@+id/about_lv_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="35dp"
+        android:src="@drawable/rate_us" />
+
+    <ImageView
+        android:id="@+id/about_lv_arrow"
+        android:layout_width="9dp"
+        android:layout_height="15dp"
+        android:src="@drawable/arrow"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="18dp" />
+
+    <com.xpread.widget.RobotoTextView
+        android:id="@+id/about_lv_opra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/about_lv_icon"
+        android:textColor="#4d4d4d"
+        android:textSize="16dp" />
+    
+    <View 
+        android:id="@+id/about_lv_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#e4e4e4"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/select_icon_side"
+    android:layout_height="@dimen/select_icon_side"
+    android:layout_gravity="center" >
+
+    <com.xpread.widget.RoundImageView
+        android:id="@+id/icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dp"
+        android:padding="1dp"
+        imagecontrol:border_inside_color="#e9e9e9"
+        imagecontrol:border_thickness="1px" />
+
+</RelativeLayout>

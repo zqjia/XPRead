@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Xpread</string>
+    <!-- string name="app_version">V 1.0.0.0</string> -->
+    <!-- <string name="user_name">Dave Pearce</string> -->
+    <string name="send_button">Send</string>
+    <string name="receive_button">Receive</string>
+    <string name="disconnect_button">Disconnect</string>
+    <string name="app_label">App</string>
+    <string name="image_label">Image</string>
+    <string name="music_label">Music</string>
+    <string name="video_label">Video</string>
+    <string name="file_label">File</string>
+    <string name="file_selected">Select (%1$d)</string>
+    <!-- <string name="next_step">Next Step</string> -->
+    <string name="size_MB"> %1$.2f MB</string>
+    <string name="size_KB"> %1$d KB</string>
+    <string name="size_GB"> %1$.2f GB</string>
+    <string name="back">Back</string>
+    <string name="share">Share</string>
+    <string name="select_file">Select File</string>
+    <string name="search_friend_title">Select Receiver</string>
+    <string name="wait_friend_hint_open">Preparing&#8230;</string>
+    <string name="wait_friend_hint_receive">Wait to receive&#8230;</string>
+    <string name="wait_friend_title">Wait To Receive</string>
+    <!-- <string name="select_from_album">Album</string> -->
+    <!-- <string name="select_from_camera">Camera</string> -->
+    <!-- <string name="set_photo">Set photo</string> -->
+    <string name="record">Record</string>
+    <string name="current_progress">%1$d%%</string>
+    <string name="speed_KB"> %1$.1f KB/s</string>
+    <string name="speed_MB"> %1$.2f MB/s</string>
+    <string name="transfer_error">Transfer error</string>
+    <string name="to_be_transfer">To be transferred</string>
+    <string name="user_canceled">Canceled</string>
+    <string name="root_dir">Storage</string>
+    <string name="drawer_bottom_text_kb">Transfer %1$.2fKB Data</string>
+    <string name="drawer_bottom_text_mb">Transfer %1$.2fMB Data</string>
+    <string name="drawer_bottom_text_gb">Transfer %1$.2fGB Data</string>
+    <string name="drawer_update">Update</string>
+    <string name="drawer_about_us">About us</string>
+    <string name="share_title">Share This App</string>
+    <string name="share_by_qrcode">QR Code</string>
+    <string name="share_by_bluetooth">Bluetooth</string>
+    <string name="delete">Delete</string>
+    <string name="stop">Stop</string>
+    <string name="file_open_not_support">Fail to open file</string>
+    <string name="edit_user_name">Input your name</string>
+    <string name="about_rate_us">Rate us</string>
+    <string name="about_feed_back">Feedback</string>
+    <string name="about_title">About Xpread</string>
+    <string name="name_length_limit">Name can not be more than 15 characters</string>
+    <string name="connect_friend_already">Already connected</string>
+    <string name="click_again_hint">Connecting</string>
+    <string name="name_illegal_hint">Name contains illegal characters</string>
+    <string name="name_illegal_and_length">Name contains illegal characters and can not be more than 15 characters</string>
+    <string name="qrcode_hint">Scan to download Xpread</string>
+    <string name="qrcode_title">QR Code</string>
+
+    <!-- 文件传送模块 -->
+    <string name="service_no_file_send_time_out">Disconnected</string>
+    <string name="service_is_disconnected">Disconnecting</string>
+    <string name="service_too_many_file_send_once">Can\'t transfer more than 20 files</string>
+    <!-- 异常 -->
+    <string name="exception_application">Exit unexceptedly</string>
+    <!-- 连接 -->
+    <string name="connect_is_connecting">Connecting, please wait</string>
+    <!-- <string name="connect_search_cross_the_border">"only 6 friend can be display to connect"</string> -->
+    <string name="exception_connect_fail">Fail to connect</string>
+    <string name="exception_connect_wifi_ap_establish">Fail to setup</string>
+    <string name="exception_bluetooth_share">Fail to share by bluetooth</string>
+    <string name="connect_disconnect">Disconnected</string>
+    <!-- 文件列表 -->
+    <string name="file_not_found">%1$s not found</string>
+    <string name="file_fragment_empty_hint">No file here&#8230;</string>
+
+</resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xpread"
+    android:versionCode="2"
+    android:versionName="1.0.0.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_BLUETOOTH_SHARE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <application
+        android:name="com.xpread.XApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.xpread.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="nosensor" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.xpread.file.FilePickActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xpread.SearchFriendActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xpread.WaitFriendActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xpread.ShareActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xpread.RecordsActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xpread.QRCodeShareActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xpread.AboutUsActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xpread.QrCodeActivity"
+            android:screenOrientation="nosensor" />
+
+        <service android:name="com.xpread.service.ServiceFileTransfer" />
+
+        <provider
+            android:name=".provider.HistoryProvider"
+            android:authorities="com.xpread" />
+    </application>
+
+</manifest>

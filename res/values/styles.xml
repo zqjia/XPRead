@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="AppTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowTitleSize">50dp</item>
+    </style>
+
+</resources>

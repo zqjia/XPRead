@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="HandlerLeak">
+        <ignore path="src/com/ucweb/xpread/SearchFriendActivity.java" />
+    </issue>
+    <issue id="NewApi">
+        <ignore path="src/com/ucweb/xpread/file/FileFragment.java" />
+        <ignore path="src/com/ucweb/xpread/file/ImageFragment.java" />
+        <ignore path="src/com/ucweb/xpread/file/MusicFragment.java" />
+        <ignore path="src/com/ucweb/xpread/file/VideoFragment.java" />
+    </issue>
+</lint>

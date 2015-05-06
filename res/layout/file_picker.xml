@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:roboto="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/title_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/title_backgroud"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_selector"
+            android:src="@drawable/back" />
+
+        <com.xpread.widget.RobotoTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="65dp"
+            android:layout_toLeftOf="@id/share"
+            android:gravity="center_vertical"
+            android:text="@string/select_file"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            roboto:textfont="regular" />
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/tab_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_below="@id/title_main"
+        android:scrollbars="none" >
+
+        <RelativeLayout
+            android:id="@+id/tabs"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/title_backgroud" >
+
+            <com.xpread.widget.RobotoTextView
+                android:id="@+id/app_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="11dp"
+                android:text="@string/app_label"
+                android:textColor="@color/title_color_unchecked"
+                android:textSize="17dp" />
+
+            <com.xpread.widget.RobotoTextView
+                android:id="@+id/image_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/app_label"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="11dp"
+                android:text="@string/image_label"
+                android:textColor="@color/title_color_unchecked"
+                android:textSize="17dp" />
+
+            <com.xpread.widget.RobotoTextView
+                android:id="@+id/music_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/image_label"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="11dp"
+                android:text="@string/music_label"
+                android:textColor="@color/title_color_unchecked"
+                android:textSize="17dp" />
+
+            <com.xpread.widget.RobotoTextView
+                android:id="@+id/video_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/music_label"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="11dp"
+                android:text="@string/video_label"
+                android:textColor="@color/title_color_unchecked"
+                android:textSize="17dp" />
+
+            <com.xpread.widget.RobotoTextView
+                android:id="@+id/file_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/video_label"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="11dp"
+                android:text="@string/file_label"
+                android:textColor="@color/title_color_unchecked"
+                android:textSize="17dp" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="46dp"
+                android:layout_height="2dp"
+                android:layout_alignParentBottom="true"
+                android:background="@android:color/white" />
+        </RelativeLayout>
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/select_files"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:text="@string/file_selected"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/send_files"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:text="@string/send_button"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tab_scroll"
+        android:background="#33000000" />
+
+    <!-- android:background="@drawable/shadow_up" -->
+    
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/toolbar"
+        android:layout_below="@id/shadow"
+        android:background="#fafafa" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/toolbar"
+        android:background="#e4e4e4" />
+
+</RelativeLayout>

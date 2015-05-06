@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginTop="5dp"
+    android:gravity="center_horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/record_backview_margin"
+        android:clipChildren="false"
+        android:paddingRight="22dp" >
+
+        <FrameLayout
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" >
+
+            <ImageButton
+                android:id="@+id/delete_file"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/delete_selector" />
+
+            <com.xpread.widget.RobotoTextView
+                android:id="@+id/delete_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/delete_confirm_selector"
+                android:gravity="center"
+                android:text="@string/delete"
+                android:textColor="@color/text_color_selector"
+                android:textSize="16dp"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/open_file"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="25dp"
+            android:layout_toLeftOf="@id/delete"
+            android:background="@android:color/transparent"
+            android:src="@drawable/action_selector" />
+
+        <ImageButton
+            android:id="@+id/share_file"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="25dp"
+            android:layout_toLeftOf="@id/open_file"
+            android:background="@android:color/transparent"
+            android:src="@drawable/share_selector" />
+
+        <com.xpread.widget.RobotoTextView
+            android:id="@+id/stop_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/delete_confirm_selector"
+            android:gravity="center"
+            android:text="@string/stop"
+            android:textColor="@color/text_color_selector"
+            android:textSize="16dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/front"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.xpread.widget.RoundImageView
+            android:id="@+id/user_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="17dp" />
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@id/user_icon"
+            android:background="@drawable/bubble_right" >
+
+            <ImageView
+                android:id="@+id/file_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:scaleType="fitCenter" />
+
+            <RelativeLayout
+                android:id="@+id/file_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/file_icon"
+                android:gravity="center_vertical" >
+
+                <com.xpread.widget.RobotoTextView
+                    android:id="@+id/file_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-5dp"
+                    android:singleLine="true"
+                    android:textColor="#252628"
+                    android:textSize="16dp" />
+
+                <RelativeLayout
+                    android:id="@+id/transfer_info"
+                    android:layout_width="203dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/file_name"
+                    android:layout_marginTop="1dp" >
+
+                    <ProgressBar
+                        android:id="@+id/transfer_bar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:max="100"
+                        android:progressDrawable="@drawable/progressbar_color" />
+
+                    <com.xpread.widget.RobotoTextView
+                        android:id="@+id/transfer_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/transfer_bar"
+                        android:layout_below="@id/transfer_bar"
+                        android:layout_marginTop="1dp"
+                        android:textColor="#666666"
+                        android:textSize="14dp" />
+
+                    <com.xpread.widget.RobotoTextView
+                        android:id="@+id/transfer_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@id/transfer_bar"
+                        android:layout_below="@id/transfer_bar"
+                        android:layout_marginTop="1dp"
+                        android:textColor="#27bbff"
+                        android:textSize="14dp" />
+                </RelativeLayout>
+
+                <com.xpread.widget.RobotoTextView
+                    android:id="@+id/file_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/file_name"
+                    android:layout_marginTop="4dp"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

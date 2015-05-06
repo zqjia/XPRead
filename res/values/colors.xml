@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="file_selected_color">#e6e6e6</color>
+    <color name="file_not_selected_color">#ffffff</color>
+    <color name="background_circle_one_color">#e7e7e7</color>
+    <color name="background_circle_two_color">#f0f0f0</color>
+    <color name="background_circle_three_color">#f7f7f7</color>
+    <color name="background_circle_four_color">#f9f9f9</color>
+    <color name="drawer_bottom_text_color">#0277d6</color>
+    <color name="title_backgroud">#ff7f0399</color>
+    <color name="title_icon_click">#197f0399</color>
+    <color name="title_color_checked">#ffffffff</color>
+    <color name="title_color_unchecked">#b2ffffff</color>
+
+    <color name="record_to_be_sent">#0277d6</color>
+    <color name="record_transmission_error">#ff665b</color>
+    <color name="record_file_size">#666666</color>
+    
+<!--      <color name="round_progressbar_background">#14d0d0d0</color>  -->
+    <color name="round_progressbar_background">#14000000</color>
+    <color name="round_progressbar_connecting">#add8e6</color>
+    <color name="round_progressbar_owner">#00a269</color>
+    <color name="round_progressbar_guest">#057ed7</color>
+    
+    <color name="owner_track_color_5">#d7e0e7</color>
+    <color name="owner_track_color_4">#bdd3e4</color>
+    <color name="owner_track_color_3">#a8c9e4</color>
+    <color name="owner_track_color_2">#92bde0</color>
+    <color name="owner_track_color_1">#0478d0</color>
+    
+    <color name="guest_track_color_5">#d2e4de</color>
+    <color name="guest_track_color_4">#c4dfd5</color>
+    <color name="guest_track_color_3">#b1d9cb</color>
+    <color name="guest_track_color_2">#73c4a7</color>
+    <color name="guest_track_color_1">#00a168</color>
+    
+	<color name="qrcode_hint_text_color">#787878</color>
+</resources>
