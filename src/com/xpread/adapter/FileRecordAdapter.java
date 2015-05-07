@@ -38,23 +38,17 @@ import com.xpread.wa.WaKeys;
 import com.xpread.widget.RoundImageView;
 
 public class FileRecordAdapter extends BaseAdapter {
+    
     LayoutInflater mLayoutInflater;
-
     Context mContext;
-
     SwipeListView mListView;
-
     List<RecordItem> mRecordList;
-
     List<Bitmap> mFileIconList;
-
     ExecutorService executorService;
-
     DismissListener mDismissListener;
 
     public interface DismissListener {
         public void onItemDismiss(int postion);
-
         public void onItemAdded(int postion, String fileName);
     }
 
@@ -64,17 +58,11 @@ public class FileRecordAdapter extends BaseAdapter {
             List<Bitmap> fileIconList) {
         super();
         executorService = Executors.newFixedThreadPool(1);
-
         mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         mContext = context;
-
         mListView = listView;
-
         mRecordList = recordList;
-
         mFileIconList = fileIconList;
-
     }
 
     public void setDismissListener(DismissListener listener) {
@@ -94,13 +82,11 @@ public class FileRecordAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-
         return mRecordList == null ? null : mRecordList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-
         return position;
     }
 

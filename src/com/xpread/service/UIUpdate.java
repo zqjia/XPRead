@@ -13,29 +13,17 @@ import com.xpread.util.Const;
 public class UIUpdate {
 
     public static final String REFRESH_TYPE = "refresh_type";
-
     public static final String FILE_PATH = "file_path";
-
     public static final String FILE_SIZE = "file_size";
-
     public static final String FILE_STATE = "file_state";
-
     public static final String REFRESH_LENGTH = "refresh_length";
-
     public static final String REFRESH_TIME = "refresh_time";
-
     public static final String REFRESH_PROGRESS = "refresh_progress";
-
     public static final String CLIENT_NAME = "client_name";
-
     public static final String CLIENT_PICTURE_ID = "client_picture_id";
-
     public static final String CLIENT_DEVICE_ID = "client_device_id";
-
     public static final String FILES_RECEIVE_NAME = "files_receive_name";
-
     public static final String FILES_RECEIVE_SIZE = "files_receive_size";
-
     public static final String FILES_RECEIVE_STATE = "files_receive_state";
 
     private ConcurrentLinkedQueue<Handler> mList = new ConcurrentLinkedQueue<Handler>();
@@ -53,11 +41,6 @@ public class UIUpdate {
 
         mList.add(h);
 
-        // for (Handler h1 : mList) {
-        // Log.d("##---##", h1.toString());
-        // }
-        // Log.d("##", h.toString());
-
     }
 
     public void unRegistHandler(Handler h) {
@@ -68,13 +51,9 @@ public class UIUpdate {
     }
 
     public void updateUI(Message msg) {
-        // Log.d("@@@", "start loop");
         for (Handler h : mList) {
-            // Log.d("@@@", h.toString());
-            // Log.d("@@@1", msg.toString());
             h.sendMessage(msg);
         }
-        // Log.d("@@@", "end loop");
     }
 
     public static Message getStateMessage(String filePath, int fileSize, int state) {
@@ -169,12 +148,4 @@ public class UIUpdate {
         return m;
     }
 
-    // public static Message getCancelFileInformatino(String filePath) {
-    // Message m = Message.obtain();
-    // Bundle b = new Bundle();
-    // b.putInt(REFRESH_TYPE, Const.REFRESH_FILE_CANCEL);
-    // b.putString(FILE_PATH, filePath);
-    // m.setData(b);
-    // return m;
-    // }
 }

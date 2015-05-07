@@ -31,8 +31,6 @@ public class ProgressDisplay implements TotalFileProgress.RefreshInitProgress {
 
     private int mPreReceiveDisplayProgress = -1;
     
-    
-
     public void setProgressChangeListener(ProgressChangeListener listener) {
 
         if (LogUtil.isLog) {

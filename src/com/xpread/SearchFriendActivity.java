@@ -417,21 +417,10 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                         friendEntity.deviceId);
                 mController.getUerInfo().setConnectedFriendSsid(ssid);
 
-                //改变交互逻辑，点击连接好友后跳转到记录界面
-                
-               /* Intent intent = new Intent(SearchFriendActivity.this, RecordsActivity.class);
-                startActivity(intent);*/
-                
-                
-                // FIXME
-                /*
-                 * add by zqjia jump to MainActivity
-                 */
-                Intent intent = new Intent();
-                intent.putExtra(INTENT_TYPE, WAIT_CONNECTTED);
-                intent.setClass(SearchFriendActivity.this, MainActivity.class);
+                //FIXME
+                //改变交互逻辑，点击连接好友后跳转到等待连接界面
+                Intent intent = new Intent(SearchFriendActivity.this, WaitConnectActivity.class);
                 startActivity(intent);
-
             } else if (connectedSsid != null && connectedSsid.equals(ssid)) {
                 Toast.makeText(SearchFriendActivity.this,
                         getResources().getString(R.string.connect_friend_already),
@@ -531,13 +520,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
 
         @Override
         public void run() {
-            /*
-             * final ArrayList<ScanResult> list = mWifiAdmin.searchFriend(); if
-             * (list != null && list.size() > 0) { Bundle bundle = new Bundle();
-             * bundle.putSerializable(FRIENDLIST_KEY, list); Message msg =
-             * mHandler.obtainMessage(); msg.what = FRIENDLIST_MSG;
-             * msg.setData(bundle); mHandler.sendMessage(msg); }
-             */
             mWifiAdmin.searchFriend();
         }
     }
@@ -545,13 +527,9 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     class FriendEntity {
 
         private String name = "";
-
         private String deviceId = "";
-
         private String ssid = "";
-
         private int mIcon;
-
         private int index = -1;
 
         public FriendEntity(String name, String deviceId, String ssid) {

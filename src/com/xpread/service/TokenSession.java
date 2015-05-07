@@ -152,7 +152,6 @@ public class TokenSession {
         }
 
         if (splitbyte < rlen) {
-
             inputStream.unread(buf, splitbyte, rlen - splitbyte);
         }
 
@@ -241,13 +240,6 @@ public class TokenSession {
                         new ByteArrayInputStream(buf, 0, contentLength)));
                 String line = contentIn.readLine();
                 while (line != null && line.trim().length() > 0) {
-                    // int p = line.indexOf(":");
-                    // if (p > 0) {
-                    // int len = Integer.parseInt(line.substring(p + 1).trim());
-                    // fileSizeMaps.put(line.substring(0, p), len);
-                    // }
-                    // line = contentIn.readLine();
-
                     StringTokenizer st = new StringTokenizer(line, ":");
                     String file = st.nextToken();
                     int fileSize = Integer.parseInt(st.nextToken());

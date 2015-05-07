@@ -62,6 +62,9 @@
         <activity
             android:name="com.xpread.QrCodeActivity"
             android:screenOrientation="nosensor" />
+        <activity
+            android:name="com.xpread.WaitConnectActivity"
+            android:screenOrientation="nosensor" />
 
         <service android:name="com.xpread.service.ServiceFileTransfer" />
 

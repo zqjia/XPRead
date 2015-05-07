@@ -39,16 +39,12 @@ public class Controller {
 
     private volatile static Controller mController;
 
-    // private static FileTransferUpdater mUpdater = new FileTransferUpdater();
-
     private Context mContext;
 
     private WifiAdmin mWifiAdmin;
-
     private WifiApAdmin mWifiApAdmin;
 
     private FileTransferListener mFileTransferListener;
-
     private NetworkStateChangeListener mNetworkStateChangeListener;
 
     private List<FileBean> mTempFiles = new ArrayList<FileBean>();
@@ -56,21 +52,18 @@ public class Controller {
     private int mRole = -1;
 
     private UserInfo mUserInfo;
-
     private UserInfo mTargetInfo = new UserInfo();
 
     private boolean isConnected;
-
-    private boolean isNetWorkListenerRegister;
-
     private boolean isWifiOpenBeforeUse = false;
-
     private boolean isFirstOpen = true;
 
     // 发送接收总进度
     private TotalFileProgress mTotalFileProgress;
-
     private ProgressDisplay mProgressDisplay;
+    
+    //显示接收文件后控制动画的接口
+    private FileReceiveNotice mFileReceiveNotice;
 
     Handler fileTransferHandler = new Handler() {
 
@@ -82,15 +75,8 @@ public class Controller {
                 case Const.REFRESH_ESTIBALE: {
                     String name = bundle.getString(UIUpdate.CLIENT_NAME);
                     mTargetInfo.setUserName(name);
-                    // LogUtil.e("mNetworkStateChangeListener   --- "
-                    // + (mNetworkStateChangeListener == null));
                     isConnected = true;
                     if (mNetworkStateChangeListener != null) {
-                        if (LogUtil.isLog) {
-                            Log.e("zqjia" + TAG, "mNetworkStateChangeListener is not null,"
-                                    + " do the network change in listener");
-                            Log.e("zqjia" + TAG, "is connect ?" + isConnected);
-                        }
                         mNetworkStateChangeListener.stateChangeListener(Const.REFRESH_ESTIBALE);
                     }
 
@@ -256,15 +242,17 @@ public class Controller {
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         this.mContext.registerReceiver(mWifiStateReceiver, filter);
 
-        isNetWorkListenerRegister = true;
-        // mUpdater.registerUpdater(fileTransferHandler);
         Utils.saveDeviceId(mContext);
         mUserInfo = this.getUerInfo();
 
         // 总进度更新
         mTotalFileProgress = new TotalFileProgress(context);
         mProgressDisplay = new ProgressDisplay();
-        mTotalFileProgress.setRefreshInitProgress(mProgressDisplay);
+//        mTotalFileProgress.setRefreshInitProgress(mProgressDisplay);
+        
+        //主界面控制文件接收动画类
+        mFileReceiveNotice = new FileReceiveNotice();
+        mTotalFileProgress.setRefreshInitProgress(mFileReceiveNotice);
     }
 
     public final WifiAdmin getWifiAdmin() {
@@ -325,7 +313,6 @@ public class Controller {
     public void registFileTransferListener(FileTransferListener fileTransferListener) {
         if (mFileTransferListener != fileTransferListener) {
             mFileTransferListener = fileTransferListener;
-            //
         }
     }
 
@@ -338,29 +325,6 @@ public class Controller {
         if (mFileTransferListener == fileTransferListener)
             mFileTransferListener = null;
     }
-
-    // public void release() {
-    // ServiceFileTransfer.UPDATE.unRegistHandler(fileTransferHandler);
-    // mTempFiles.clear();
-    // stopService();
-    // if (isNetWorkListenerRegister) {
-    // this.mContext.unregisterReceiver(mWifiStateReceiver);
-    // isNetWorkListenerRegister = false;
-    // }
-    //
-    // unRegistFileTransferListener(mFileTransferListener);
-    //
-    // if (getRole() == Const.SENDER) {
-    // mWifiAdmin.closeWifi();
-    // } else {
-    // mWifiApAdmin.setWifiApEnabled(mWifiApAdmin.getWifiApConfiguration(),
-    // false);
-    // }
-    //
-    // this.mRole = -1;
-    // mController = null;
-    //
-    // }
 
     public void preTransferFiles(List<FileBean> files) {
         if (LogUtil.isLog) {
@@ -408,7 +372,6 @@ public class Controller {
     }
 
     public UserInfo getTargetInfo() {
-
         return mTargetInfo;
     }
 
@@ -447,8 +410,6 @@ public class Controller {
             for (int i = 0; i < mTempFiles.size(); i++) {
                 String filePath = mTempFiles.get(i).uri;
                 temp.add(filePath);
-                // the apk name should transfer in Android L, while which is
-                // base.apk at uri
 
                 name.add(mTempFiles.get(i).getFileName());
 
@@ -467,16 +428,12 @@ public class Controller {
             r.setFileName(name);
             Intent i = ServiceRequest.toIntent(mContext, r);
 
-            // Intent i = new Intent(mContext, ServiceFileTransfer.class);
-            // i.putExtra(ServiceRequest.REQUEST_COMMAND,
-            // ServiceRequest.SEND_FILES);
-            // i.putStringArrayListExtra(ServiceRequest.FILES_LIST, temp);
             mContext.startService(i);
-            // mServiceFileTransfer.sendFiles(filePaths);
             mTempFiles.clear();
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     private void insertFilesToDB(List<FileBean> files) {
@@ -505,8 +462,6 @@ public class Controller {
 
             mContext.getContentResolver().insert(History.RecordsColumns.CONTENT_URI, values);
         }
-        // 更新界面
-        // refreshProgress(Const.SENDER);
 
         mTotalFileProgress.addTotalTransmission(mTotalFileProgress.getSendTotalSize());
     }
@@ -618,6 +573,8 @@ public class Controller {
 
     // update progress bar listener
     // add by zqjia
+    //----------------------------------------------//
+    //主界面不需要显示进度，因此该接口已不使用
     public interface ProgressChangeListener {
         public void setProgress(int progress, int role);
     }
@@ -628,12 +585,24 @@ public class Controller {
     }
 
     public void unRegisterProgressChangeListener() {
-        /*
-         * if (mProgressChangeListener != null) { mProgressChangeListener =
-         * null; }
-         */
         this.mProgressDisplay.unRegistProgressChangeListener();
     }
+    //-----------------------------------------------//
+    
+    //-----------------------------------------------//
+    //用于控制主界面在有文件接收时候动画显示的接口
+    public interface FileReceiveNoticeListener {
+        public void animationStart();
+    }
+    
+    public void setFileReceiverNoticeListener(FileReceiveNoticeListener listener) {
+        this.mFileReceiveNotice.setFileReceiveNoticeListener(listener);
+    }
+    
+    public void unRegistFileReceiveNoticeListener() {
+        this.mFileReceiveNotice.unRegistFileReceiveNoticeListener();
+    }
+  //-----------------------------------------------//
 
     public boolean isConnected() {
         return isConnected;
@@ -740,7 +709,6 @@ public class Controller {
         }
     }
 
-    // FIXME
     /*
      * add by zqjia call when back to MainActivity without connecttion
      */

@@ -4,6 +4,7 @@ package com.xpread;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,17 +30,12 @@ import com.xpread.wa.WaKeys;
 public class RecordsActivity extends BaseActivity {
 
     FileRecordAdapter mAdapter;
-
     List<RecordItem> mList = new ArrayList<RecordItem>();
-
     List<String> mPathList = new ArrayList<String>();
-
     SwipeListView mListView;
 
     private int mSreenWidth;
-
     private int mBackViewMargin;
-
     private ProgressBar mLoadingBar;
 
     private FileTransferListener mFileTransferListener = new FileTransferListener() {
@@ -181,9 +177,6 @@ public class RecordsActivity extends BaseActivity {
 
         mListView.setAdapter(mAdapter);
 
-        Controller.getInstance(getApplicationContext()).registFileTransferListener(
-                mFileTransferListener);
-
         ImageView back = (ImageView)findViewById(R.id.back);
         back.setOnClickListener(new OnClickListener() {
 
@@ -194,10 +187,9 @@ public class RecordsActivity extends BaseActivity {
         });
     }
 
-    @Override
+    
     protected void onDestroy() {
-        Controller.getInstance(getApplicationContext()).unRegistFileTransferListener(
-                mFileTransferListener);
+        
         super.onDestroy();
     }
 
@@ -290,11 +282,24 @@ public class RecordsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Controller.getInstance(getApplicationContext()).registFileTransferListener(
+            mFileTransferListener);
     }
 
     @Override
     protected void onPause() {
+        Controller.getInstance(getApplicationContext()).unRegistFileTransferListener(
+            mFileTransferListener);
         super.onPause();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(RecordsActivity.this, MainActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
+    }
+    
+    
 
 }

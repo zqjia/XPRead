@@ -199,8 +199,6 @@ public class WaitFriendActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Log.e("***********WaitActivity************", "onCreate ----- " + "   register "
-//                + mNetworkStateChangeListener.hashCode());
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.wait_friend);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -329,7 +327,6 @@ public class WaitFriendActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        Log.e("***********WaitActivity************", "onStart ----- " + mController.isConnected());
         mController.setNetworkStateChangeListener(mNetworkStateChangeListener);
     }
 
@@ -440,12 +437,10 @@ public class WaitFriendActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
-//        Log.e("***********WaitActivity************", "onPause ----- " + mController.isConnected());
-        super.onPause();
-
         if (this.mWaitWifiApThread != null) {
             this.mWaitWifiApThread.interrupt();
         }
+        super.onPause();
     }
 
     @Override

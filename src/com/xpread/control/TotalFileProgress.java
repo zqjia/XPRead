@@ -82,9 +82,6 @@ public class TotalFileProgress {
             addFile(file, size, state, role);
         }
 
-        // Log.e("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        // mReceiveFileMap.toString());
-
     }
 
     /**
@@ -143,20 +140,12 @@ public class TotalFileProgress {
             }
 
         } else {
-            // Log.i("total progress", filePath + " not in send " +
-            // mSendFileMap.toString()
-            // + "or receive map " + mReceiveFileMap.toString() +
-            // " progress map "
-            // + mFileCurrentProgress.toString());
             return;
         }
 
     }
 
     public void addFile(String path, int size, int status, int role) {
-        // Log.i("-----------addTotalProgress---------------", " p = " + path +
-        // "  size = " + size
-        // + " status = " + status + " role = " + role);
         if (size == 0) {
             return;
         }
@@ -314,12 +303,10 @@ public class TotalFileProgress {
     }
 
     public void removeFileInReceiveList(String filePath) {
-        // Log.e("RRRRRRRRRRRRRRRRRRRRRRRRRR", mReceiveFileMap.toString());
         mReceiveFileMap.remove(filePath);
     }
 
     public void removeFileInSendList(String filePath) {
-        // Log.e("RRRRRRRRRRRRRRRRRRRRRRRRRR", mSendFileMap.toString());
         mSendFileMap.remove(filePath);
     }
 

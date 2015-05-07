@@ -51,79 +51,50 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
 
     // 已经连接超时
     private final static int SERVICE_TIME_OUT = 300000;
-
     // 检查连接
     private final static int SERVICE_CHECK_CONNECT_TIME = 10000;
-
     // 连接超时s
     private final static int CONNECT_TIME_OUT = 30000;
-
     // 读取超时
     public final static int READ_TIME_OUT = 30000;
-
     // 断开连接超时
     private final static int DISCONNECT_TIME_OUT = 2000;
-
     // 重连接时间间隔
     private final static int RECONNECT_TIME = 5000;
-
     // 重连次数
     private final static int RECONNECT_TIMES = 15;
-
     private final static int SERVICE_CLIENT_TYPE = -1;
-
     private final static int SERVICE_SERVER_TYPE = 1;
-
     private final static String STR_IP = Const.STR_IP;
-
     // 服务器or客户端
     private int mServiceType = 0;
-
+    
     // 服务器
     private ServerSocket mServerSocket;
-
     private AtomicBoolean isServerOpen;
-
     private Thread mServerSocketThread;
-
     private HTTPServerCommand mHttpServerCommand;
-
     private AtomicBoolean isClientConnect;
-
+    
     // 客户端
     private Thread mClientConnectThread;
-
     private AtomicBoolean isConnectionEstablish;
-
     private HTTPClientCommand mHttpCLientCommand;
-
     private ConcurrentLinkedQueue<HttpURLConnection> mHttpURLConnections;
 
     // 共有
     private UserInfo mUserInfo = new UserInfo("", "", 1);
-
     private ThreadTokenSocket mTokenOutputThread;
-
     private ThreadTokenSocket mTokenInputThread;
-
     private TokenSession mTokenSession;
-
     private Socket mTokenSocket;
-
     private HashSet<Socket> mSockets;
-
     private AtomicBoolean isDisConnection;
-
     private final int mPort = 9898;
-
     private final String requestURL = "http://" + Const.REQUEST_URL;
-
     private ThreadPoolExecutor mExecutor;
-
     private Context mContext;
-
     private MyLog myLog = new MyLog(ServiceFileTransfer.class.getSimpleName());
-
     private Handler mStopHandler;
 
     // 超时自停止
@@ -141,8 +112,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
             }
 
             if (isDisConnection.get()) {
-                // Toast.makeText(mContext, "ACK TIME OUT",
-                // Toast.LENGTH_SHORT).show();
                 // 实验室数据 超时没有收到ACK服务停止
                 // -----------------------------------------------
                 LaboratoryData
@@ -176,13 +145,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                 throw new IllegalStateException(
                         "This runnable can only be called in the Main thread!");
             }
-
-            // TODO 测试
-            // Log.e("##############################", " out = " +
-            // isTimeOutDisconnect.get()
-            // + "--- con =  " + (isClientConnect.get() ||
-            // isConnectionEstablish.get())
-            // + "--- count = " + mConnectCount.get());
 
             if (isDisConnection.get()) {
                 return;
@@ -224,8 +186,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                                         .getRecevieFilesTokenResponse(msg));
                             } catch (Exception e) {
                                 myLog.logException(e);
-                                // Toast.makeText(mContext, "Token消息为null",
-                                // Toast.LENGTH_SHORT).show();
                             }
                             break;
                         }
@@ -235,14 +195,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                             break;
                         }
                         case TokenCommand.MESSAGE_TYPE_CANCEL_FILE: {
-                            // 取消文件提示暂时不需要
-                            // String filePath =
-                            // msg.getData().getStringArrayList("path").get(0);
-                            // filePath =
-                            // mHttpServerCommand.getLocalFilePath(filePath);
-                            // UPDATE.updateUI(UIUpdate.getStateMessage(filePath,
-                            // 0,
-                            // Const.FILE_TRANSFER_CANCEL));
                             break;
                         }
                         case TokenCommand.MESSAGE_TYPE_DISCONNECT: {
@@ -252,8 +204,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                                         .createACKDisConnecetMessage());
                             } catch (Exception e) {
                                 myLog.logException(e);
-                                // Toast.makeText(mContext, "Token消息为null",
-                                // Toast.LENGTH_SHORT).show();
                             }
                             break;
                         }
@@ -277,9 +227,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                         case TokenCommand.MESSAGE_TYPE_CONNECT_ESTABLE: {
                             try {
                                 UPDATE.updateUI(UIUpdate.getEstableConnect(""));
-                                // Toast.makeText(mContext, "连接已建立，发送用户信息和文件信息",
-                                // Toast.LENGTH_SHORT)
-                                // .show();
                                 isConnectionEstablish.set(true);
                                 // 建立连接第一时刻同时发送要发送的文件信息和用户信息
                                 mTokenSession.sendMessageFromToken(TokenCommand
@@ -291,8 +238,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                                 }
                             } catch (Exception e) {
                                 myLog.logException(e);
-                                // Toast.makeText(mContext, "Token消息为null",
-                                // Toast.LENGTH_SHORT).show();
                             }
                             break;
                         }
@@ -307,8 +252,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                                 mHttpCLientCommand.dealFilesResponse(msg);
                             } catch (Exception e) {
                                 myLog.logException(e);
-                                // Toast.makeText(mContext, "Token消息为null",
-                                // Toast.LENGTH_SHORT).show();
                             }
                             break;
                         }
@@ -867,14 +810,7 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                     return;
                 }
                 if (mHttpCLientCommand.cancelFile(filePath)) {
-                    // try {
-                    // mTokenSession.sendMessageFromToken(TokenCommand.createFileCancelMessage(
-                    // chanelFilePath, 0, false));
-                    // } catch (Exception e) {
-                    // myLog.logException(e);
-                    // Toast.makeText(mContext, "Token消息为null",
-                    // Toast.LENGTH_SHORT).show();
-                    // }
+                    
                 }
 
                 break;
@@ -886,14 +822,7 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                     return;
                 }
                 if (mHttpServerCommand.cancelFile(filePath)) {
-                    // try {
-                    // mTokenSession.sendMessageFromToken(TokenCommand.createFileCancelMessage(
-                    // chanelFilePath, 0, false));
-                    // } catch (Exception e) {
-                    // myLog.logException(e);
-                    // Toast.makeText(mContext, "Token消息为null",
-                    // Toast.LENGTH_SHORT).show();
-                    // }
+                    
                 }
                 break;
             }

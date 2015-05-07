@@ -172,60 +172,6 @@
                     android:layout_marginTop="22dp"
                     android:src="@drawable/female_01" />
 
-                <com.xpread.widget.RoundProgressBar
-                    android:id="@+id/owner_progress"
-                    android:layout_width="@dimen/user_progressbar_owner_side"
-                    android:layout_height="@dimen/user_progressbar_owner_side"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="17dp"
-                    android:visibility="gone"
-                    round_progress:roundProgressColor="@color/round_progressbar_owner" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/owner_circle_track_5"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/owner_track_color_5" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/owner_circle_track_4"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/owner_track_color_4" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/owner_circle_track_3"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/owner_track_color_3" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/owner_circle_track_2"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/owner_track_color_2" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/owner_circle_track_1"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/owner_track_color_1" />
-
                 <ImageView
                     android:id="@+id/wait_connect_circle_view1"
                     android:layout_width="@dimen/wait_circle_size"
@@ -289,66 +235,6 @@
                     android:layout_marginTop="@dimen/guest_name_top"
                     android:textColor="#333333"
                     android:textSize="@dimen/guest_name_size" />
-
-                <com.xpread.widget.RoundProgressBar
-                    android:id="@+id/guest_progress"
-                    android:layout_width="@dimen/user_progressbar_guest_side"
-                    android:layout_height="@dimen/user_progressbar_guest_side"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/guest_progress_top"
-                    android:visibility="gone"
-                    round_progress:roundProgressColor="@color/round_progressbar_guest" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/guest_circle_track_5"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/guest_progress_top"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/guest_track_color_5" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/guest_circle_track_4"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/guest_progress_top"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/guest_track_color_4" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/guest_circle_track_3"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/guest_progress_top"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/guest_track_color_3" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/guest_circle_track_2"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/guest_progress_top"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/guest_track_color_2" />
-
-                <com.xpread.widget.CircleTrackView
-                    android:id="@+id/guest_circle_track_1"
-                    android:layout_width="@dimen/wait_circle_size"
-                    android:layout_height="@dimen/wait_circle_size"
-                    android:layout_below="@id/owner_icon"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/guest_progress_top"
-                    android:visibility="gone"
-                    circle_track:trackColor="@color/guest_track_color_1" />
             </RelativeLayout>
 
             <TextView
@@ -357,7 +243,27 @@
                 android:layout_alignTop="@id/user_info"
                 android:background="@drawable/shadow_up" />
 
-            <ImageView
+            <FrameLayout 
+                android:id="@+id/history_background"
+                android:layout_width="@dimen/user_history_icon_side"
+                android:layout_height="@dimen/user_history_icon_side"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/user_opra"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="@dimen/user_history_icon_top"
+                android:background="@drawable/history"
+                >
+                
+                <ImageView
+                    android:id="@+id/history"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/user_history_icon_padding"
+                    android:src="@drawable/icon_history"
+                    />
+                
+            </FrameLayout>
+  <!--            <ImageView
                 android:id="@+id/user_history"
                 android:layout_width="@dimen/user_history_icon_side"
                 android:layout_height="@dimen/user_history_icon_side"
@@ -367,7 +273,7 @@
                 android:layout_marginTop="@dimen/user_history_icon_top"
                 android:background="@drawable/history_selector"
                 android:padding="@dimen/user_history_icon_padding"
-                android:src="@drawable/icon_history" />
+                android:src="@drawable/icon_history" />  -->
         </RelativeLayout>
 
         <!-- The navigation drawer -->
