@@ -74,5 +74,7 @@
     <!-- 文件列表 -->
     <string name="file_not_found">%1$s not found</string>
     <string name="file_fragment_empty_hint">No file here&#8230;</string>
+    
+    <string name="image_header_prefix">图片文件夹： </string>
 
 </resources>

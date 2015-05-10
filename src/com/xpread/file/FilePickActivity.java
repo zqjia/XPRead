@@ -92,10 +92,6 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
     public static final int WIFI_AP_STATE_ENABLED = 13;
     public static final int WIFI_AP_STATE_FAILED = 14;
 
-    private final int SEND_FILE = 0x0110;
-
-    private final String INTENT_TYPE = "type";
-
     BroadcastReceiver mAppReceiver = new BroadcastReceiver() {
 
         @Override
@@ -222,7 +218,7 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
         mFragmentsList.add(appFragment);
         Fragment imageFragment = new ImageFragment1();
         mFragmentsList.add(imageFragment);
-        Fragment musicFragment = new MusicFragment();
+        Fragment musicFragment = new MusicFragment1();
         mFragmentsList.add(musicFragment);
         Fragment videoFragment = new VideoFragment();
         mFragmentsList.add(videoFragment);

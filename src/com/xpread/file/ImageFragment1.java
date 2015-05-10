@@ -21,7 +21,6 @@
 
 package com.xpread.file;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,6 +29,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -59,21 +59,13 @@ import com.xpread.adapter.ImageStickyGridAdapter;
 import com.xpread.provider.FileBean;
 import com.xpread.provider.ImageGridItem;
 import com.xpread.util.Const;
+import com.xpread.util.FileUtil;
 import com.xpread.util.LogUtil;
-import com.xpread.util.TimeUtil;
 import com.xpread.wa.WaKeys;
 
 public class ImageFragment1 extends BackHandledFragment implements OnItemClickListener {
 
     private static final String TAG = "ImageFragment";
-
-    private final Uri EXTERNAL_IMAGE_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-    private final String IMAGE_ID = MediaStore.Images.Media._ID;
-    private final String IMAGE_DATA = MediaStore.Images.Media.DATA;
-    private final Uri EXTERNAL_THUMB_IMAGE_URI = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
-    private final String THUMB_IMAGE_DATA = MediaStore.Images.Thumbnails.DATA;
-    private final String IMAGE_MINE_TYPE = MediaStore.Images.Media.MIME_TYPE;
-    private final String IMAGE_BUCKET_NAME = MediaStore.Images.Media.BUCKET_DISPLAY_NAME;
 
     private ArrayList<ImageGridItem> mImageList = new ArrayList<ImageGridItem>();
 
@@ -86,7 +78,8 @@ public class ImageFragment1 extends BackHandledFragment implements OnItemClickLi
     private AtomicBoolean mIsFirstCreate = new AtomicBoolean(true);
     
     private static final int DATA_LOAD_FINISH = 0x0100;
-
+    
+    @SuppressLint("HandlerLeak") 
     private Handler mHandler = new Handler() {
 
         @Override
@@ -174,26 +167,23 @@ public class ImageFragment1 extends BackHandledFragment implements OnItemClickLi
             this.context = ctx;
         }
 
-        private boolean isFileExist(String filePath) {
-            File file = new File(filePath);
-            return file.exists();
-        }
-
         @Override
         protected Void doInBackground(Void... params) {
-
-            // 发送广播，扫描SD卡上的多媒体文件
-            /*context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"
-                    + Environment.getExternalStorageDirectory())));*/
 
             ArrayList<ImageGridItem> noHeaderIdList = new ArrayList<ImageGridItem>();
             
             if (context != null) {
-                externalCursor =
-                        context.getContentResolver().query(EXTERNAL_IMAGE_URI,
-                                new String[] {IMAGE_ID, IMAGE_DATA, IMAGE_BUCKET_NAME},
-                                IMAGE_MINE_TYPE + "=? or " + IMAGE_MINE_TYPE + "=?",
-                                new String[] {"image/jpeg", "image/png"}, null);
+                final Uri IMAGE_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                final String[] PROJECTION = { 
+                     MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA, 
+                     MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+                final String SELECTION = MediaStore.Images.Media.MIME_TYPE + "=? or " 
+                                + MediaStore.Images.Media.MIME_TYPE + "=?";
+                final String[] SELECTION_ARGS = {"image/jpeg", "image/png"};
+                final String SORT_OREDER = MediaStore.Images.Media.DEFAULT_SORT_ORDER;
+                
+                externalCursor = context.getContentResolver().query(IMAGE_URI,
+                                PROJECTION, SELECTION, SELECTION_ARGS, SORT_OREDER );
             } else {
                 return null;
             }
@@ -205,20 +195,20 @@ public class ImageFragment1 extends BackHandledFragment implements OnItemClickLi
                 }
 
                 do {
-                    String id = externalCursor.getString(externalCursor.getColumnIndex(IMAGE_ID));
-                    String data =
-                            externalCursor.getString(externalCursor.getColumnIndex(IMAGE_DATA));
+                    String id = externalCursor.getString(
+                        externalCursor.getColumnIndex(MediaStore.Images.Media._ID));
+                    String data = externalCursor.getString(
+                        externalCursor.getColumnIndex(MediaStore.Images.Media.DATA));
                     
                     // 如果原图存在
-                    if (isFileExist(data)) {
+                    if (FileUtil.isFileExist(data)) {
                         ImageGridItem item = new ImageGridItem();
                         // 设置图片原图路径
                         item.setPath(data);
 
                         // 设置图片时间
-                        String bucketName =
-                                externalCursor.getString(externalCursor
-                                        .getColumnIndex(IMAGE_BUCKET_NAME));
+                        String bucketName = externalCursor.getString(
+                             externalCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                         item.setBucketName(bucketName);
 
                         // 设置图片对应的缩略图
@@ -292,16 +282,22 @@ public class ImageFragment1 extends BackHandledFragment implements OnItemClickLi
          * @param item 图片数据的item，对item中的缩略图进行设置
          * */
         private void setImageThumb(String id, ImageGridItem item) {
-            Cursor thumbCursor =
-                    context.getContentResolver().query(EXTERNAL_THUMB_IMAGE_URI,
-                            new String[] {THUMB_IMAGE_DATA},
-                            MediaStore.Images.Thumbnails.IMAGE_ID + "=?", new String[] {id}, null);
+            
+            final Uri THUMB_URI = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
+            final String[] THUMB_PROJECTION = new String[] {MediaStore.Images.Thumbnails.DATA};
+            final String THUMB_SELECTION = MediaStore.Images.Thumbnails.IMAGE_ID + "=?";
+            final String[] THUMB_SELECTION_ARGS = new String[] {id};
+            final String SORT_ORDER = MediaStore.Images.Thumbnails.DEFAULT_SORT_ORDER;
+            
+            Cursor thumbCursor = context.getContentResolver().query(
+                        THUMB_URI, THUMB_PROJECTION, THUMB_SELECTION, 
+                        THUMB_SELECTION_ARGS, SORT_ORDER);
 
             if (thumbCursor != null && thumbCursor.moveToFirst()) {
-                String thumbPath =
-                        thumbCursor.getString(thumbCursor.getColumnIndex(THUMB_IMAGE_DATA));
+                String thumbPath = thumbCursor.getString(
+                   thumbCursor.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
 
-                if (isFileExist(thumbPath)) {
+                if (FileUtil.isFileExist(thumbPath)) {
                     item.setThumbPath(thumbPath);
                 }
 
@@ -360,7 +356,7 @@ public class ImageFragment1 extends BackHandledFragment implements OnItemClickLi
                 }  
             }  
             hasHeaderIdList = noHeaderIdList;  
-            Collections.sort(hasHeaderIdList,new YMDComparator());
+            Collections.sort(hasHeaderIdList,new BucketNameComparator());
             return hasHeaderIdList;  
         }  
 
@@ -410,7 +406,7 @@ public class ImageFragment1 extends BackHandledFragment implements OnItemClickLi
         }
     }
 
-    private class YMDComparator implements Comparator<ImageGridItem> {
+    private class BucketNameComparator implements Comparator<ImageGridItem> {
 
         @Override
         public int compare(ImageGridItem lhs, ImageGridItem rhs) {

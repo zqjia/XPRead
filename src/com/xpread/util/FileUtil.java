@@ -145,6 +145,11 @@ public class FileUtil {
         }
         return true;
     }
+    
+    public static boolean isFileExist(String fileName) {
+        File file = new File(fileName);
+        return file.exists();
+    }
 
     public static String getPathByName(String aFileName, int fileSize) {
         if (aFileName == null || aFileName.length() == 0) {

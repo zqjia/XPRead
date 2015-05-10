@@ -26,6 +26,7 @@ public class ImageStickyGridAdapter extends BaseAdapter
     private ArrayList<ImageGridItem> mImageList;
     private LayoutInflater mLayoutInflater;
     private GridView mImageGridView;
+    private Context mContext;
     
     private DisplayImageOptions mOptions = new DisplayImageOptions.Builder()
             .showImageOnLoading(R.drawable.classimage).showImageForEmptyUri(R.drawable.classimage)
@@ -37,6 +38,7 @@ public class ImageStickyGridAdapter extends BaseAdapter
         this.mLayoutInflater = LayoutInflater.from(context);
         this.mImageList = imageList;
         this.mImageGridView = imageGridView;
+        this.mContext = context;
     }
 
     public void setData(ArrayList<ImageGridItem> list) {
@@ -110,7 +112,8 @@ public class ImageStickyGridAdapter extends BaseAdapter
             headerViewHolder = (HeaderViewHolder)convertView.getTag();
         }
         
-        headerViewHolder.headerText.setText(mImageList.get(position).getBucketName());
+        headerViewHolder.headerText.setText(mContext.getResources().getString(R.string.image_header_prefix) 
+            + mImageList.get(position).getBucketName());
         
         return convertView;
     }
