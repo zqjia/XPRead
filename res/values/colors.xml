@@ -36,4 +36,13 @@
     <color name="guest_track_color_1">#00a168</color>
     
 	<color name="qrcode_hint_text_color">#787878</color>
+	
+	<color name="receive_button_bg_color">#e6f3ef</color>
+	<color name="receive_button_border_color">#00a168</color>
+	<color name="receive_button_text_color">#00a168</color>
+	<color name="disconnect_button_bg_color">#f9ece9</color>
+	<color name="disconnect_button_border_color">#ef431b</color>
+	<color name="disconnect_button_text_color">#ef431b</color>
+	
+	
 </resources>

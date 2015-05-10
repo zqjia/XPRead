@@ -57,33 +57,23 @@ public class ImageFragment extends BackHandledFragment implements OnItemClickLis
     private static final String TAG = "ImageFragment";
 
     private final Uri EXTERNAL_IMAGE_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-
     private final String IMAGE_ID = MediaStore.Images.Media._ID;
-
     private final String IMAGE_DATA = MediaStore.Images.Media.DATA;
-
     private final Uri EXTERNAL_THUMB_IMAGE_URI = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
-
     private final String THUMB_IMAGE_DATA = MediaStore.Images.Thumbnails.DATA;
-
     private final String IMAGE_MINE_TYPE = MediaStore.Images.Media.MIME_TYPE;
 
     public class ImageInfo {
         boolean selected;
-
         String data;
-
         String thumbData;
-
         Bitmap thumbBmp;
     }
 
     private ArrayList<ImageInfo> mImageList = new ArrayList<ImageInfo>();
 
     private GridView mImageGridView;
-
     private ProgressBar mLoadingBar;
-
     private ImageAdapter mAdapter;
 
     private DisplayImageOptions mOptions = new DisplayImageOptions.Builder()

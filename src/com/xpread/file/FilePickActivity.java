@@ -36,6 +36,7 @@ import android.widget.TextView;
 import com.uc.base.wa.WaEntry;
 import com.xpread.MainActivity;
 import com.xpread.R;
+import com.xpread.RecordsActivity;
 import com.xpread.SearchFriendActivity;
 import com.xpread.adapter.TabPagerAdapter;
 import com.xpread.control.Controller;
@@ -73,7 +74,6 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
     private ArrayList<Fragment> mFragmentsList;
 
     private ArrayList<FileBean> mSelectFile = new ArrayList<FileBean>();
-
     private ArrayList<TextView> mLabelLists;
 
     private BackHandledFragment mBackHandedFragment;
@@ -84,7 +84,6 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
     private RelativeLayout mRootView;
 
     private HomeWatcher mHomeWatcher;
-
     private Controller mController;
 
     public static final int WIFI_AP_STATE_DISABLING = 10;
@@ -173,8 +172,12 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
                     controller.handleTransferFiles();
                     controller.sendFiles();
 
-                    Intent intent = new Intent(FilePickActivity.this, MainActivity.class);
-                    intent.putExtra(INTENT_TYPE, SEND_FILE);
+//                    Intent intent = new Intent(FilePickActivity.this, MainActivity.class);
+//                    intent.putExtra(INTENT_TYPE, SEND_FILE);
+                    /**
+                     * 交互改变，如果已经连接则跳转到传输介面
+                     * */
+                    Intent intent = new Intent(FilePickActivity.this, RecordsActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(FilePickActivity.this, SearchFriendActivity.class);
@@ -217,7 +220,7 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
         mFragmentsList.clear();
         Fragment appFragment = new AppFragment();
         mFragmentsList.add(appFragment);
-        Fragment imageFragment = new ImageFragment();
+        Fragment imageFragment = new ImageFragment1();
         mFragmentsList.add(imageFragment);
         Fragment musicFragment = new MusicFragment();
         mFragmentsList.add(musicFragment);

@@ -44,7 +44,4 @@ public class CircleTrackView extends View{
         
     }
     
-    
-    
-    
 }

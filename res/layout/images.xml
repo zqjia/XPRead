@@ -1,5 +1,6 @@
 <!-- ?xml version="1.0" encoding="utf-8"? -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -10,20 +11,18 @@
         android:layout_centerInParent="true"
         android:indeterminateDrawable="@drawable/progressbar_style" />
 
-    <GridView
+    <com.xpread.stickygridheaders.StickyGridHeadersGridView
         android:id="@+id/image_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="22.5dp"
-        android:layout_marginRight="22.5dp"
         android:clipToPadding="false"
-        android:columnWidth="90dp"
-        android:gravity="center"
-        android:horizontalSpacing="14dp"
+        android:columnWidth="116dp"
+        android:horizontalSpacing="3dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:numColumns="auto_fit"
-        android:paddingTop="17dp"
+        android:paddingTop="5dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="14dp"
-        android:visibility="gone" />
+        android:verticalSpacing="5dp"/>
 
 </RelativeLayout>

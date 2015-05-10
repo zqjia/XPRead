@@ -7,8 +7,9 @@
     <dimen name="guest_progress_top">45dp</dimen>
     <dimen name="user_opra_button_side">120dp</dimen>
     <dimen name="user_opra_button_textsize">16dp</dimen>
-    <dimen name="user_history_icon_side">53dp</dimen>
-    <dimen name="user_history_icon_padding">18dp</dimen>
+    <dimen name="user_history_icon_side">44dp</dimen>
+    <dimen name="user_history_icon_size">24dp</dimen>
+    <dimen name="user_history_icon_padding">16dp</dimen>
     <dimen name="user_history_icon_top">-28dp</dimen>
     <dimen name="record_backview_margin">100dp</dimen>
     <dimen name="search_friend_position_top">148dp</dimen>

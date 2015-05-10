@@ -3,12 +3,14 @@ package com.xpread;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -33,14 +35,10 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.ScaleAnimation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,6 +50,8 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.uc.base.wa.WaEntry;
 import com.xpread.adapter.IconAdapter;
 import com.xpread.control.Controller;
@@ -68,6 +68,8 @@ import com.xpread.util.LogUtil;
 import com.xpread.util.ScreenUtil;
 import com.xpread.util.Utils;
 import com.xpread.wa.WaKeys;
+import com.xpread.widget.ColorEvaluator;
+import com.xpread.widget.HistoryBackgroundView;
 import com.xpread.widget.RoundImageButton;
 import com.xpread.widget.RoundImageView;
 
@@ -79,7 +81,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
     private RoundImageButton mSendButton;
     private RoundImageButton mReceiveButton;
-    private RoundImageButton mDisconnectButton;
+//    private RoundImageButton mDisconnectButton;
 
     private RelativeLayout mUserInfoLayout;
     private RelativeLayout mConnectedUserInfoLayout;
@@ -103,7 +105,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     TextView mGuestName;
 
     RelativeLayout mContentLayout;
-    FrameLayout mHistoryBackground;
+//    ImageView mHistoryBackground;
 
     private static final float COLUM_NUMBER = 4.5f;
 
@@ -139,17 +141,24 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     private Timer mWaitConnectTimer = new Timer();
     private TimerTask mWaitConnectTask;
     
-    private Drawable mHistoryNomalBg;
-    private Drawable mHistoryReceiveBg;
+    private HistoryBackgroundView mHistoryBackgroundView;
     
     //Animations
-    private Animation mHistoryIconScaleAnimation;
+    private static final int ANIMATOR_DURATION = 800;
+    private static final int SCALE_REPEAT_COUNT = 2;
+    private AnimatorSet mHistoryAnimatorSet;
+    private ObjectAnimator mHistoryScaleXAnimator;
+    private ObjectAnimator mHistoryScaleYAnimator;
+    private ObjectAnimator mHistoryBackgroundColorAnimator;
     
     FileReceiveNoticeListener mFileReceiveNoticeListener = new FileReceiveNoticeListener() {
 
         @Override
         public void animationStart() {
-            mUserHistory.startAnimation(mHistoryIconScaleAnimation);
+            mHistoryAnimatorSet.play(mHistoryScaleXAnimator)
+                               .with(mHistoryScaleYAnimator)
+                               .with(mHistoryBackgroundColorAnimator);
+            mHistoryAnimatorSet.start();
         }
     };
 
@@ -286,8 +295,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         mReceiveButton = (RoundImageButton) findViewById(R.id.receive_button);
         mReceiveButton.setOnClickListener(this);
 
-        mDisconnectButton = (RoundImageButton) findViewById(R.id.disconnect_button);
-        mDisconnectButton.setOnClickListener(this);
+//        mDisconnectButton = (RoundImageButton) findViewById(R.id.disconnect_button);
+//        mDisconnectButton.setOnClickListener(this);
 
         mFaceImage = (RoundImageView) findViewById(R.id.user_icon);
         mFaceImage.setImageDrawable(mPhotos.get(Utils.getOwerIcon(this)));
@@ -299,7 +308,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
         mUserHistory = (ImageView) findViewById(R.id.history);
         mUserHistory.setOnClickListener(this);
-        mHistoryBackground = (FrameLayout) findViewById(R.id.history_background);
+//        mHistoryBackground = (ImageView) findViewById(R.id.history_background);
+        mHistoryBackgroundView = (HistoryBackgroundView)findViewById(R.id.history_background);
 
         mUserInfoLayout = (RelativeLayout) findViewById(R.id.user_info);
         mConnectedUserInfoLayout = (RelativeLayout) findViewById(R.id.user_info_connected);
@@ -360,36 +370,22 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
         initWaitCircle();
         
-        this.mHistoryNomalBg = getResources().getDrawable(R.drawable.history);
-        this.mHistoryReceiveBg = getResources().getDrawable(R.drawable.history_click);
     }
 
     private void initAnimation() {
-        this.mHistoryIconScaleAnimation = new ScaleAnimation(1.0f, 1.5f, 1.0f, 1.5f,  
-            Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        this.mHistoryIconScaleAnimation.setDuration(800);
-        this.mHistoryIconScaleAnimation.setRepeatCount(FILE_RECEIVE_REPEAT_TIMES);
-        this.mHistoryIconScaleAnimation.setFillAfter(false);
-        this.mHistoryIconScaleAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-        this.mHistoryIconScaleAnimation.setAnimationListener(new AnimationListener() {
-            
-            @Override
-            public void onAnimationStart(Animation animation) {
-                
-            }
-            
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-                
-            }
-            
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mHistoryBackground.setBackgroundDrawable(mHistoryReceiveBg);
-            }
-        });
+        this.mHistoryAnimatorSet = new AnimatorSet();
         
+        this.mHistoryScaleXAnimator = ObjectAnimator.ofFloat(mUserHistory, "scaleX", 1.0f, 1.5f, 1.0f);
+        this.mHistoryScaleXAnimator.setDuration(ANIMATOR_DURATION);
+        this.mHistoryScaleXAnimator.setRepeatCount(SCALE_REPEAT_COUNT);
+        this.mHistoryScaleYAnimator = ObjectAnimator.ofFloat(mUserHistory, "scaleY", 1.0f, 1.5f, 1.0f);
+        this.mHistoryScaleYAnimator.setDuration(ANIMATOR_DURATION);
+        this.mHistoryScaleYAnimator.setRepeatCount(SCALE_REPEAT_COUNT);
+        
+        this.mHistoryBackgroundColorAnimator = ObjectAnimator.ofObject(mHistoryBackgroundView, "color", 
+            new ColorEvaluator(), HistoryBackgroundView.START_COLOR, HistoryBackgroundView.END_COLOR);
+        this.mHistoryBackgroundColorAnimator.setDuration(HistoryBackgroundView.COLOR_ANIMATION_DURATION);
+        this.mHistoryBackgroundColorAnimator.setInterpolator(new DecelerateInterpolator());
     }
 
     @Override
@@ -480,10 +476,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 break;
 
             case R.id.receive_button:
-                WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_RECEIVE);
-                Intent receiveIntent = new Intent(this, WaitFriendActivity.class);
-                startActivity(receiveIntent);
-
+                if (mReceiveButton.getText().equals(R.string.receive_button)) {
+                    WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_RECEIVE);
+                    Intent receiveIntent = new Intent(this, WaitFriendActivity.class);
+                    startActivity(receiveIntent); 
+                } else {
+                    WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_DISCONNECT);
+                    mController.disconnect();
+                }
                 break;
 
             case R.id.user_icon:
@@ -509,14 +509,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                     @SuppressWarnings("deprecation")
                     @Override
                     public void run() {
-                        if (mHistoryBackground.getBackground() == mHistoryReceiveBg) {
-                            mHistoryBackground.setBackgroundDrawable(mHistoryNomalBg);
-                        };
+                        Log.e(TAG, "the current color is " + mHistoryBackgroundView.getColor());
+                        if (mHistoryBackgroundView.getColor().toUpperCase(Locale.getDefault())
+                                .equals(HistoryBackgroundView.END_COLOR) ) {
+                            Log.e(TAG, "set start color");
+                            mHistoryBackgroundView.setColor(HistoryBackgroundView.START_COLOR);
+                        }
                     }
                 }, 300);
-                
-                
-
                 break;
 
             case R.id.menu:
@@ -532,13 +532,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_SHARE);
                 Intent shareIntent = new Intent(this, ShareActivity.class);
                 startActivity(shareIntent);
-
-                break;
-
-            case R.id.disconnect_button:
-                WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_DISCONNECT);
-
-                mController.disconnect();
                 break;
 
             default:
@@ -824,17 +817,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
         // first step, refresh UI, remove the timeout message and the wait
         // animation timer task
-
         if (mWaitConnectTask != null) {
             mWaitConnectTask.cancel();
         }
 
         changeWaitCircleState(false);
 
-        mReceiveButton.setVisibility(View.VISIBLE);
-        mDisconnectButton.setVisibility(View.GONE);
-        mUserInfoLayout.setVisibility(View.VISIBLE);
-        mConnectedUserInfoLayout.setVisibility(View.GONE);
+        boolean isConnected = false;
+        changeViewState(isConnected);
 
         // second, disconnect the current connection
         mController.getWifiAdmin().disconnectCurrentWifi();
@@ -1074,13 +1064,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
     private void changeViewState(boolean isConnected) {
         if (isConnected) {
-            mReceiveButton.setVisibility(View.GONE);
-            mDisconnectButton.setVisibility(View.VISIBLE);
+            toDisconnectButton();
             mUserInfoLayout.setVisibility(View.GONE);
             mConnectedUserInfoLayout.setVisibility(View.VISIBLE);
         } else {
-            mReceiveButton.setVisibility(View.VISIBLE);
-            mDisconnectButton.setVisibility(View.GONE);
+            toReceiveButton();
             mUserInfoLayout.setVisibility(View.VISIBLE);
             mConnectedUserInfoLayout.setVisibility(View.GONE);
         }
@@ -1112,4 +1100,30 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         mPhotos.add(getResources().getDrawable(R.drawable.female_04));
     }
 
+    private void toDisconnectButton() {
+        Resources res = getResources();
+        
+        int disconnectBackgroundColor = res.getColor(R.color.disconnect_button_bg_color);
+        int disconnectBorderColor = res.getColor(R.color.disconnect_button_border_color);
+        int disconnectTextColor = res.getColor(R.color.disconnect_button_text_color);
+        Drawable disconnectImageSource = res.getDrawable(R.drawable.disconnet);
+        String disconnectText = res.getString(R.string.disconnect_button);
+        
+        mReceiveButton.refreshButton(disconnectBackgroundColor, disconnectBorderColor, 
+            disconnectImageSource, disconnectText, disconnectTextColor);
+    }
+    
+    private void toReceiveButton() {
+        Resources res = getResources();
+        
+        int receiveBackgroundColor = res.getColor(R.color.receive_button_bg_color);
+        int receiveBorderColor = res.getColor(R.color.receive_button_border_color);
+        int receiveTextColor = res.getColor(R.color.receive_button_text_color);
+        Drawable receiveImageSource = res.getDrawable(R.drawable.recieve);
+        String receiveText = res.getString(R.string.receive_button);
+        
+        mReceiveButton.refreshButton(receiveBackgroundColor, receiveBorderColor, 
+            receiveImageSource, receiveText, receiveTextColor);
+    }
+    
 }

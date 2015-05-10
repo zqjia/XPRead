@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
     xmlns:roboto="http://schemas.android.com/apk/res-auto"
-    xmlns:round_progress="http://schemas.android.com/apk/res-auto"
     xmlns:circle_track="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -94,31 +93,16 @@
                     android:layout_height="@dimen/user_opra_button_side"
                     android:layout_weight="1"
                     android:gravity="center"
-                    imagecontrol:background_color="#e6f3ef"
-                    imagecontrol:border_color="#00a168"
+                    imagecontrol:background_color="@color/receive_button_bg_color"
+                    imagecontrol:border_color="@color/receive_button_border_color"
                     imagecontrol:border_width="1dp"
                     imagecontrol:image_offset_x="-5dp"
                     imagecontrol:image_resource="@drawable/recieve"
                     imagecontrol:padding_between="10dp"
                     imagecontrol:text="@string/receive_button"
-                    imagecontrol:text_color="#00a168"
+                    imagecontrol:text_color="@color/receive_button_text_color"
                     imagecontrol:text_size="@dimen/user_opra_button_textsize" />
 
-                <com.xpread.widget.RoundImageButton
-                    android:id="@+id/disconnect_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/user_opra_button_side"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:visibility="gone"
-                    imagecontrol:background_color="#f9ece9"
-                    imagecontrol:border_color="#ef431b"
-                    imagecontrol:border_width="1dp"
-                    imagecontrol:image_resource="@drawable/disconnet"
-                    imagecontrol:padding_between="10dp"
-                    imagecontrol:text="@string/disconnect_button"
-                    imagecontrol:text_color="#ef431b"
-                    imagecontrol:text_size="@dimen/user_opra_button_textsize" />
             </LinearLayout>
 
             <TextView
@@ -244,36 +228,29 @@
                 android:background="@drawable/shadow_up" />
 
             <FrameLayout 
-                android:id="@+id/history_background"
+                android:id="@+id/history_layout"
                 android:layout_width="@dimen/user_history_icon_side"
                 android:layout_height="@dimen/user_history_icon_side"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@id/user_opra"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="@dimen/user_history_icon_top"
-                android:background="@drawable/history"
                 >
+                
+                <com.xpread.widget.HistoryBackgroundView
+                    android:id="@+id/history_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
                 
                 <ImageView
                     android:id="@+id/history"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/user_history_icon_padding"
-                    android:src="@drawable/icon_history"
-                    />
-                
+                    android:layout_width="@dimen/user_history_icon_size"
+                    android:layout_height="@dimen/user_history_icon_size"
+                    android:layout_gravity="center"
+                    android:background="@drawable/icon_history"
+                    /> 
             </FrameLayout>
-  <!--            <ImageView
-                android:id="@+id/user_history"
-                android:layout_width="@dimen/user_history_icon_side"
-                android:layout_height="@dimen/user_history_icon_side"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/user_opra"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="@dimen/user_history_icon_top"
-                android:background="@drawable/history_selector"
-                android:padding="@dimen/user_history_icon_padding"
-                android:src="@drawable/icon_history" />  -->
         </RelativeLayout>
 
         <!-- The navigation drawer -->

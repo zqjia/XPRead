@@ -16,48 +16,36 @@ import com.xpread.R;
 
 public class RoundImageButton extends View {
     private int defaultColor = 0;
-
     private int defaultTextSize = 14;
-
     private int mBorderColor;
-
     private int mBackgroundColor;
-
     private int mBorderWidth;
-
     private Drawable mImageDrawable;
-
     private int mImageWidth;
-
     private int mImageHeight;
-
     private String mText;
-
     private int mTextSize;
-
     private int mTextColor;
-
     private int mPadding;
-
     private int defaultWidth = 0;
-
     private int defaultHeight = 0;
-
     private int mOffsetX;
-
-    int radius;
+    private int radius;
+    
+    private Paint mPaint;
+    private Context mContext;
 
     public RoundImageButton(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public RoundImageButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setCustomAttributes(attrs);
+        this(context, attrs, 0);
     }
 
     public RoundImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.mContext = context;
         setCustomAttributes(attrs);
     }
 
@@ -80,6 +68,8 @@ public class RoundImageButton extends View {
         mPadding = ta.getDimensionPixelSize(R.styleable.roundedimagebutton_padding_between, 0);
 
         ta.recycle();
+        
+        mPaint = new Paint();
     }
 
     @Override
@@ -104,23 +94,22 @@ public class RoundImageButton extends View {
     }
 
     private void drawCircleBorder(Canvas canvas, int radius) {
-        Paint paint = new Paint();
-        paint.setColor(mBackgroundColor);
-        canvas.drawCircle(defaultWidth / 2, defaultHeight / 2, radius, paint);
+        mPaint.setColor(mBackgroundColor);
+        canvas.drawCircle(defaultWidth / 2, defaultHeight / 2, radius, mPaint);
 
-        paint.setAntiAlias(true);
+        mPaint.setAntiAlias(true);
         //如果该项设置为true，则图像在动画进行中会滤掉对Bitmap图像的优化操作，加快显示  
         //速度，本设置项依赖于dither和xfermode的设置  
-        paint.setFilterBitmap(true);
+        mPaint.setFilterBitmap(true);
         //设定是否使用图像抖动处理，会使绘制出来的图片颜色更加平滑和饱满，图像更加清晰
-        paint.setDither(true);
-        paint.setColor(mBorderColor);
-        paint.setStyle(Paint.Style.STROKE);
+        mPaint.setDither(true);
+        mPaint.setColor(mBorderColor);
+        mPaint.setStyle(Paint.Style.STROKE);
         //当画笔样式为STROKE或FILL_OR_STROKE时，设置笔刷的粗细度
-        paint.setStrokeWidth(mBorderWidth);
+        mPaint.setStrokeWidth(mBorderWidth);
 
-        canvas.drawCircle(defaultWidth / 2, defaultHeight / 2, radius, paint);
-
+        canvas.drawCircle(defaultWidth / 2, defaultHeight / 2, radius, mPaint);
+        this.mPaint.reset();
     }
 
     private void drawImage(Canvas canvas) {
@@ -145,18 +134,32 @@ public class RoundImageButton extends View {
         if (mText == null) {
             return;
         }
-        Paint p = new Paint();
-        p.setColor(mTextColor);
-        p.setTextSize(mTextSize);
-        p.setAntiAlias(true);
+        this.mPaint.setColor(mTextColor);
+        this.mPaint.setTextSize(mTextSize);
+        this.mPaint.setAntiAlias(true);
 
-        FontMetrics fm = p.getFontMetrics();
+        FontMetrics fm = this.mPaint.getFontMetrics();
 
-        int x = (int)((defaultWidth - p.measureText(mText)) / 2);
+        int x = (int)((defaultWidth - this.mPaint.measureText(mText)) / 2);
         
         //defaultHeight/2, 就是整个view的一半，然后padding和image的一半，就是image关于padding的对称点，加上一半的ascent，就是text的
         int y = (int)((defaultHeight + mImageHeight + mPadding + fm.ascent) / 2 + fm.descent - fm.ascent);
         
-        canvas.drawText(mText, x, y, p);
+        canvas.drawText(mText, x, y, this.mPaint);
+        this.mPaint.reset();
+    }
+    
+    public void refreshButton(int bgColor, int borderColor, Drawable imageSource, String text, int textColor) {
+        this.mBackgroundColor = bgColor;
+        this.mBorderColor = borderColor;
+        this.mImageDrawable = imageSource;
+        this.mText = text;
+        this.mTextColor = textColor;
+        
+        invalidate();
+    }
+    
+    public String getText() {
+        return this.mText;
     }
 }
