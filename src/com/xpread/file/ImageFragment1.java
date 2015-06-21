@@ -141,11 +141,23 @@ public class ImageFragment1 extends BackHandledFragment implements OnItemClickLi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         FileBean file = new FileBean();
-        ImageStickyGridAdapter adapter = (ImageStickyGridAdapter) parent.getAdapter();
-        ImageGridItem item = (ImageGridItem) adapter.getItem(position);
+        ImageGridItem item = (ImageGridItem) mImageAdapter.getItem(position);
 
         file.uri = item.getPath();
         file.type = Const.TYPE_IMAGE;
+        
+        //为显示选中文件列表准备
+        //add by zqjia
+        /*-----------------------------------------*/
+        if (item.getThumbPath() != null) {
+            file.setThumbImage(item.getThumbPath());
+        } else if (item.getThumbBmp() != null) {
+            file.setThumbImage(item.getThumbBmp());
+        } else {
+            file.setThumbImage(R.drawable.classimage);
+        }
+        file.setSize(FileUtil.getFileSizeByName(item.getPath()));
+        
         if (item.getIsSelected()) {
             item.setIsSelected(false);
             ((FilePickActivity) getActivity()).updateSelectCount(file, false);
@@ -154,8 +166,10 @@ public class ImageFragment1 extends BackHandledFragment implements OnItemClickLi
             ((FilePickActivity) getActivity()).updateSelectCount(file, true);
             WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_SELECT_IMAGE);
         }
-
-        adapter.updateView(position);
+        /*-----------------------------------------*/
+        
+//        adapter.updateView(position);
+        mImageAdapter.updateView(position);
     }
 
     private class QueryTask extends AsyncTask<Void, Void, Void> {

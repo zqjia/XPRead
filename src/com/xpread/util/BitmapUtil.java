@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
@@ -13,6 +14,13 @@ import android.graphics.Rect;
 
 public class BitmapUtil {
 
+    /**
+     * 不允许实例化 
+     * */
+    private BitmapUtil() {
+        
+    }
+    
     public static Bitmap toRoundBitmap(Bitmap bitmap) {
 
         int width = bitmap.getWidth();
@@ -91,6 +99,14 @@ public class BitmapUtil {
                         Config.ARGB_8888);
 
         return sourceImg;
+    }
+    
+    public static Bitmap scaleBitmap(Bitmap srcBitmap, float scaleX, float scaleY) {
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleX, scaleY); // 长和宽放大缩小的比例
+        Bitmap resizeBmp = Bitmap.createBitmap(srcBitmap, 0, 0, 
+            srcBitmap.getWidth(), srcBitmap.getHeight(), matrix, true);
+        return resizeBmp;
     }
 
 }

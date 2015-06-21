@@ -1,21 +1,38 @@
 <!-- ?xml version="1.0" encoding="utf-8"? -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" 
+    android:id="@+id/video_layout">
 
-      <ProgressBar 
+    <ProgressBar
         android:id="@+id/video_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:indeterminateDrawable="@drawable/progressbar_style" />
 
-    <ListView
+    <!--
+          <ListView
         android:id="@+id/video_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fafafa"
         android:listSelector="@android:color/transparent"
         android:visibility="gone" />
+    -->
+
+    <com.twotoasters.jazzylistview.JazzyListView
+        android:id="@+id/video_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fafafa"
+        android:listSelector="@android:color/transparent"
+        android:visibility="gone" 
+        app:effect="wave"
+        app:only_animate_new_items="false"
+        app:only_animate_fling="false"
+        app:max_velocity="0"
+        />
 
 </RelativeLayout>

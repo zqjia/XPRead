@@ -13,21 +13,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class HistoryProvider extends ContentProvider {
     private static HashMap<String, String> mHistoryRecordProjectionMap;
     private static HashMap<String, String> mHistoryFriendProjectionMap;
 
     private static final UriMatcher mUriMatcher;
-
     private HistoryDatabaseHelper mOpenHelper;
 
     private static final int RECORDS = 1;
-
     private static final int RECORDS_ID = 2;
-
     private static final int FRIENDS = 3;
-
     private static final int FRIENDS_ID = 4;
 
     static {
@@ -207,6 +204,7 @@ public class HistoryProvider extends ContentProvider {
         switch (mUriMatcher.match(uri)) {
             case RECORDS:
                 count = db.delete(History.RecordsColumns.TABLE_NAME, selection, selectionArgs);
+                Log.e("zqjia History Provider ", "delete count is " + count);
                 break;
 
             case RECORDS_ID:

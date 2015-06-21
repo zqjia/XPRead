@@ -100,4 +100,14 @@ public class Const {
     public static final String OWNER_TOTAL_TRANSMISSION = "total_transmission";
 
     public static final String FLAG_UPLOAD_WA_TIME = "wa_upload_time";
+    
+    public static final String WIFI_AP_PASSWORD = "123456789";
+    
+    /**
+     * 连接好友时wifi加密方式
+     * */
+    public static final int TYPE_NOPASSWORD = 10001;
+    public static final int TYPE_WEP = 10002;
+    public static final int TYPE_WPA = 10003;
+    
 }

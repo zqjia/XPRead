@@ -32,6 +32,7 @@ public class HistoryBackgroundView extends View {
         super(context, attrs, defStyleAttr);
         this.mPaint.setColor(Color.parseColor(START_COLOR));
         this.mPaint.setStyle(Paint.Style.FILL);
+        this.mColor = START_COLOR;
     }
     
     public String getColor() {

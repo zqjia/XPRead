@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name="com.xpread.XApplication"
@@ -51,7 +52,7 @@
             android:name="com.xpread.ShareActivity"
             android:screenOrientation="nosensor" />
         <activity
-            android:name="com.xpread.RecordsActivity"
+            android:name="com.xpread.RecordsActivity1"
             android:screenOrientation="nosensor" />
         <activity
             android:name="com.xpread.QRCodeShareActivity"

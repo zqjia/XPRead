@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Formatter;
 
 public class TimeUtil {
 
@@ -24,4 +25,27 @@ public class TimeUtil {
         String sb=format.format(gc.getTime());  
         return sb;
     } 
+    
+    public static String stringForTime(int timeMs) {
+        StringBuilder formatBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(formatBuilder, Locale.getDefault());
+        
+        int totalSeconds = timeMs / 1000;
+
+        int seconds = totalSeconds % 60;
+        int minutes = (totalSeconds / 60) % 60;
+        int hours   = totalSeconds / 3600;
+
+        formatBuilder.setLength(0);
+        String result = null;
+        if (hours > 0) {
+            result = formatter.format("%d:%02d:%02d", hours, minutes, seconds).toString();
+        } else {
+            result = formatter.format("%02d:%02d", minutes, seconds).toString();
+        }
+        
+        formatter.close();
+        return result;
+        
+    }
 }

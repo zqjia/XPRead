@@ -28,7 +28,7 @@
         android:background="#fafafa"
         android:listSelector="@android:color/transparent"
         android:visibility="gone"
-        app:effect="cards"
+        app:effect="wave"
         app:only_animate_new_items="false"
         app:only_animate_fling="false"
         app:max_velocity="0" />

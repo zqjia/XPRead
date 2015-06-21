@@ -11,7 +11,8 @@
         android:layout_centerInParent="true"
         android:indeterminateDrawable="@drawable/progressbar_style" />
 
-    <com.xpread.stickygridheaders.StickyGridHeadersGridView
+    <!--
+          <com.xpread.stickygridheaders.StickyGridHeadersGridView
         android:id="@+id/image_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,5 +25,20 @@
         android:paddingTop="5dp"
         android:stretchMode="columnWidth"
         android:verticalSpacing="5dp"/>
+    -->
+
+    <GridView
+        android:id="@+id/image_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:columnWidth="116dp"
+        android:horizontalSpacing="3dp"
+        android:numColumns="auto_fit"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="5dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp" />
 
 </RelativeLayout>

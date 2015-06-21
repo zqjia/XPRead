@@ -14,6 +14,7 @@ import com.twotoasters.jazzylistview.JazzyListView;
 import com.xpread.R;
 import com.xpread.provider.MusicInfo;
 import com.xpread.util.Const;
+import com.xpread.util.Utils;
 
 public class MusicJazzyAdapter extends BaseAdapter {
 
@@ -70,15 +71,7 @@ public class MusicJazzyAdapter extends BaseAdapter {
         viewHolder.cover.setImageResource(R.drawable.music);
         viewHolder.title.setText(info.getTitle());
         viewHolder.singer.setText(info.getSinger());
-
-        float size = info.getSize() / Const.KILO;
-
-        if (size > Const.KILO) {
-            size /= Const.KILO;
-            viewHolder.size.setText(String.format(mContext.getResources().getString(R.string.size_MB), size));
-        } else {
-            viewHolder.size.setText(String.format(mContext.getResources().getString(R.string.size_KB), (int)size));
-        }
+        viewHolder.size.setText(Utils.getFileSizeForDisplay(info.getSize()));
 
         viewHolder.check.setImageResource(info.getIsSelected() ? R.drawable.check : R.drawable.checkbox);
         return convertView;

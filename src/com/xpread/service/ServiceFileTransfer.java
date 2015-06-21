@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager.WakeLock;
 import android.widget.Toast;
 
 import com.xpread.R;
@@ -39,6 +40,7 @@ import com.xpread.service.TokenSession.ReceiveTokenServe;
 import com.xpread.transfer.exception.FileTransferCancelException;
 import com.xpread.util.Const;
 import com.xpread.util.LaboratoryData;
+import com.xpread.util.Utils;
 //FIXME 下次重构注意点
 //1.消息对称性（不能太依赖上层实现）
 //2.WIFI管理功能
@@ -99,7 +101,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
 
     // 超时自停止
     private AtomicInteger mConnectCount;
-
     private AtomicBoolean isTimeOutDisconnect;
 
     // 自停止
@@ -302,7 +303,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
             }
             super.handleMessage(msg);
         }
-
     };
 
     @Override
@@ -367,10 +367,9 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
         }
         ServiceRequest s = ServiceRequest.createRequset(i);
         if (s == null) {
-            // Toast.makeText(mContext, "bad service request",
-            // Toast.LENGTH_SHORT).show();
             return;
         }
+        
         int requestCommand = s.getRequestType();
         if (s.getUserInfo() != null) {
             this.mUserInfo = s.getUserInfo();
@@ -384,28 +383,35 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
         switch (requestCommand) {
             case ServiceRequest.START_SERVER: {
                 startServer();
-                // mStopHandler.postDelayed(mStopSelfRunnable, STOP_SELF_DELAY);
                 break;
             }
             case ServiceRequest.ESTABLISH_CONNECTION: {
                 establishConnection();
-                // mStopHandler.postDelayed(mStopSelfRunnable, STOP_SELF_DELAY);
                 break;
             }
             case ServiceRequest.USER_INFORMATION_EXCHANGE: {
                 exchangeUserInformation();
-                // mStopHandler.postDelayed(mStopSelfRunnable, STOP_SELF_DELAY);
                 break;
             }
             case ServiceRequest.SEND_FILES: {
                 // FIXME用datadroid的request
+                /**
+                 * 在传送文件过程中，保持CPU唤醒
+                 * add by zqjia
+                 * */
+                WakeLock wakeLock = Utils.getPartialWakeLock();
+                wakeLock.acquire();
                 sendFiles(s);
-                // mStopHandler.postDelayed(mStopSelfRunnable, STOP_SELF_DELAY);
+                
+                /**
+                 * 传送完成之后释放WakeLock
+                 * add by zqjia
+                 * */
+                wakeLock.release();
                 break;
             }
             case ServiceRequest.CANCEL_FILE_SEND: {
                 cancelFile(s);
-                // mStopHandler.postDelayed(mStopSelfRunnable, STOP_SELF_DELAY);
                 break;
             }
             case ServiceRequest.DISCONNECTION: {
@@ -433,8 +439,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
         }
 
         myLog.e("service startServer");
-        // 如果wifi热点已经打开并且serverSocket已经打开
-        // if (wifiHostOpen.isOpen) {
         if (isClientConnect.get()) {
             Toast.makeText(mContext, R.string.service_is_disconnected, Toast.LENGTH_SHORT).show();
             return;
@@ -443,15 +447,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
             // Toast.makeText(mContext, "server is open before",
             // Toast.LENGTH_SHORT).show();
             return;
-        }
-
-        /*
-         * 判断wifi热点是否打开
-         */
-        boolean isWifiHostOpen = true;
-        if (!isWifiHostOpen) {
-            // Toast.makeText(mContext, "打开wifi热点", Toast.LENGTH_SHORT).show();
-            // wifiHostOpenThread.start();
         }
 
         if (!setUpServerSocketListener()) {
@@ -474,18 +469,10 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                             myLog.e("Server socket accept ..............................");
                             // FIXME 通知作为服务器，已经打开
                             isServerOpen.set(true);
-                            // 超时没有连接，自动断开服务
-                            // mStopHandler.removeCallbacks(mStopSelfRunnable);
-                            // mStopHandler.postDelayed(mStopSelfRunnable,
-                            // WAIT_CONNECT_TIME_OUT);
                             final Socket finalAccept = mServerSocket.accept();
                             myLog.e("Server Socket accept------->get a socket request...");
-                            // TODO
-                            // 文件正在传送的数量--------------------------------------------------------------
-                            // -------------------------------------------------------------------------------------
                             if (mConnectCount.get() == 3) {
                                 myLog.e("Server Socket accept-------> current connect is 3 close this request");
-                                // continue;
                             }
 
                             executeHttpSocket(finalAccept);
@@ -504,7 +491,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
 
             }
         };
-
         mServerSocketThread.start();
     }
 
@@ -863,6 +849,7 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
 
                 HTTPFileSession session = null;
                 try {
+                    //构造传送消息的session头信息
                     session = new HTTPFileSession(getSocket(), mHttpServerCommand);
                     session.setReceviceTokenRequest(ServiceFileTransfer.this);
                     session.execute();
@@ -883,9 +870,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
                     }
                     // 连接数-1
                     mConnectCount.decrementAndGet();
-                    // TODO
-                    // 文件正在传送的数量--------------------------------------------------------------
-                    // -------------------------------------------------------------------------------------
                 }
             }
         };
@@ -902,7 +886,6 @@ public class ServiceFileTransfer extends Service implements ReceviceTokenRequest
         }
         // 服务器连接建立
         isClientConnect.set(true);
-        // mStopHandler.removeCallbacks(mStopSelfRunnable);
 
         myLog.e("有用户连接----->" + tokenSocket.getSocketName() + " token连接 ");
         UPDATE.updateUI(UIUpdate.getEstableConnect(tokenSocket.getSocketName()));

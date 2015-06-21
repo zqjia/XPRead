@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import android.app.Activity;
@@ -18,16 +19,22 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.wifi.WifiManager.WifiLock;
 import android.os.Environment;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.xpread.R;
+import com.xpread.XApplication;
 
 public class Utils {
 
@@ -62,6 +69,14 @@ public class Utils {
                 .memoryCache(new WeakMemoryCache()).writeDebugLogs().build();
 
         ImageLoader.getInstance().init(config);
+    }
+    
+    public static DisplayImageOptions getDisplayOptions(int defaultDisplayId) {
+        return new DisplayImageOptions.Builder().showImageOnLoading(defaultDisplayId)
+                .showImageForEmptyUri(defaultDisplayId).showImageOnFail(defaultDisplayId)
+                .cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
+                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
     }
 
     public static byte[] createBlobData(Bitmap bitmap) {
@@ -103,9 +118,9 @@ public class Utils {
         return photo;
     }
 
-    public static String getOwnerName(Context context) {
+    public static String getOwnerName() {
         if (mPreference == null) {
-            mPreference = context.getSharedPreferences(Const.PREFERENCES_NAME,
+            mPreference = XApplication.getContext().getSharedPreferences(Const.PREFERENCES_NAME,
                     Activity.MODE_PRIVATE);
         }
 
@@ -123,30 +138,30 @@ public class Utils {
         return mPreference.getString(Const.OWNER_NAME_KEY, defaultName);
     }
 
-    public static int getOwerIcon(Context context) {
+    public static int getOwerIcon() {
         if (mPreference == null) {
-            mPreference = context.getSharedPreferences(Const.PREFERENCES_NAME,
+            mPreference = XApplication.getContext().getSharedPreferences(Const.PREFERENCES_NAME,
                     Activity.MODE_PRIVATE);
         }
 
         return mPreference.getInt(Const.OWNER_ICON_KEY, 0);
     }
 
-    public static String getDeviceId(Context context) {
+    public static String getDeviceId() {
         if (mPreference == null) {
-            mPreference = context.getSharedPreferences(Const.PREFERENCES_NAME,
+            mPreference = XApplication.getContext().getSharedPreferences(Const.PREFERENCES_NAME,
                     Activity.MODE_PRIVATE);
         }
 
         return mPreference.getString(Const.OWNER_IMEI_KEY, "");
     }
 
-    public static void saveDeviceId(Context context) {
+    public static void saveDeviceId() {
 
-        String id = getDeviceId(context);
+        String id = getDeviceId();
 
         if (TextUtils.isEmpty(id)) {
-            TelephonyManager mTm = (TelephonyManager)context
+            TelephonyManager mTm = (TelephonyManager)XApplication.getContext()
                     .getSystemService(Context.TELEPHONY_SERVICE);
             // FIXME
             /*
@@ -174,9 +189,9 @@ public class Utils {
 
     }
 
-    public static void saveUserInfo(Context context, String name, int icon) {
+    public static void saveUserInfo(String name, int icon) {
         if (mPreference == null) {
-            mPreference = context.getSharedPreferences(Const.PREFERENCES_NAME,
+            mPreference = XApplication.getContext().getSharedPreferences(Const.PREFERENCES_NAME,
                     Activity.MODE_PRIVATE);
         }
 
@@ -189,9 +204,9 @@ public class Utils {
         editor.commit();
     }
 
-    public static void saveTotalTransmission(Context context, long size) {
+    public static void saveTotalTransmission(long size) {
         if (mPreference == null) {
-            mPreference = context.getSharedPreferences(Const.PREFERENCES_NAME,
+            mPreference = XApplication.getContext().getSharedPreferences(Const.PREFERENCES_NAME,
                     Activity.MODE_PRIVATE);
         }
         Editor editor = mPreference.edit();
@@ -200,9 +215,10 @@ public class Utils {
 
     }
 
-    public static long getTotalTransmission(Context context) {
+    public static long getTotalTransmission() {
+        
         if (mPreference == null) {
-            mPreference = context.getSharedPreferences(Const.PREFERENCES_NAME,
+            mPreference = XApplication.getContext().getSharedPreferences(Const.PREFERENCES_NAME,
                     Activity.MODE_PRIVATE);
         }
 
@@ -263,5 +279,37 @@ public class Utils {
             }
         }
         return false;
+    }
+    
+    public static String getFileSizeForDisplay(float fileSize) {
+        DecimalFormat decimalFormat=new DecimalFormat("0.00");
+        if (fileSize > Const.KILO) {
+            fileSize /= Const.KILO;
+            if (fileSize > Const.KILO) {
+                fileSize /= Const.KILO;
+                if (fileSize > Const.KILO) {
+                    fileSize /= Const.KILO;
+                    return decimalFormat.format(fileSize) + "GB";
+                }
+                return decimalFormat.format(fileSize) + "MB";
+            }
+            return decimalFormat.format(fileSize) + "KB";
+        }
+        return decimalFormat.format(fileSize) + "B";
+    } 
+    
+    public static WakeLock getPartialWakeLock() {
+        Context context = XApplication.getContext();
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        WakeLock partialWaveLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Partial_WaveLock");
+        return partialWaveLock;
+    }
+    
+    public static WakeLock getScreenDimWakeLock() {
+        Context context = XApplication.getContext();
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        @SuppressWarnings("deprecation")
+        WakeLock screenDimWaveLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "ScreenDim_WaveLock");
+        return screenDimWaveLock;
     }
 }

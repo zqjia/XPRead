@@ -139,7 +139,7 @@ public class WaUtils {
 
     // 获取设备id
     public static String getDeviceId() {
-        String id = Utils.getDeviceId(mContext);
+        String id = Utils.getDeviceId();
         if (TextUtils.isEmpty(id)) {
             return "000000000000000";
         }

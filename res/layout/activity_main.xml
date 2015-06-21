@@ -68,8 +68,8 @@
                 android:layout_height="@dimen/user_opra_height"
                 android:layout_alignParentBottom="true"
                 android:background="#fafafa"
-                android:orientation="horizontal"
-                android:gravity="center_vertical" >
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
 
                 <com.xpread.widget.RoundImageButton
                     android:id="@+id/send_button"
@@ -102,7 +102,6 @@
                     imagecontrol:text="@string/receive_button"
                     imagecontrol:text_color="@color/receive_button_text_color"
                     imagecontrol:text_size="@dimen/user_opra_button_textsize" />
-
             </LinearLayout>
 
             <TextView
@@ -227,29 +226,26 @@
                 android:layout_alignTop="@id/user_info"
                 android:background="@drawable/shadow_up" />
 
-            <FrameLayout 
+            <FrameLayout
                 android:id="@+id/history_layout"
                 android:layout_width="@dimen/user_history_icon_side"
                 android:layout_height="@dimen/user_history_icon_side"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@id/user_opra"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="@dimen/user_history_icon_top"
-                >
-                
+                android:layout_marginTop="@dimen/user_history_icon_top" >
+
                 <com.xpread.widget.HistoryBackgroundView
                     android:id="@+id/history_background"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
-                
+                    android:layout_height="match_parent" />
+
                 <ImageView
                     android:id="@+id/history"
                     android:layout_width="@dimen/user_history_icon_size"
                     android:layout_height="@dimen/user_history_icon_size"
                     android:layout_gravity="center"
-                    android:background="@drawable/icon_history"
-                    /> 
+                    android:background="@drawable/icon_history" />
             </FrameLayout>
         </RelativeLayout>
 

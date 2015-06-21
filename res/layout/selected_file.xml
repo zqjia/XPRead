@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:roboto="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="350dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/white"
+        android:orientation="vertical" >
+
+        <com.xpread.widget.RobotoTextView
+            android:id="@+id/select_file_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1E90FF" />
+
+        <com.twotoasters.jazzylistview.JazzyListView
+            android:id="@+id/select_file_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fafafa"
+            app:effect="cards"
+            app:max_velocity="0"
+            app:only_animate_fling="false"
+            app:only_animate_new_items="false" />
+    </LinearLayout>
+
+</RelativeLayout>

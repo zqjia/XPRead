@@ -44,5 +44,5 @@
 	<color name="disconnect_button_border_color">#ef431b</color>
 	<color name="disconnect_button_text_color">#ef431b</color>
 	
-	
+	<color name="music_controller_dialog_background_color">#00000000</color>
 </resources>

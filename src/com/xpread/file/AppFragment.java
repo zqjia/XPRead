@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.twotoasters.jazzylistview.JazzyGridView;
 import com.uc.base.wa.WaEntry;
 import com.xpread.R;
 import com.xpread.provider.FileBean;
@@ -40,41 +41,27 @@ public class AppFragment extends BackHandledFragment implements OnItemClickListe
     private static final String TAG = "AppFragment";
 
     File sourceFile;
-
     private AppAdapter mAppAdapter;
-
-    private GridView mAppGridView;
-
+    private JazzyGridView mAppGridView;
     private ProgressBar mLoadingBar;
 
     class AppInfo {
         String appName;
-
         String sourceDir;
-
         Bitmap appIcon;
-
         long appSize;
-
         boolean selected;
     }
 
     ArrayList<AppInfo> mParticalAppList = new ArrayList<AppInfo>();
-
     ArrayList<AppInfo> mTotalAppList = new ArrayList<AppInfo>();
-
     private AtomicBoolean mIsPartialDataLoadFinished = new AtomicBoolean(false);
-
     private AtomicBoolean mIsTotalDataLoadFinished = new AtomicBoolean(false);
-
     private AtomicBoolean mIsVisibleToUser = new AtomicBoolean(false);
-
     private AtomicBoolean mIsFirstCreate = new AtomicBoolean(true);
-
     private AtomicBoolean mIsRefreshUiInHandler = new AtomicBoolean(false);
 
     private static final int PARTIAL_DATA_LOAD_FINISH = 0X0100;
-
     private static final int TOTAL_DATA_LOAD_FINISH = 0X0200;
 
     private Handler mHandler = new Handler() {
@@ -126,7 +113,7 @@ public class AppFragment extends BackHandledFragment implements OnItemClickListe
         new GetAppDataThread().start();
 
         mLoadingBar = (ProgressBar)view.findViewById(R.id.image_loading);
-        mAppGridView = (GridView)view.findViewById(R.id.apps_list);
+        mAppGridView = (JazzyGridView)view.findViewById(R.id.apps_list);
         mAppAdapter = new AppAdapter(this.mParticalAppList);
         mAppGridView.setAdapter(mAppAdapter);
         mAppGridView.setOnItemClickListener(this);
@@ -143,8 +130,12 @@ public class AppFragment extends BackHandledFragment implements OnItemClickListe
         file.uri = info.sourceDir;
         file.fileName = info.appName;
         file.type = Const.TYPE_APP;
-//        file.icon = Utils.createBlobData(((BitmapDrawable)info.appIcon).getBitmap());
         file.icon = Utils.createBlobData(info.appIcon);
+        
+        //为显示选中文件列表准备
+        //add by zqjia
+        file.setThumbImage(info.appIcon);
+        file.setSize(info.appSize);
 
         if (info.selected) {
             ((FilePickActivity)getActivity()).updateSelectCount(file, false);
@@ -225,17 +216,7 @@ public class AppFragment extends BackHandledFragment implements OnItemClickListe
                 viewHolder.appIcon.setImageResource(R.drawable.app);
             }
             viewHolder.appSelectIcon.setVisibility(appInfo.selected ? View.VISIBLE : View.GONE);
-
-            float size = appInfo.appSize / Const.KILO;
-            if (size >= Const.KILO) {
-                size /= Const.KILO;
-                viewHolder.appSize.setText(String.format(
-                        getResources().getString(R.string.size_MB), size));
-            } else {
-                viewHolder.appSize.setText(String.format(
-                        getResources().getString(R.string.size_KB), (int)size));
-            }
-
+            viewHolder.appSize.setText(Utils.getFileSizeForDisplay(appInfo.appSize));
             return convertView;
         }
 

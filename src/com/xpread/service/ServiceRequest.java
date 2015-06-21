@@ -10,35 +10,21 @@ import com.xpread.provider.UserInfo;
 
 public class ServiceRequest {
     private static final String FILES_LIST = "files_list";
-
     private static final String FILE_PATH = "file_path";
-
     private static final String FILE_NAME = "file_name";
-
     private final static String REQUEST_COMMAND = "request_command";
-
     private final static String USER_INFO = "user_info";
-
     public final static int START_SERVER = 0;
-
     public final static int ESTABLISH_CONNECTION = 100;
-
     public final static int DISCONNECTION = 101;
-
     public final static int USER_INFORMATION_EXCHANGE = 200;
-
     public final static int SEND_FILES = 300;
-
     public final static int CANCEL_FILE_SEND = 400;
 
     private ArrayList<String> mFileList;
-
     private ArrayList<String> mFileName;
-
     private String mFilePath;
-
     private int mRequestType;
-
     private UserInfo mUserInfo;
 
     public static Intent toIntent(Context context, ServiceRequest s) {

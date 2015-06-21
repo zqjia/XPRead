@@ -122,7 +122,6 @@ public class FileUtil {
         }
 
         int fileSize = (int)file.length();
-
         return fileSize;
     }
 

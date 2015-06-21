@@ -46,13 +46,8 @@ public class HTTPFileSession extends HTTPSession {
                 return new HTTPResponse(Status.NOT_FOUND, MIME_HTML, filePath
                         + " user utf-8 to encode");
             }
-//            Log.e("***********************", "file = " + filePath);
             File file = new File(filePath);
             if (!file.exists()) {
-//                Log.e("***********************", "file = " + filePath);
-                // TODO
-                // 发送文件不存在
-                // --------------------------------------------------
                 return new HTTPResponse(Status.NOT_FOUND, MIME_HTML, filePath + " not found");
             }
 

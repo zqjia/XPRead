@@ -50,7 +50,6 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.uc.base.wa.WaEntry;
 import com.xpread.control.Controller;
-import com.xpread.control.Controller.NetworkStateChangeListener;
 import com.xpread.control.WifiAdmin;
 import com.xpread.control.WifiAdmin.ScanResultListener;
 import com.xpread.control.WifiApAdmin;
@@ -92,7 +91,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private RobotoTextView mFriendSixName;
 
     private ImageView mBackView;
-
     private Controller mController;
 
     private WifiAdmin mWifiAdmin;
@@ -100,16 +98,12 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
 
     private ArrayList<ScanResult> mFriendsList;
 
-    private final int FRIENDLIST_MSG = 1;
+    private static final int FRIENDLIST_MSG = 1001;
 
     private final String FRIENDLIST_KEY = "friend_list";
 
     private Timer mTimer;
     private ScanFriendTask mTimerTask;
-
-    private static final int TYPE_WPA = 3;
-
-    private static final String PASSWORD = "123456789";
 
     private HashMap<ImageView, FriendEntity> mFriendMap;
 
@@ -134,11 +128,9 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private int mFriendButtonClickCount = 0;
 
     private final String INTENT_TYPE = "type";
-
-    private final int WAIT_CONNECTTED = 0x0010;
     private final int SEARCH_TIME_OUT = 0x0011;
 
-    private NetworkStateChangeListener mNetworkStateChangeListener = new NetworkStateChangeListener() {
+/*    private NetworkStateChangeListener mNetworkStateChangeListener = new NetworkStateChangeListener() {
 
         @Override
         public void stateChangeListener(int state) {
@@ -148,7 +140,7 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
             }
         }
 
-    };
+    };*/
 
     private ImageView[] mFriendIconArray = {
             mFriendOneIcon, mFriendTwoIcon, mFriendThreeIcon, 
@@ -179,6 +171,13 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     private Handler mHandler = new MyHandler(this);
 
     @Override
+    protected void refreshEstablish() {
+        super.refreshEstablish();
+        Intent intent = new Intent(SearchFriendActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -192,8 +191,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
         this.mWifiAdmin = this.mController.getWifiAdmin();
 
         this.mWifiApAdmin = this.mController.getWifiApAdmin();
-        Controller.getInstance(getApplicationContext()).setNetworkStateChangeListener(
-                mNetworkStateChangeListener);
 
         // 超时机制,扫描其他用户1分钟后,可选用户仍为空即为超时
         mHandler.sendEmptyMessageDelayed(SCAN_TIMEOUT, 1 * 60 * 1000);
@@ -221,7 +218,7 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
         mFriendIconArray[5].setOnClickListener(this);
 
         mUserIcon = (RoundImageView)findViewById(R.id.user_icon);
-        mUserIcon.setImageResource(Utils.photos[Utils.getOwerIcon(this)]);
+        mUserIcon.setImageResource(Utils.photos[Utils.getOwerIcon()]);
 
         this.mBackView = (ImageView)this.findViewById(R.id.back);
         this.mBackView.setOnClickListener(new OnClickListener() {
@@ -393,7 +390,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
             WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_CONNECT_SELECT_ONE);
 
             if (connectedSsid == null || (connectedSsid != null && !connectedSsid.equals(ssid))) {
-                // TODO
                 // 开始wifi打开计时--------------------------------------------------------------
                 LaboratoryData.gWifiEstablishBeginTime = System.currentTimeMillis();
                 LaboratoryData.addOne(LaboratoryData.KEY_XPREAD_DATA_WIFI_ESTABLISH_TOTAL_COUNT);
@@ -401,15 +397,13 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                 if (connectedSsid != null) {
                     mWifiAdmin.disconnectCurrentWifi();
                 }
-                // TODO
-                // wifi 连接次数 +
-                // 1--------------------------------------------------------------
-                // --------------------------------------------------------------------------------
-                if (mWifiAdmin.connectFriend(ssid, PASSWORD, TYPE_WPA)) {
+                
+                if (mWifiAdmin.connectFriend(ssid, Const.TYPE_WPA)) {
                     LogUtil.l(Log.ERROR, "connect to friend success");
                 } else {
                     LogUtil.l(Log.ERROR, "connect to friend fail");
                 }
+                
                 Toast.makeText(this, getResources().getString(R.string.connect_is_connecting),
                         Toast.LENGTH_LONG).show();
 
@@ -417,7 +411,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                         friendEntity.deviceId);
                 mController.getUerInfo().setConnectedFriendSsid(ssid);
 
-                //FIXME
                 //改变交互逻辑，点击连接好友后跳转到等待连接界面
                 Intent intent = new Intent(SearchFriendActivity.this, WaitConnectActivity.class);
                 startActivity(intent);
@@ -438,7 +431,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
     }
 
     private boolean openWifi() {
-
         int wifiState = this.mWifiAdmin.getWifiState();
         if (wifiState == WifiManager.WIFI_STATE_ENABLED
                 || wifiState == WifiManager.WIFI_STATE_ENABLING) {
@@ -500,7 +492,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                 mFriendIconArray[i].setTag(FRIEND_BUTTON_STATE_HAVENOT_CLICK);
             }
         }
-
     }
 
     @Override
@@ -637,7 +628,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                         break;
 
                     case FRIENDLIST_MSG:
-
                         if (mTimerTask == null)
                             break;
 
@@ -782,8 +772,6 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                                             cursor.close();
                                         }
 
-                                        final int index = displayIndex;
-
                                         YoYo.with(Techniques.DropOut).duration(1000)
                                                 .withListener(new Animator.AnimatorListener() {
 
@@ -799,8 +787,7 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
 
                                                     @Override
                                                     public void onAnimationEnd(Animator arg0) {
-                                                        YoYo.with(Techniques.Wobble).duration(1000)
-                                                                .playOn(mFriendIconArray[index]);
+
                                                     }
 
                                                     @Override
@@ -824,8 +811,7 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
 
                                                     @Override
                                                     public void onAnimationEnd(Animator arg0) {
-                                                        YoYo.with(Techniques.Wobble).duration(1000)
-                                                                .playOn(mFriendNameArray[index]);
+
                                                     }
 
                                                     @Override
@@ -843,9 +829,7 @@ public class SearchFriendActivity extends BaseActivity implements View.OnClickLi
                                 if (isFind && j < mFriendIconArray.length - 1) {
                                     break;
                                 } else if (j == mFriendIconArray.length - 1) {
-                                    // Toast.makeText(getParent(),
-                                    // R.string.connect_search_cross_the_border,
-                                    // Toast.LENGTH_SHORT).show();
+                                    
                                 }
                             }
                         }

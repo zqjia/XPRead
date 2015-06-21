@@ -29,23 +29,17 @@ public class TotalFileProgress {
     // 主界面进度更新数据
     // 接收
     private long mReceiveTotalSize = 0;
-
     private long mHasReceiveSize = 0;
-
     private Map<String, Integer> mReceiveFileMap = new HashMap<String, Integer>();
 
     // 发送
     private long mSendTotalSize = 0L;
-
     private long mHasSendSize = 0L;
-
     private Map<String, Integer> mSendFileMap = new HashMap<String, Integer>();
-
     private Map<String, Integer> mFileCurrentProgress = new HashMap<String, Integer>();
 
     // total transfer size (byte)
     private long mTotalTransmission = -1L;
-
     private Context mContext;
 
     public TotalFileProgress(Context context) {
@@ -95,9 +89,6 @@ public class TotalFileProgress {
     public void refreshInitProgress(String filePath, int fileSize, int fileState, int update) {
         int size = 0;
         if (mReceiveFileMap.containsKey(filePath) && mFileCurrentProgress.containsKey(filePath)) {
-            // Log.i("-----------updateTotalProgress-------", " fp = " +
-            // filePath + " s = " + size
-            // + " state = " + fileState + " update " + update);
             size = mReceiveFileMap.get(filePath);
             int progress = mFileCurrentProgress.get(filePath);
             if (fileState == Const.FILE_TRANSFER_CANCEL
@@ -118,9 +109,6 @@ public class TotalFileProgress {
             }
 
         } else if (mSendFileMap.containsKey(filePath) && mFileCurrentProgress.containsKey(filePath)) {
-            // Log.i("-----------updateTotalProgress-------", " fp = " +
-            // filePath + " s = " + size
-            // + " state = " + fileState + " update " + update);
             size = mSendFileMap.get(filePath);
             int progress = mFileCurrentProgress.get(filePath);
             if (fileState == Const.FILE_TRANSFER_CANCEL
@@ -158,8 +146,6 @@ public class TotalFileProgress {
                 mSendTotalSize += size;
                 mSendFileMap.put(path, size);
                 mFileCurrentProgress.put(path, 0);
-                // Log.i("-----------addTotalProgress--------------- ",
-                // mSendFileMap.toString());
                 break;
             case Const.RECEIVER:
                 mReceiveTotalSize += size;
@@ -192,9 +178,6 @@ public class TotalFileProgress {
                         return;
                     }
                     int p = (int)((100 * mHasSendSize / mSendTotalSize));
-                    // Log.e("------------------------------", " S------" + p +
-                    // " h = " + mHasSendSize
-                    // + " t = " + mSendTotalSize);
                     mRefreshInitProgress.refreshInitProgress(p, Const.SENDER);
                 }
 
@@ -206,9 +189,6 @@ public class TotalFileProgress {
                         return;
                     }
                     int p = (int)((100 * mHasReceiveSize / mReceiveTotalSize));
-                    // Log.e("------------------------------", " R------" + p +
-                    // " h = "
-                    // + mHasReceiveSize + " t = " + mReceiveTotalSize);
                     mRefreshInitProgress.refreshInitProgress(p, Const.RECEIVER);
                 }
 
@@ -241,19 +221,19 @@ public class TotalFileProgress {
             throw new IllegalArgumentException("value can not be negative");
         }
         if (addValue != 0) {
-            long temp = Utils.getTotalTransmission(mContext);
+            long temp = Utils.getTotalTransmission();
             if (temp > mTotalTransmission) {
                 mTotalTransmission = temp;
             }
             mTotalTransmission += addValue;
-            Utils.saveTotalTransmission(mContext, mTotalTransmission);
+            Utils.saveTotalTransmission(mTotalTransmission);
         }
         return mTotalTransmission;
     }
 
     public long getTotalTransmission() {
         if (mTotalTransmission <= 0) {
-            mTotalTransmission = Utils.getTotalTransmission(mContext);
+            mTotalTransmission = Utils.getTotalTransmission();
         }
         return mTotalTransmission;
     }
@@ -266,8 +246,6 @@ public class TotalFileProgress {
         // 清空数据
         mHasSendSize = 0L;
         mSendTotalSize = 0L;
-        // mSendFileMap.clear();
-        // Log.e("send clear", "----------------------------------------");
     }
 
     private void clearReceiveState() {
@@ -278,8 +256,6 @@ public class TotalFileProgress {
         // 清空数据
         mHasReceiveSize = 0L;
         mReceiveTotalSize = 0L;
-        // mReceiveFileMap.clear();
-        // Log.e("receive clear", "----------------------------------------");
     }
 
     public void clear() {

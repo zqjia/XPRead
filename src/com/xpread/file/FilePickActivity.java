@@ -1,12 +1,14 @@
-
 package com.xpread.file;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -20,6 +22,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -29,15 +32,21 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.download.ImageDownloader.Scheme;
 import com.uc.base.wa.WaEntry;
-import com.xpread.MainActivity;
 import com.xpread.R;
-import com.xpread.RecordsActivity;
+import com.xpread.RecordsActivity1;
 import com.xpread.SearchFriendActivity;
+import com.xpread.adapter.CustomAdapter;
+import com.xpread.adapter.CustomViewHolder;
 import com.xpread.adapter.TabPagerAdapter;
 import com.xpread.control.Controller;
 import com.xpread.control.WifiAdmin;
@@ -58,7 +67,7 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
     private Button mSelectedButton;
     private Button mSendButton;
     private HorizontalScrollView mHorizontalScrollView;
-    
+
     TextView mAppLabel;
     TextView mImageLabel;
     TextView mMusicLabel;
@@ -66,9 +75,7 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
     TextView mFileLabel;
 
     View mViewDivider;
-
     int minWidth;
-
     int mCurrentIndex = 0;
 
     private ArrayList<Fragment> mFragmentsList;
@@ -80,11 +87,16 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
 
     // FIXME test animation
     private CircleAnimation mCircleAnimation;
-
     private RelativeLayout mRootView;
 
     private HomeWatcher mHomeWatcher;
     private Controller mController;
+
+    // select file dialog
+    private Dialog mSelectedFileDialog;
+    private RelativeLayout mSelectedFileLayout;
+    private TextView mSelectedFileTitleTextView;
+    private ListView mSelectedFileListView;
 
     public static final int WIFI_AP_STATE_DISABLING = 10;
     public static final int WIFI_AP_STATE_DISABLED = 11;
@@ -113,14 +125,12 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.file_picker);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        minWidth = (int)(dm.widthPixels / 5);
+        minWidth = (int) (dm.widthPixels / 5);
         initView();
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
@@ -135,13 +145,23 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
     }
 
     private void initView() {
-        mHorizontalScrollView = (HorizontalScrollView)findViewById(R.id.tab_scroll);
+        mHorizontalScrollView = (HorizontalScrollView) findViewById(R.id.tab_scroll);
 
-        mSelectedButton = (Button)findViewById(R.id.select_files);
+        mSelectedButton = (Button) findViewById(R.id.select_files);
         mSelectedButton.setText(String.format(getResources().getString(R.string.file_selected), 0));
         mSelectedButton.setEnabled(false);
+        mSelectedButton.setOnClickListener(new OnClickListener() {
 
-        mSendButton = (Button)findViewById(R.id.send_files);
+            @Override
+            public void onClick(View v) {
+                initSelectedFileDialog();
+                
+                mSelectedFileDialog.show();
+                mSelectedFileDialog.getWindow().setContentView(mSelectedFileLayout);
+            }
+        });
+
+        mSendButton = (Button) findViewById(R.id.send_files);
         mSendButton.setEnabled(false);
         mSendButton.setOnClickListener(new OnClickListener() {
 
@@ -167,13 +187,11 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
                 if (controller.isConnected()) {
                     controller.handleTransferFiles();
                     controller.sendFiles();
-
-//                    Intent intent = new Intent(FilePickActivity.this, MainActivity.class);
-//                    intent.putExtra(INTENT_TYPE, SEND_FILE);
+                    
                     /**
                      * 交互改变，如果已经连接则跳转到传输介面
                      * */
-                    Intent intent = new Intent(FilePickActivity.this, RecordsActivity.class);
+                    Intent intent = new Intent(FilePickActivity.this, RecordsActivity1.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(FilePickActivity.this, SearchFriendActivity.class);
@@ -183,11 +201,11 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
 
         });
 
-        mAppLabel = (TextView)findViewById(R.id.app_label);
-        mImageLabel = (TextView)findViewById(R.id.image_label);
-        mMusicLabel = (TextView)findViewById(R.id.music_label);
-        mVideoLabel = (TextView)findViewById(R.id.video_label);
-        mFileLabel = (TextView)findViewById(R.id.file_label);
+        mAppLabel = (TextView) findViewById(R.id.app_label);
+        mImageLabel = (TextView) findViewById(R.id.image_label);
+        mMusicLabel = (TextView) findViewById(R.id.music_label);
+        mVideoLabel = (TextView) findViewById(R.id.video_label);
+        mFileLabel = (TextView) findViewById(R.id.file_label);
 
         mLabelLists = new ArrayList<TextView>();
         mLabelLists.clear();
@@ -201,22 +219,23 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
             mLabelLists.get(i).setMinimumWidth(minWidth);
             mLabelLists.get(i).setOnClickListener(new LableOnClick(i));
             mLabelLists.get(i).setTextColor(
-                    i == mCurrentIndex ? getResources().getColor(R.color.title_color_checked)
+                    i == mCurrentIndex
+                            ? getResources().getColor(R.color.title_color_checked)
                             : getResources().getColor(R.color.title_color_unchecked));
         }
 
         mViewDivider = findViewById(R.id.divider);
-        LayoutParams params = (LayoutParams)mViewDivider.getLayoutParams();
+        LayoutParams params = (LayoutParams) mViewDivider.getLayoutParams();
         params.leftMargin = minWidth * mCurrentIndex + minWidth / 2 - params.width / 2;
         mViewDivider.setLayoutParams(params);
 
-        mPager = (ViewPager)findViewById(R.id.pager);
+        mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setOffscreenPageLimit(4);
         mFragmentsList = new ArrayList<Fragment>();
         mFragmentsList.clear();
         Fragment appFragment = new AppFragment();
         mFragmentsList.add(appFragment);
-        Fragment imageFragment = new ImageFragment1();
+        Fragment imageFragment = new ImageFragment2();
         mFragmentsList.add(imageFragment);
         Fragment musicFragment = new MusicFragment1();
         mFragmentsList.add(musicFragment);
@@ -228,11 +247,11 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
         mPager.setAdapter(new TabPagerAdapter(getSupportFragmentManager(), mFragmentsList));
         mPager.setCurrentItem(mCurrentIndex);
         mPager.setOnPageChangeListener(new UOnPageChangeListener());
-        
-        //设置ViewPager滑动时的动画效果
+
+        // 设置ViewPager滑动时的动画效果
         mPager.setPageTransformer(true, new AlphaPageTransfer());
 
-        ImageView back = (ImageView)findViewById(R.id.back);
+        ImageView back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -249,8 +268,8 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
         } else {
             mSelectFile.remove(file);
         }
-        String content = String.format(getResources().getString(R.string.file_selected),
-                mSelectFile.size());
+        String content =
+                String.format(getResources().getString(R.string.file_selected), mSelectFile.size());
         if (mSelectFile.size() > 0) {
             SpannableString ss = new SpannableString(content);
             int start = content.indexOf("(");
@@ -263,6 +282,7 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
         }
 
         mSendButton.setEnabled(mSelectFile.size() > 0);
+        mSelectedButton.setEnabled(mSelectFile.size() > 0);
     }
 
     class LableOnClick implements OnClickListener {
@@ -426,7 +446,8 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
 
             for (int i = 0; i < mLabelLists.size(); i++) {
                 mLabelLists.get(i).setTextColor(
-                        i == position ? getResources().getColor(R.color.title_color_checked)
+                        i == position
+                                ? getResources().getColor(R.color.title_color_checked)
                                 : getResources().getColor(R.color.title_color_unchecked));
             }
         }
@@ -436,7 +457,6 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
     /*
      * 继承 BackHandledInterface 实现fragment的back事件自定义
      */
-
     @Override
     public void setSelectedFragment(BackHandledFragment selectedFragment) {
         this.mBackHandedFragment = selectedFragment;
@@ -475,7 +495,6 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
                 /*
                  * resore the wifi state before open the app
                  */
-
                 if (LogUtil.isLog) {
                     Log.e(TAG, "home key listener is capture");
                 }
@@ -563,4 +582,52 @@ public class FilePickActivity extends FragmentActivity implements BackHandledInt
         }
     }
 
+    private void initSelectedFileDialog() {
+        mSelectedFileDialog = new AlertDialog.Builder(this).create();
+        mSelectedFileDialog.setCanceledOnTouchOutside(true);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        mSelectedFileLayout = (RelativeLayout)layoutInflater.inflate(R.layout.selected_file, null, false);
+        mSelectedFileTitleTextView =
+                (TextView) mSelectedFileLayout.findViewById(R.id.select_file_title);
+        mSelectedFileListView = (ListView) mSelectedFileLayout.findViewById(R.id.select_file_list);
+        
+        mSelectedFileTitleTextView.setText("total " + mSelectFile.size() + " file");
+        mSelectedFileListView.setAdapter(new CustomAdapter<FileBean>(
+                FilePickActivity.this, mSelectFile, R.layout.selected_file_item) {
+
+            private DisplayImageOptions options = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.classimage)
+                    .showImageForEmptyUri(R.drawable.classimage)
+                    .showImageOnFail(R.drawable.classimage).cacheInMemory(true)
+                    .cacheOnDisk(true).considerExifParams(true)
+                    .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+                    .bitmapConfig(Bitmap.Config.RGB_565).build();
+
+            @Override
+            public void convert(CustomViewHolder viewHolder, FileBean item) {
+                ImageView selectedFileThumbImage = viewHolder.getView(R.id.select_file_thumb_image);
+                Object thumbImage = item.getThumbImage();
+                if (thumbImage instanceof String) {
+                    ImageLoader.getInstance().displayImage(Scheme.FILE.wrap((String)thumbImage),
+                        selectedFileThumbImage, options, null);
+                } else if (thumbImage instanceof Bitmap) {
+                    selectedFileThumbImage.setImageBitmap((Bitmap)thumbImage);
+                } else if (thumbImage instanceof Integer) {
+                    int thumbImageId = (Integer)thumbImage;
+                    if (thumbImageId != -1) {
+                        selectedFileThumbImage.setImageResource(thumbImageId);
+                    } else {
+                        selectedFileThumbImage.setImageResource(R.drawable.classimage);
+                    }
+                }
+                
+                TextView selectedFileName = viewHolder.getView(R.id.selected_file_name);
+                selectedFileName.setText(item.getFileName());
+                
+                TextView selectedFileSize = viewHolder.getView(R.id.selected_file_size);
+                selectedFileSize.setText(item.getSize() + "");
+                
+            }
+        });
+    }
 }

@@ -48,7 +48,6 @@ public class XApplication extends Application {
                 xpreadDataWaConfig.init(WaConfig.LEVEL_BUSINESS);
                 WaEntry.initPutCategorieId(WaKeys.CATEGORY_XPREAD_DATA, xpreadDataWaConfig);
 
-                // 全局自动上传的数据
                 String[] heads = {
                         WaDef.KEY_SYSTEM_HEAD_VER, WaDef.KEY_SYSTEM_HEAD_IMSI
                 };
@@ -62,7 +61,6 @@ public class XApplication extends Application {
                     @Override
                     public void onInvoked(int type, String category, InvokeHelper invokeHelper) {
 
-                        // 只是用来记录上传前日志文件占用空间，所以不用操作invokeHelper
                         if (type == WaListenerInterface.INVOKED_TYPE_UPLOADING) {
                             long size = caculateDirSize(WaConfig.getWaDir());
                             WaEntry.statEv(WaDef.CATEGORY_FORCED, WaBodyBuilder.newInstance()

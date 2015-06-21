@@ -9,6 +9,7 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -57,6 +58,7 @@ import com.xpread.adapter.IconAdapter;
 import com.xpread.control.Controller;
 import com.xpread.control.Controller.FileReceiveNoticeListener;
 import com.xpread.control.Controller.NetworkStateChangeListener;
+import com.xpread.control.MobileNetworkManager;
 import com.xpread.control.WifiAdmin;
 import com.xpread.control.WifiApAdmin;
 import com.xpread.file.FilePickActivity;
@@ -81,7 +83,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
     private RoundImageButton mSendButton;
     private RoundImageButton mReceiveButton;
-//    private RoundImageButton mDisconnectButton;
 
     private RelativeLayout mUserInfoLayout;
     private RelativeLayout mConnectedUserInfoLayout;
@@ -105,7 +106,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     TextView mGuestName;
 
     RelativeLayout mContentLayout;
-//    ImageView mHistoryBackground;
 
     private static final float COLUM_NUMBER = 4.5f;
 
@@ -134,38 +134,61 @@ public class MainActivity extends BaseActivity implements OnClickListener {
             "com.android.vending.AssetBrowserActivity";
     private static final String APK_URL =
             "https://play.google.com/store/apps/details?id=com.xpread";
-    private static final int FILE_RECEIVE_REPEAT_TIMES = 2;
+    private static final String DRAWER_BOTTOM_TEXT_PREFIX = "Transfer ";
+    private static final String DRAWER_BOTTOM_TEXT_SUFFIX = " Data";
 
     private boolean mIsNameValid = false;
 
     private Timer mWaitConnectTimer = new Timer();
     private TimerTask mWaitConnectTask;
-    
+
     private HistoryBackgroundView mHistoryBackgroundView;
-    
-    //Animations
+    private View mHistoryLayout;
+
+    // Animations
     private static final int ANIMATOR_DURATION = 800;
     private static final int SCALE_REPEAT_COUNT = 2;
     private AnimatorSet mHistoryAnimatorSet;
     private ObjectAnimator mHistoryScaleXAnimator;
     private ObjectAnimator mHistoryScaleYAnimator;
     private ObjectAnimator mHistoryBackgroundColorAnimator;
-    
+
     FileReceiveNoticeListener mFileReceiveNoticeListener = new FileReceiveNoticeListener() {
 
         @Override
         public void animationStart() {
-            mHistoryAnimatorSet.play(mHistoryScaleXAnimator)
-                               .with(mHistoryScaleYAnimator)
-                               .with(mHistoryBackgroundColorAnimator);
-            mHistoryAnimatorSet.start();
+            if (!mHistoryBackgroundView.getColor().toUpperCase(Locale.getDefault())
+                    .equals(HistoryBackgroundView.END_COLOR)) {
+                mHistoryAnimatorSet.play(mHistoryScaleXAnimator).with(mHistoryScaleYAnimator)
+                        .with(mHistoryBackgroundColorAnimator);
+                mHistoryAnimatorSet.start();
+            }
         }
     };
-
-    NetworkStateChangeListener mNetworkStateChangeListener = new NetworkStateChangeListener() {
+    
+/*    NetworkStateChangeListener mNetworkStateChangeListener = new NetworkStateChangeListener() {
 
         @Override
         public void stateChangeListener(int state) {
+            
+            switch (state) {
+                case Const.REFRESH_USER_INFO: 
+                    UserInfo targetUserInfo = mController.getTargetInfo();
+                    if (targetUserInfo != null) {
+                        mGuestIcon.setImageDrawable(mPhotos.get(targetUserInfo.getPictureID()));
+                        mGuestName.setText(targetUserInfo.getUserName());
+                    }
+                    break;
+                case Const.REFRESH_DISCONNECTION:
+                    if (LogUtil.isLog) {
+                        Log.e(TAG, "--------->recieve the disconnect message");
+                    }
+                    resetDefaultState();
+                    break;
+                default:
+                    break;
+            }
+            
             if (state == Const.REFRESH_USER_INFO) {
                 UserInfo targetUserInfo = mController.getTargetInfo();
                 if (targetUserInfo != null) {
@@ -174,11 +197,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 }
                 return;
             }
+            
             if (state == Const.REFRESH_DISCONNECTION) {
                 if (LogUtil.isLog) {
                     Log.e(TAG, "--------->recieve the disconnect message");
                 }
                 resetDefaultState();
+                
+                //如果移动网络没有打开，则打开移动网络
+                if (!MobileNetworkManager.getMobileNetworkState()) {
+                    MobileNetworkManager.setMobileNetworkState(true);
+                }
 
             } else if (state == Const.REFRESH_ESTIBALE) {
 
@@ -190,8 +219,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 boolean isConnected = true;
                 changeViewState(isConnected);
                 changeWaitCircleState(isConnected);
-                
-                mOwerIcon.setImageDrawable(mPhotos.get(Utils.getOwerIcon(MainActivity.this)));
+
+                mOwerIcon.setImageDrawable(mPhotos.get(Utils.getOwerIcon()));
                 UserInfo targetUserInfo = mController.getTargetInfo();
                 if (targetUserInfo != null) {
                     mGuestIcon.setImageDrawable(mPhotos.get(targetUserInfo.getPictureID()));
@@ -201,10 +230,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_CONNECT_SUCESS);
             }
         }
-    };
-    
+    };*/
+
     private final int WAIT_CONNECTTED_ANIMATION = 0x0101;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
 
         @Override
@@ -264,6 +294,25 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     };
 
     @Override
+    protected void refreshUserInfo() {
+        super.refreshUserInfo();
+        UserInfo targetUserInfo = mController.getTargetInfo();
+        if (targetUserInfo != null) {
+            mGuestIcon.setImageDrawable(mPhotos.get(targetUserInfo.getPictureID()));
+            mGuestName.setText(targetUserInfo.getUserName());
+        }
+    }
+
+    @Override
+    protected void refreshDisconnected() {
+        super.refreshDisconnected();
+        if (LogUtil.isLog) {
+            Log.e(TAG, "--------->recieve the disconnect message");
+        }
+        resetDefaultState();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -276,12 +325,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         WaEntry.handleMsg(WaEntry.MSG_UPLOAD_FILE);
         // -------------------------------------------------------------------------------------
         this.mController = Controller.getInstance(getApplicationContext());
-        iconId = Utils.getOwerIcon(getApplicationContext());
+        iconId = Utils.getOwerIcon();
 
         initIcons();
-
         initView();
-
         initAnimation();
 
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -295,21 +342,18 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         mReceiveButton = (RoundImageButton) findViewById(R.id.receive_button);
         mReceiveButton.setOnClickListener(this);
 
-//        mDisconnectButton = (RoundImageButton) findViewById(R.id.disconnect_button);
-//        mDisconnectButton.setOnClickListener(this);
-
         mFaceImage = (RoundImageView) findViewById(R.id.user_icon);
-        mFaceImage.setImageDrawable(mPhotos.get(Utils.getOwerIcon(this)));
+        mFaceImage.setImageDrawable(mPhotos.get(Utils.getOwerIcon()));
         mFaceImage.setOnClickListener(this);
 
         mUserName = (TextView) findViewById(R.id.user_name);
-        mUserName.setText(Utils.getOwnerName(this));
+        mUserName.setText(Utils.getOwnerName());
         mUserName.setOnClickListener(this);
 
         mUserHistory = (ImageView) findViewById(R.id.history);
-        mUserHistory.setOnClickListener(this);
-//        mHistoryBackground = (ImageView) findViewById(R.id.history_background);
-        mHistoryBackgroundView = (HistoryBackgroundView)findViewById(R.id.history_background);
+        mHistoryLayout = findViewById(R.id.history_layout);
+        mHistoryLayout.setOnClickListener(this);
+        mHistoryBackgroundView = (HistoryBackgroundView) findViewById(R.id.history_background);
 
         mUserInfoLayout = (RelativeLayout) findViewById(R.id.user_info);
         mConnectedUserInfoLayout = (RelativeLayout) findViewById(R.id.user_info_connected);
@@ -369,22 +413,26 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         mContentLayout = (RelativeLayout) findViewById(R.id.content);
 
         initWaitCircle();
-        
+
     }
 
     private void initAnimation() {
         this.mHistoryAnimatorSet = new AnimatorSet();
-        
-        this.mHistoryScaleXAnimator = ObjectAnimator.ofFloat(mUserHistory, "scaleX", 1.0f, 1.5f, 1.0f);
+
+        this.mHistoryScaleXAnimator =
+                ObjectAnimator.ofFloat(mUserHistory, "scaleX", 1.0f, 1.5f, 1.0f);
         this.mHistoryScaleXAnimator.setDuration(ANIMATOR_DURATION);
         this.mHistoryScaleXAnimator.setRepeatCount(SCALE_REPEAT_COUNT);
-        this.mHistoryScaleYAnimator = ObjectAnimator.ofFloat(mUserHistory, "scaleY", 1.0f, 1.5f, 1.0f);
+        this.mHistoryScaleYAnimator =
+                ObjectAnimator.ofFloat(mUserHistory, "scaleY", 1.0f, 1.5f, 1.0f);
         this.mHistoryScaleYAnimator.setDuration(ANIMATOR_DURATION);
         this.mHistoryScaleYAnimator.setRepeatCount(SCALE_REPEAT_COUNT);
-        
-        this.mHistoryBackgroundColorAnimator = ObjectAnimator.ofObject(mHistoryBackgroundView, "color", 
-            new ColorEvaluator(), HistoryBackgroundView.START_COLOR, HistoryBackgroundView.END_COLOR);
-        this.mHistoryBackgroundColorAnimator.setDuration(HistoryBackgroundView.COLOR_ANIMATION_DURATION);
+
+        this.mHistoryBackgroundColorAnimator =
+                ObjectAnimator.ofObject(mHistoryBackgroundView, "color", new ColorEvaluator(),
+                        HistoryBackgroundView.START_COLOR, HistoryBackgroundView.END_COLOR);
+        this.mHistoryBackgroundColorAnimator
+                .setDuration(HistoryBackgroundView.COLOR_ANIMATION_DURATION);
         this.mHistoryBackgroundColorAnimator.setInterpolator(new DecelerateInterpolator());
     }
 
@@ -395,7 +443,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         if (mController.isConnected()) {
             changeViewState(mController.isConnected());
 
-            mOwerIcon.setImageDrawable(mPhotos.get(Utils.getOwerIcon(this)));
+            mOwerIcon.setImageDrawable(mPhotos.get(Utils.getOwerIcon()));
             UserInfo targetUserInfo = mController.getTargetInfo();
             if (targetUserInfo != null) {
                 mGuestIcon.setImageDrawable(mPhotos.get(targetUserInfo.getPictureID()));
@@ -406,7 +454,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
             if (LogUtil.isLog) {
                 Log.e(TAG, "MainActivity ----> not Connect");
             }
-
             changeViewState(mController.isConnected());
         }
     }
@@ -417,7 +464,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         if (hasFocus == true) {
 
             if (mController.isConnected()) {
-
                 // second step, set the wait connected circle view visible
                 changeWaitCircleState(true);
 
@@ -476,10 +522,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 break;
 
             case R.id.receive_button:
-                if (mReceiveButton.getText().equals(R.string.receive_button)) {
+                if (mReceiveButton.getText().equals(getResources().getString(R.string.receive_button))) {
                     WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_RECEIVE);
                     Intent receiveIntent = new Intent(this, WaitFriendActivity.class);
-                    startActivity(receiveIntent); 
+                    startActivity(receiveIntent);
                 } else {
                     WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_DISCONNECT);
                     mController.disconnect();
@@ -498,20 +544,18 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
                 break;
 
-            case R.id.history:
-                
+            case R.id.history_layout:
                 WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_RECORD_ENTRANCE);
-                Intent historyIntent = new Intent(this, RecordsActivity.class);
+                Intent historyIntent = new Intent(this, RecordsActivity1.class);
                 startActivity(historyIntent);
-                
+
                 mHandler.postDelayed(new Runnable() {
-                    
-                    @SuppressWarnings("deprecation")
+
                     @Override
                     public void run() {
                         Log.e(TAG, "the current color is " + mHistoryBackgroundView.getColor());
                         if (mHistoryBackgroundView.getColor().toUpperCase(Locale.getDefault())
-                                .equals(HistoryBackgroundView.END_COLOR) ) {
+                                .equals(HistoryBackgroundView.END_COLOR)) {
                             Log.e(TAG, "set start color");
                             mHistoryBackgroundView.setColor(HistoryBackgroundView.START_COLOR);
                         }
@@ -540,8 +584,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     private void doChangeUserInfo() {
-        final String userName = Utils.getOwnerName(this);
-        final int iconIndex = Utils.getOwerIcon(this);
+        final String userName = Utils.getOwnerName();
+        final int iconIndex = Utils.getOwerIcon();
         if (mPopupWindow == null) {
             View contentView =
                     LayoutInflater.from(this).inflate(R.layout.change_user_info, null, false);
@@ -561,7 +605,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
             final RoundImageView userIcon =
                     (RoundImageView) contentView.findViewById(R.id.user_icon);
-            userIcon.setImageDrawable(mPhotos.get(Utils.getOwerIcon(this)));
+            userIcon.setImageDrawable(mPhotos.get(Utils.getOwerIcon()));
             final EditText name = (EditText) contentView.findViewById(R.id.user_name);
             name.setText(mUserName.getText());
 
@@ -666,7 +710,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                     if (iconIndex != iconId) {
                         WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_PROFILE_ICON);
                     }
-                    Utils.saveUserInfo(MainActivity.this, user_name, iconId);
+                    Utils.saveUserInfo(user_name, iconId);
                     mController.setUserInfo(user_name, null, iconId);
                 }
             });
@@ -675,8 +719,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
                 @Override
                 public void onClick(View v) {
-                    if (mPopupWindow.isShowing())
-                        mPopupWindow.dismiss();
+                    if (mPopupWindow.isShowing()) mPopupWindow.dismiss();
                 }
             });
         } else {
@@ -736,8 +779,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     protected void onResume() {
         super.onResume();
 
-        mController.setNetworkStateChangeListener(mNetworkStateChangeListener);
-        mController.setFileReceiverNoticeListener(mFileReceiveNoticeListener);
+/*        mController.setNetworkStateChangeListener(mNetworkStateChangeListener);
+        mController.setFileReceiverNoticeListener(mFileReceiveNoticeListener);*/
 
         saveWifiStateBeforeOpen();
         resumeWifiStateToDefault();
@@ -750,7 +793,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
      */
     @Override
     protected void onPause() {
-        mController.unRegisterNetworkStateChangeListener(mNetworkStateChangeListener);
+//        mController.unRegisterNetworkStateChangeListener(mNetworkStateChangeListener);
         mController.unRegistFileReceiveNoticeListener();
         if (mPopupWindow != null && mPopupWindow.isShowing()) {
             mPopupWindow.dismiss();
@@ -967,15 +1010,31 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 }
                 intent.setData(Uri.parse(APK_URL));
                 startActivity(intent);
+                mHandler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mDrawerLayout.closeDrawer(mDrawerContent);
+                    }
+                }, 200);
+
                 WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_MENU_UPDATE);
                 break;
 
             case 1:
                 WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_MENU_ABOUT);
-                mDrawerLayout.closeDrawer(mDrawerContent);
+                // mDrawerLayout.closeDrawer(mDrawerContent);
                 Intent intentAboutUs = new Intent();
                 intentAboutUs.setClass(MainActivity.this, AboutUsActivity.class);
                 startActivity(intentAboutUs);
+                mHandler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mDrawerLayout.closeDrawer(mDrawerContent);
+                    }
+                }, 200);
+
                 break;
             default:
                 break;
@@ -1033,24 +1092,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     }
 
     private SpannableString generateDrawerBottomText() {
-        String content = null;
-        float size = mController.getTotalTransferDataSize() / Const.KILO;
-        if (size > Const.KILO) {
-            size /= Const.KILO;
-
-            if (size > Const.KILO) {
-                size /= Const.KILO;
-                content =
-                        String.format(getResources().getString(R.string.drawer_bottom_text_gb),
-                                size);
-            } else {
-                content =
-                        String.format(getResources().getString(R.string.drawer_bottom_text_mb),
-                                size);
-            }
-        } else {
-            content = String.format(getResources().getString(R.string.drawer_bottom_text_kb), size);
-        }
+        float size = mController.getTotalTransferDataSize();
+        String content = DRAWER_BOTTOM_TEXT_PREFIX + Utils.getFileSizeForDisplay(size) + DRAWER_BOTTOM_TEXT_SUFFIX;
 
         SpannableString ss = new SpannableString(content);
         int start = content.indexOf(" ") + 1;
@@ -1086,7 +1129,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         mWaitConnectCircleView5
                 .setImageBitmap(mWaitConnectCircleBmpArray[mWaitConnectIndexArray[0].index]);
     }
-    
+
     private void initIcons() {
         mPhotos = new ArrayList<Drawable>(8);
         mPhotos.add(getResources().getDrawable(R.drawable.male_01));
@@ -1102,28 +1145,28 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
     private void toDisconnectButton() {
         Resources res = getResources();
-        
+
         int disconnectBackgroundColor = res.getColor(R.color.disconnect_button_bg_color);
         int disconnectBorderColor = res.getColor(R.color.disconnect_button_border_color);
         int disconnectTextColor = res.getColor(R.color.disconnect_button_text_color);
         Drawable disconnectImageSource = res.getDrawable(R.drawable.disconnet);
         String disconnectText = res.getString(R.string.disconnect_button);
-        
-        mReceiveButton.refreshButton(disconnectBackgroundColor, disconnectBorderColor, 
-            disconnectImageSource, disconnectText, disconnectTextColor);
+
+        mReceiveButton.refreshButton(disconnectBackgroundColor, disconnectBorderColor,
+                disconnectImageSource, disconnectText, disconnectTextColor);
     }
-    
+
     private void toReceiveButton() {
         Resources res = getResources();
-        
+
         int receiveBackgroundColor = res.getColor(R.color.receive_button_bg_color);
         int receiveBorderColor = res.getColor(R.color.receive_button_border_color);
         int receiveTextColor = res.getColor(R.color.receive_button_text_color);
         Drawable receiveImageSource = res.getDrawable(R.drawable.recieve);
         String receiveText = res.getString(R.string.receive_button);
-        
-        mReceiveButton.refreshButton(receiveBackgroundColor, receiveBorderColor, 
-            receiveImageSource, receiveText, receiveTextColor);
+
+        mReceiveButton.refreshButton(receiveBackgroundColor, receiveBorderColor,
+                receiveImageSource, receiveText, receiveTextColor);
     }
-    
+
 }

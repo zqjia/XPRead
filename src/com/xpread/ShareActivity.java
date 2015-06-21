@@ -28,11 +28,8 @@ public class ShareActivity extends BaseActivity implements View.OnClickListener 
     private static final String TAG = "ShareActivity";
 
     private ImageView mBackButton;
-
     private RoundImageButton mQrcodeButton;
-
     private RoundImageButton mBluetoothButton;
-
     private Dialog mDialog;
 
     @Override

@@ -18,17 +18,21 @@ public class HistoryDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + History.RecordsColumns.TABLE_NAME + " ("
                 + History.RecordsColumns._ID + " INTEGER PRIMARY KEY,"
-                + History.RecordsColumns.DATA + " TEXT," + History.RecordsColumns.DISPLAY_NAME
-                + " TEXT," + History.RecordsColumns.DISPLAY_ICON + " BLOB,"
-                + History.RecordsColumns.TYPE + " INTEGER," + History.RecordsColumns.SIZE
-                + " INTEGER," + History.RecordsColumns.STATUS + " INTEGER,"
-                + History.RecordsColumns.TIME_STAMP + " INTEGER," + History.RecordsColumns.TARGET
-                + " TEXT," + History.RecordsColumns.ROLE + " INTEGER" + ");");
+                + History.RecordsColumns.DATA + " TEXT," 
+                + History.RecordsColumns.DISPLAY_NAME + " TEXT," 
+                + History.RecordsColumns.DISPLAY_ICON + " BLOB,"
+                + History.RecordsColumns.TYPE + " INTEGER," 
+                + History.RecordsColumns.SIZE + " INTEGER," 
+                + History.RecordsColumns.STATUS + " INTEGER,"
+                + History.RecordsColumns.TIME_STAMP + " INTEGER," 
+                + History.RecordsColumns.TARGET + " TEXT," 
+                + History.RecordsColumns.ROLE + " INTEGER" + ");");
 
         db.execSQL("CREATE TABLE " + History.FriendsColumns.TABLE_NAME + " ("
                 + History.FriendsColumns._ID + " INTEGER PRIMARY KEY,"
-                + History.FriendsColumns.USER_NAME + " TEXT," + History.FriendsColumns.USER_ID
-                + " TEXT," + History.FriendsColumns.PHOTO + " INTEGER,"
+                + History.FriendsColumns.USER_NAME + " TEXT," 
+                + History.FriendsColumns.USER_ID + " TEXT," 
+                + History.FriendsColumns.PHOTO + " INTEGER,"
                 + History.FriendsColumns.DEVICE_ID + " TEXT" + ");");
     }
 

@@ -41,6 +41,42 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:indeterminateDrawable="@drawable/progressbar_style" />
+    
+    <LinearLayout 
+        android:id="@+id/handle_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+        <Button   
+            android:id="@+id/order_by_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/order_by_time"
+            android:textSize="15sp"
+            android:background="@drawable/round_corner_bg"/>
+        
+        <Button   
+            android:id="@+id/order_by_size"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:text="@string/order_by_size"
+            android:textSize="15sp"
+            />
+        
+        <Button   
+            android:id="@+id/delete_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:text="@string/delete_all"
+            android:textSize="15sp"/>
+    </LinearLayout>
 
     <com.xpread.swipelistview.SwipeListView
         xmlns:swipe="http://schemas.android.com/apk/res-auto"
@@ -48,6 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/title_main"
+        android:layout_above="@id/handle_layout"
         android:layout_marginTop="5dp"
         android:divider="@null"
         android:listSelector="@android:color/transparent"

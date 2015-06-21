@@ -1,12 +1,20 @@
 /**
- * <p>Title: xpread</p>
- *
- * <p>Description: </p>
+ * <p>
+ * Title: xpread
+ * </p>
+ * 
+ * <p>
+ * Description:
+ * </p>
  * 文件资源选择界面
- * <p>Copyright: Copyright (c) 2014</p>
- *
- * <p>Company: ucweb.com</p>
- *
+ * <p>
+ * Copyright: Copyright (c) 2014
+ * </p>
+ * 
+ * <p>
+ * Company: ucweb.com
+ * </p>
+ * 
  * @author jiazq@ucweb.com
  * @version 1.0
  */
@@ -20,7 +28,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -48,13 +55,14 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.download.ImageDownloader.Scheme;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+import com.twotoasters.jazzylistview.JazzyListView;
 import com.uc.base.wa.WaEntry;
 import com.xpread.R;
 import com.xpread.provider.FileBean;
 import com.xpread.util.Const;
+import com.xpread.util.FileUtil;
 import com.xpread.util.LogUtil;
 import com.xpread.util.SDCardUtil;
 import com.xpread.util.Utils;
@@ -66,35 +74,22 @@ public class FileFragment extends BackHandledFragment {
     private static final String TAG = "FileFragment";
 
     private ArrayList<FileInfo> mFileList = new ArrayList<FileInfo>();;
-
     private HashSet<String> mSelectSet = new HashSet<String>();
-
     private FileAdapter mFileAdapter;
-
-    private ListView mFileListView;
-
+    private JazzyListView mFileListView;
     private HorizontalScrollView mCurrentPathView;
-
     private LinearLayout mLinearlayout;
-
     private ProgressBar mLoadingBar;
-
     private DisplayImageOptions mVideoOptions;
-
     private DisplayImageOptions mImageOptions;
-
     private AtomicBoolean mIsFirstCreate = new AtomicBoolean(true);
-
     private AtomicBoolean mIsVisibleToUser = new AtomicBoolean(false);
-
     private AtomicBoolean mIsDataLoadFinished = new AtomicBoolean(false);
 
     private static final int DATA_LOAD_FINISH = 0x0100;
-
     private static final int ENPTY_BUCKET = 0x0010;
 
     private String mCurrentPath;
-
     private TextView mEmptyHintTextView;
 
     private Handler mHandler = new Handler() {
@@ -114,7 +109,7 @@ public class FileFragment extends BackHandledFragment {
                     if (mLoadingBar.getVisibility() != View.GONE) {
                         mLoadingBar.setVisibility(View.GONE);
                     }
-                    
+
                     if (mEmptyHintTextView.getVisibility() != View.GONE) {
                         mEmptyHintTextView.setVisibility(View.GONE);
                     }
@@ -128,11 +123,11 @@ public class FileFragment extends BackHandledFragment {
                     if (mFileListView.getVisibility() == View.VISIBLE) {
                         mFileListView.setVisibility(View.GONE);
                     }
-                    
+
                     if (mEmptyHintTextView.getVisibility() != View.VISIBLE) {
                         mEmptyHintTextView.setVisibility(View.VISIBLE);
                     }
-                    
+
                     break;
                 default:
                     break;
@@ -160,19 +155,8 @@ public class FileFragment extends BackHandledFragment {
                 Log.d(TAG, "sdcard is not access");
             }
         }
-
-        this.mVideoOptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.video)
-                .showImageForEmptyUri(R.drawable.video).showImageOnFail(R.drawable.video)
-                .cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
-                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-
-        this.mImageOptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.image)
-                .showImageForEmptyUri(R.drawable.image).showImageOnFail(R.drawable.image)
-                .cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
-                .imageScaleType(ImageScaleType.IN_SAMPLE_INT).bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-
+        this.mVideoOptions = Utils.getDisplayOptions(R.drawable.video);
+        this.mImageOptions = Utils.getDisplayOptions(R.drawable.image);
     }
 
     @Override
@@ -180,9 +164,8 @@ public class FileFragment extends BackHandledFragment {
 
         View view = inflater.inflate(R.layout.file, container, false);
 
-        this.mEmptyHintTextView = (TextView)view.findViewById(R.id.file_empty_hint);
-        
-        this.mFileListView = (ListView)view.findViewById(R.id.file_list);
+        this.mEmptyHintTextView = (TextView) view.findViewById(R.id.file_empty_hint);
+        this.mFileListView = (JazzyListView) view.findViewById(R.id.file_list);
         this.mFileListView.setDividerHeight(0);
         this.mFileAdapter = new FileAdapter(this.mFileList);
         this.mFileListView.setAdapter(this.mFileAdapter);
@@ -192,12 +175,11 @@ public class FileFragment extends BackHandledFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FileAdapter adapter = (FileAdapter)parent.getAdapter();
-                final FileInfo info = (FileInfo)adapter.getItem(position);
+                FileAdapter adapter = (FileAdapter) parent.getAdapter();
+                final FileInfo info = (FileInfo) adapter.getItem(position);
                 File file = new File(info.data);
 
                 if (file.isDirectory()) {
-
                     boolean isOpen = true;
                     boolean isAdd = false;
 
@@ -212,20 +194,24 @@ public class FileFragment extends BackHandledFragment {
                         changeCurrentPath(info.data);
                     }
                 } else {
-
                     FileBean fileData = new FileBean();
                     fileData.uri = file.getPath();
                     fileData.fileName = info.fileName;
                     fileData.type = Utils.getFileType(fileData.uri);
 
+                    // 为显示选中文件列表准备
+                    // add by zqjia
+                    fileData.setThumbImage(info.data);
+                    fileData.setSize(FileUtil.getFileSizeByName(info.data));
+
                     if (info.selected) {
                         info.selected = false;
                         mSelectSet.remove(info.data);
-                        ((FilePickActivity)getActivity()).updateSelectCount(fileData, false);
+                        ((FilePickActivity) getActivity()).updateSelectCount(fileData, false);
                     } else {
                         info.selected = true;
                         mSelectSet.add(info.data);
-                        ((FilePickActivity)getActivity()).updateSelectCount(fileData, true);
+                        ((FilePickActivity) getActivity()).updateSelectCount(fileData, true);
                         WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_SELECT_FILE);
                     }
                     adapter.updateView(position);
@@ -234,10 +220,10 @@ public class FileFragment extends BackHandledFragment {
 
         });
         // 开始显示的进度条
-        this.mLoadingBar = (ProgressBar)view.findViewById(R.id.file_loading);
+        this.mLoadingBar = (ProgressBar) view.findViewById(R.id.file_loading);
 
-        this.mCurrentPathView = (HorizontalScrollView)view
-                .findViewById(R.id.current_path_scroll_view);
+        this.mCurrentPathView =
+                (HorizontalScrollView) view.findViewById(R.id.current_path_scroll_view);
         // 装载所有子view的线性布局容器
         this.mLinearlayout = new LinearLayout(getActivity());
         this.mLinearlayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -261,7 +247,6 @@ public class FileFragment extends BackHandledFragment {
     public class FileAdapter extends BaseAdapter {
 
         private ArrayList<FileInfo> fileInfoList;
-
         private LayoutInflater inflater;
 
         public FileAdapter(ArrayList<FileInfo> list) {
@@ -275,8 +260,9 @@ public class FileFragment extends BackHandledFragment {
             View view = mFileListView.getChildAt(position - visiblePosition);
             FileInfo info = this.fileInfoList.get(position);
 
-            ViewHolder holder = (ViewHolder)view.getTag();
-            holder.fileCheck.setImageResource(info.selected ? R.drawable.check
+            ViewHolder holder = (ViewHolder) view.getTag();
+            holder.fileCheck.setImageResource(info.selected
+                    ? R.drawable.check
                     : R.drawable.checkbox);
         }
 
@@ -312,19 +298,19 @@ public class FileFragment extends BackHandledFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             ViewHolder holder;
-            final FileInfo info = (FileInfo)getItem(position);
+            final FileInfo info = (FileInfo) getItem(position);
 
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.file_item, parent, false);
-                holder.icon = (ImageView)convertView.findViewById(R.id.item_image);
-                holder.folderName = (TextView)convertView.findViewById(R.id.folder_name);
-                holder.fileName = (TextView)convertView.findViewById(R.id.file_name);
-                holder.fileSize = (TextView)convertView.findViewById(R.id.file_size);
-                holder.fileCheck = (ImageView)convertView.findViewById(R.id.file_check);
+                holder.icon = (ImageView) convertView.findViewById(R.id.item_image);
+                holder.folderName = (TextView) convertView.findViewById(R.id.folder_name);
+                holder.fileName = (TextView) convertView.findViewById(R.id.file_name);
+                holder.fileSize = (TextView) convertView.findViewById(R.id.file_size);
+                holder.fileCheck = (ImageView) convertView.findViewById(R.id.file_check);
                 convertView.setTag(holder);
             } else {
-                holder = (ViewHolder)convertView.getTag();
+                holder = (ViewHolder) convertView.getTag();
             }
 
             if (info.folderName != null) {
@@ -342,24 +328,8 @@ public class FileFragment extends BackHandledFragment {
 
                 holder.fileName.setText(info.fileName);
 
-                float size = Integer.valueOf(info.fileSize) / Const.KILO;
-                if (size > Const.KILO) {
-                    size /= Const.KILO;
-
-                    if (size > Const.KILO) {
-                        size /= Const.KILO;
-                        holder.fileSize.setText(String.format(
-                                getResources().getString(R.string.size_GB), size));
-                    } else {
-
-                        holder.fileSize.setText(String.format(
-                                getResources().getString(R.string.size_MB), size));
-                    }
-
-                } else {
-                    holder.fileSize.setText(String.format(getResources()
-                            .getString(R.string.size_KB), (int)size));
-                }
+                String fileSize = Utils.getFileSizeForDisplay(Float.parseFloat(info.fileSize));
+                holder.fileSize.setText(fileSize);
 
                 holder.fileCheck.setVisibility(View.VISIBLE);
                 int type = Utils.getFileType(info.fileName);
@@ -408,22 +378,9 @@ public class FileFragment extends BackHandledFragment {
                     info.selected = true;
                 }
 
-                holder.fileCheck.setImageResource(info.selected ? R.drawable.check
+                holder.fileCheck.setImageResource(info.selected
+                        ? R.drawable.check
                         : R.drawable.checkbox);
-
-                // no file bucket selected
-                /*
-                 * holder.fileCheck.setOnClickListener(new OnClickListener(){
-                 * @Override public void onClick(View v) { if(item.selected) {
-                 * item.selected = false; } else { item.selected = true; }
-                 * boolean isOpen = false; if (Build.VERSION.SDK_INT <=
-                 * Build.VERSION_CODES.HONEYCOMB_MR1) { new FileListTask(isOpen,
-                 * item.selected).execute(item.data); } else { new
-                 * FileListTask(isOpen,
-                 * item.selected).executeOnExecutor(AsyncTask
-                 * .THREAD_POOL_EXECUTOR, item.data); } } });
-                 */
-
             }
 
             return convertView;
@@ -432,39 +389,34 @@ public class FileFragment extends BackHandledFragment {
         private String getImageThumb(String imagePath) {
             ContentResolver cr = getActivity().getContentResolver();
 
-            String[] PROJECTION = {
-                    MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID
-            };
+            String[] PROJECTION = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
             String SELECTION = MediaStore.Images.Media.DATA + "=?";
-            String[] SELECTION_ARGS = {
-                imagePath
-            };
+            String[] SELECTION_ARGS = {imagePath};
             String ORDER_BY = null;
 
             String thumbData = null;
 
-            Cursor cursor = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, PROJECTION,
-                    SELECTION, SELECTION_ARGS, ORDER_BY);
+            Cursor cursor =
+                    cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, PROJECTION, SELECTION,
+                            SELECTION_ARGS, ORDER_BY);
             if (cursor != null && cursor.moveToFirst()) {
 
-                String imageId = cursor.getString(cursor
-                        .getColumnIndex(MediaStore.Images.Media._ID));
-                String[] thumbProjection = {
-                    MediaStore.Images.Thumbnails.DATA
-                };
+                String imageId =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID));
+                String[] thumbProjection = {MediaStore.Images.Thumbnails.DATA};
                 String thumbSelection = MediaStore.Images.Thumbnails.IMAGE_ID + "=?";
-                String[] thumbSelectionArgs = {
-                    imageId
-                };
+                String[] thumbSelectionArgs = {imageId};
                 String thumbSortOrder = null;
 
-                Cursor thumbCursor = cr.query(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI,
-                        thumbProjection, thumbSelection, thumbSelectionArgs, thumbSortOrder);
+                Cursor thumbCursor =
+                        cr.query(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI,
+                                thumbProjection, thumbSelection, thumbSelectionArgs, thumbSortOrder);
 
                 if (thumbCursor != null && thumbCursor.moveToFirst()) {
                     thumbCursor.moveToFirst();
-                    thumbData = thumbCursor.getString(thumbCursor
-                            .getColumnIndex(MediaStore.Video.Thumbnails.DATA));
+                    thumbData =
+                            thumbCursor.getString(thumbCursor
+                                    .getColumnIndex(MediaStore.Video.Thumbnails.DATA));
                 }
 
                 if (thumbCursor != null) {
@@ -485,13 +437,9 @@ public class FileFragment extends BackHandledFragment {
         ContentResolver cr = FileFragment.this.getActivity().getContentResolver();
 
         final Uri VIDEO_URI = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-        String[] PROJECTION = {
-                MediaStore.Video.Media.DATA, MediaStore.Video.Media._ID
-        };
+        String[] PROJECTION = {MediaStore.Video.Media.DATA, MediaStore.Video.Media._ID};
         String SELECTION = MediaStore.Video.Media.DATA + "=?";
-        String[] SELECTION_ARGS = {
-            videoPath
-        };
+        String[] SELECTION_ARGS = {videoPath};
         String ORDER_BY = null;
 
         String thumbData = null;
@@ -500,22 +448,20 @@ public class FileFragment extends BackHandledFragment {
         if (cursor != null && cursor.moveToFirst()) {
 
             String videoId = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media._ID));
-            String[] thumbProjection = {
-                MediaStore.Video.Thumbnails.DATA
-            };
+            String[] thumbProjection = {MediaStore.Video.Thumbnails.DATA};
             String thumbSelection = MediaStore.Video.Thumbnails.VIDEO_ID + "=?";
-            String[] thumbSelectionArgs = {
-                videoId
-            };
+            String[] thumbSelectionArgs = {videoId};
             String thumbSortOrder = null;
 
-            Cursor thumbCursor = cr.query(MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI,
-                    thumbProjection, thumbSelection, thumbSelectionArgs, thumbSortOrder);
+            Cursor thumbCursor =
+                    cr.query(MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI, thumbProjection,
+                            thumbSelection, thumbSelectionArgs, thumbSortOrder);
 
             if (thumbCursor != null && thumbCursor.moveToFirst()) {
                 thumbCursor.moveToFirst();
-                thumbData = thumbCursor.getString(thumbCursor
-                        .getColumnIndex(MediaStore.Video.Thumbnails.DATA));
+                thumbData =
+                        thumbCursor.getString(thumbCursor
+                                .getColumnIndex(MediaStore.Video.Thumbnails.DATA));
 
             }
 
@@ -609,11 +555,7 @@ public class FileFragment extends BackHandledFragment {
             if (mIsFirstCreate.get()) {
                 mIsFirstCreate.set(false);
             }
-            // } else {
-            // mFileList.clear();
-            // }
-            // }
-            // mFileList.addAll(list);
+
             mIsDataLoadFinished.set(true);
 
             if (mIsVisibleToUser.get()) {
@@ -629,7 +571,7 @@ public class FileFragment extends BackHandledFragment {
             mFileList = resultList;
             // 为什么还要再sendMessage？
             if (mIsVisibleToUser.get()) {
-                
+
                 if (!mFileList.isEmpty()) {
                     mHandler.sendEmptyMessage(DATA_LOAD_FINISH);
                 } else {
@@ -642,25 +584,17 @@ public class FileFragment extends BackHandledFragment {
 
     private class FileInfo {
         String folderName;
-
         String fileName;
-
         String fileSize;
-
         String data;
-
         boolean selected;
     }
 
     static class ViewHolder {
         ImageView icon;
-
         TextView folderName;
-
         TextView fileName;
-
         TextView fileSize;
-
         ImageView fileCheck;
     }
 
@@ -792,8 +726,8 @@ public class FileFragment extends BackHandledFragment {
     }
 
     private RobotoTextView getTextView(boolean isRootDirection) {
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams param =
+                new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 
         if (isRootDirection) {
             param.setMargins(dip2px(10), 0, 0, 0);
@@ -803,7 +737,7 @@ public class FileFragment extends BackHandledFragment {
         textView.setLayoutParams(param);
         textView.setPadding(dip2px(10), 0, dip2px(6), 0);
 
-        textView.setTextSize((float)14);
+        textView.setTextSize((float) 14);
         textView.setTextColor(Color.parseColor("#4d4d4d"));
         textView.setGravity(Gravity.CENTER_VERTICAL);
         return textView;
@@ -811,8 +745,8 @@ public class FileFragment extends BackHandledFragment {
     }
 
     private ImageView getImageView(boolean isRootPath) {
-        LayoutParams param = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
+        LayoutParams param =
+                new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         ImageView imageView = new ImageView(getActivity());
         imageView.setLayoutParams(param);
@@ -827,7 +761,7 @@ public class FileFragment extends BackHandledFragment {
 
     public int dip2px(float dpValue) {
         final float scale = this.getResources().getDisplayMetrics().density;
-        return (int)(dpValue * scale + 0.5f);
+        return (int) (dpValue * scale + 0.5f);
     }
 
 }

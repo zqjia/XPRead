@@ -13,6 +13,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.xpread.util.Const;
 import com.xpread.util.LogUtil;
 
 public class WifiAdmin {
@@ -24,17 +25,9 @@ public class WifiAdmin {
     }
 
     private Context mContext;
-
     private WifiManager mWifiManager;
 
-    private static final int TYPE_NOPASSWORD = 1;
-
-    private static final int TYPE_WEP = 2;
-
-    private static final int TYPE_WPA = 3;
-
     private ScanResultListener mScanResultListener;
-
     private ScanResultReceiver mReceiver;
 
     public WifiAdmin(Context context) {
@@ -70,22 +63,22 @@ public class WifiAdmin {
         this.mWifiManager.startScan();
     }
 
-    public boolean connectFriend(String ssid, String password, int type) {
-        if (ssid == null || password == null || ssid.equals("")) {
+    public boolean connectFriend(String ssid, int type) {
+        if (ssid == null || ssid.equals("")) {
             if (LogUtil.isLog) {
                 Log.e(TAG, "addNetwork :null point error");
             }
             return false;
         }
 
-        if (!(type == TYPE_NOPASSWORD || type == TYPE_WEP || type == TYPE_WPA)) {
+        if (!(type == Const.TYPE_NOPASSWORD || type == Const.TYPE_WEP 
+                || type == Const.TYPE_WPA)) {
             if (LogUtil.isLog) {
                 Log.e(TAG, "addNetwork: type is unknow " + type);
             }
             return false;
         }
-
-        return connectFriend(createWifiInfo(ssid, password, type));
+        return connectFriend(createWifiInfo(ssid, Const.WIFI_AP_PASSWORD, type));
     }
 
     private boolean connectFriend(WifiConfiguration wcg) {
@@ -126,19 +119,17 @@ public class WifiAdmin {
             config.SSID = "" + SSID.replace("\"", "") + "";
         else
             config.SSID = "\"" + SSID.replace("\"", "") + "\"";
-        // config.SSID = "\"" + SSID + "\"";
 
         WifiConfiguration tempConfig = null;
         if ((tempConfig = isExist(SSID)) != null) {
             this.mWifiManager.removeNetwork(tempConfig.networkId);
         }
 
-        if (type == TYPE_NOPASSWORD) {
-            // have no password
+        if (type == Const.TYPE_NOPASSWORD) {
             config.wepKeys[0] = "";
             config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
             config.wepTxKeyIndex = 0;
-        } else if (type == TYPE_WEP) {
+        } else if (type == Const.TYPE_WEP) {
             config.hiddenSSID = true;
             config.wepKeys[0] = "\"" + password + "\"";
             config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
@@ -148,7 +139,7 @@ public class WifiAdmin {
             config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
             config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
             config.wepTxKeyIndex = 0;
-        } else if (type == TYPE_WPA) {
+        } else if (type == Const.TYPE_WPA) {
             config.preSharedKey = "\"" + password + "\"";
             config.hiddenSSID = true;
             config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
@@ -190,7 +181,6 @@ public class WifiAdmin {
         WifiConfiguration wc = isExist(SSID);
         if (wc != null) {
             mWifiManager.disableNetwork(wc.networkId);
-//            Log.e("@@@@@@@@@@@@@@@@@@@@@@@@@@@", "networkId " + wc.networkId);
         }
     }
 

@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:roboto="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" >
 
-    <TextView
+    <com.xpread.widget.RobotoTextView
         android:id="@+id/image_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_header_height"
         android:gravity="center_vertical"
-        android:textColor="#87CEEB"
-        android:textSize="18sp" />
+        android:textColor="#000000"
+        android:textSize="18sp" 
+        roboto:textfont="regular"/>
 
 </LinearLayout>

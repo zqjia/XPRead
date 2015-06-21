@@ -43,6 +43,7 @@ import com.xpread.R;
 import com.xpread.provider.FileBean;
 import com.xpread.util.Const;
 import com.xpread.util.LogUtil;
+import com.xpread.util.Utils;
 import com.xpread.wa.WaKeys;
 
 public class MusicFragment extends BackHandledFragment implements OnItemClickListener {
@@ -198,16 +199,7 @@ public class MusicFragment extends BackHandledFragment implements OnItemClickLis
             holder.cover.setImageResource(R.drawable.music);
             holder.title.setText(info.title);
             holder.singer.setText(info.singer);
-
-            float size = info.size / Const.KILO;
-
-            if (size > Const.KILO) {
-                size /= Const.KILO;
-                holder.size.setText(String.format(getResources().getString(R.string.size_MB), size));
-            } else {
-                holder.size.setText(String.format(getResources().getString(R.string.size_KB), (int)size));
-            }
-
+            holder.size.setText(Utils.getFileSizeForDisplay(info.size));
             holder.check.setImageResource(info.selected ? R.drawable.check : R.drawable.checkbox);
             return convertView;
         }

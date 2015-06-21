@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#26000000"
+    android:id="@+id/video_player_layout" >
+
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="300dp"
+        android:layout_height="240dp" 
+        android:layout_centerInParent="true"/>
+
+    <SeekBar
+        android:id="@+id/video_progressbar"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_below="@id/video_view"
+        android:max="1000"
+        android:layout_alignLeft="@id/video_view" 
+        android:progressDrawable="@drawable/music_video_seekbar"
+        android:thumb="@drawable/seekbar_thumb"
+        android:background="@android:color/white"/>
+    
+    <ImageButton 
+        android:id="@+id/video_state"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/video_view"
+        android:layout_toRightOf="@id/video_progressbar"
+        android:gravity="center"
+        android:src="@android:drawable/ic_media_pause"/>
+    
+    <com.xpread.widget.RobotoTextView 
+       android:id="@+id/bad_vdieo_hint"
+       android:layout_width="match_parent"
+       android:layout_height="40dp"
+       android:textSize="25sp"
+       android:layout_centerInParent="true"
+       android:text="the video can't play"
+       android:visibility="gone"/>
+
+</RelativeLayout>

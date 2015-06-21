@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
@@ -49,13 +50,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     public static final String TAG = "CrashHandler";
 
     public static final int WIFI_AP_STATE_DISABLING = 10;
-
     public static final int WIFI_AP_STATE_DISABLED = 11;
-
     public static final int WIFI_AP_STATE_ENABLING = 12;
-
     public static final int WIFI_AP_STATE_ENABLED = 13;
-
     public static final int WIFI_AP_STATE_FAILED = 14;
 
     private final static String SAVE_PATH = SDCardUtil.getSDCardPath() + "xpreadLog";
@@ -73,7 +70,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private Map<String, String> mInfos = new HashMap<String, String>();
 
     // 用于格式化日期,作为日志文件名的一部分
-    private DateFormat mFormatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+    private DateFormat mFormatter = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
 
     private Controller mController;
 
@@ -261,7 +258,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         try {
             String time = mFormatter.format(new Date());
             String fileName = "xpread_" + "_V" + WaUtils.getVersionName() + "_"
-                    + Utils.getOwnerName(mContext) + "_" + time + ".log";
+                    + Utils.getOwnerName() + "_" + time + ".log";
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 String path = SAVE_PATH;
                 File dir = new File(path);
@@ -282,7 +279,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
     }
 
     private boolean openWifi() {
-
         WifiAdmin wifiAdmin = this.mController.getWifiAdmin();
         WifiApAdmin wifiApAdmin = this.mController.getWifiApAdmin();
 

@@ -46,7 +46,6 @@ public class RecordsActivity extends BaseActivity {
             if (pos != -1 && mAdapter != null) {
                 mAdapter.updateViewState(pos, state);
             }
-
         }
 
         @Override
@@ -66,10 +65,7 @@ public class RecordsActivity extends BaseActivity {
                 return;
             }
             new QueryTask().execute();
-
-            int count = files.size();
         }
-
     };
 
     @Override
@@ -245,7 +241,6 @@ public class RecordsActivity extends BaseActivity {
                     if (userCursor != null) {
                         userCursor.close();
                     }
-
                 }
 
             }

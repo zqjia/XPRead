@@ -36,11 +36,9 @@ import com.xpread.wa.WaKeys;
 public class Controller {
 
     private static final String TAG = "Controller";
-
     private volatile static Controller mController;
 
     private Context mContext;
-
     private WifiAdmin mWifiAdmin;
     private WifiApAdmin mWifiApAdmin;
 
@@ -115,7 +113,6 @@ public class Controller {
                 }
                     break;
                 case Const.REFRESH_FILE_TRANSFER_STATE: {
-
                     String filePath = bundle.getString(UIUpdate.FILE_PATH);
                     int fileSize = bundle.getInt(UIUpdate.FILE_SIZE);
                     int fileState = bundle.getInt(UIUpdate.FILE_STATE);
@@ -163,8 +160,6 @@ public class Controller {
                     resumeRoleToDefault();
                     Toast.makeText(mContext, R.string.connect_disconnect, Toast.LENGTH_SHORT)
                             .show();
-                    // Log.e("mNetworkStateChangeListener", "" +
-                    // (mNetworkStateChangeListener == null));
                     if (mNetworkStateChangeListener != null) {
                         mNetworkStateChangeListener
                                 .stateChangeListener(Const.REFRESH_DISCONNECTION);
@@ -242,7 +237,7 @@ public class Controller {
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         this.mContext.registerReceiver(mWifiStateReceiver, filter);
 
-        Utils.saveDeviceId(mContext);
+        Utils.saveDeviceId();
         mUserInfo = this.getUerInfo();
 
         // 总进度更新
@@ -356,16 +351,16 @@ public class Controller {
 
     public void saveUserInformation(UserInfo info) {
         if (mContext != null) {
-            Utils.saveUserInfo(mContext, info.getUserName(), info.getPictureID());
+            Utils.saveUserInfo(info.getUserName(), info.getPictureID());
         }
     }
 
     public UserInfo getUerInfo() {
         if (mUserInfo == null) {
             mUserInfo = new UserInfo();
-            mUserInfo.setUserName(Utils.getOwnerName(mContext));
-            mUserInfo.setPictureID(Utils.getOwerIcon(mContext));
-            mUserInfo.setDeviceName(Utils.getDeviceId(mContext));
+            mUserInfo.setUserName(Utils.getOwnerName());
+            mUserInfo.setPictureID(Utils.getOwerIcon());
+            mUserInfo.setDeviceName(Utils.getDeviceId());
         }
 
         return mUserInfo;
@@ -541,14 +536,12 @@ public class Controller {
     public void toBeSender() {
         if (this.mRole == -1) {
             this.mRole = Const.SENDER;
-            // Log.e("@@@@@@@@@@@@@@@@@@@@@@@@@", " set role " + mRole);
         }
     }
 
     public void toBeReceiver() {
         if (this.mRole == -1) {
             this.mRole = Const.RECEIVER;
-            // Log.e("@@@@@@@@@@@@@@@@@@@@@@@@@", " set role " + mRole);
         }
     }
 

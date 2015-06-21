@@ -28,6 +28,7 @@ import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.uc.base.wa.WaEntry;
 import com.xpread.control.Controller;
 import com.xpread.control.Controller.NetworkStateChangeListener;
+import com.xpread.control.MobileNetworkManager;
 import com.xpread.control.WifiAdmin;
 import com.xpread.control.WifiApAdmin;
 import com.xpread.util.Const;
@@ -47,7 +48,6 @@ public class WaitFriendActivity extends BaseActivity {
     private WifiApAdmin mWifiApAdmin;
 
     private ImageView mBackView;
-
     private RoundImageView mUserIcon;
 
     public static final int WIFI_AP_STATE_DISABLING = 10;
@@ -79,28 +79,9 @@ public class WaitFriendActivity extends BaseActivity {
 
     private WaitWifiApThread mWaitWifiApThread;
 
-    private NetworkStateChangeListener mNetworkStateChangeListener = new NetworkStateChangeListener() {
-
-        @Override
-        public void stateChangeListener(int state) {
-            Log.e("mController", "" + mController.hashCode());
-            if (state == Const.REFRESH_ESTIBALE) {
-
-                Intent intent = new Intent(WaitFriendActivity.this, RecordsActivity.class);
-                startActivity(intent);
-                WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_WAIT_SELECT_SUCESS);
-                finish();
-            } else if (state == Const.REFRESH_DISCONNECTION) {
-                Intent intent = new Intent(WaitFriendActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        }
-    };
-
     private Handler mHandler = new Handler() {
-
         int count = 0;
-
+        
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -110,7 +91,6 @@ public class WaitFriendActivity extends BaseActivity {
                     if (LogUtil.isLog) {
                         Log.d(TAG, "wifi ap is enabled");
                     }
-                    // TODO 开启wifi热点结束计时
                     // ----------------------------------------------
                     LaboratoryData.addOne(LaboratoryData.KEY_XPREAD_DATA_WIFI_AP_ESTABLISH_SUCCESS);
                     LaboratoryData.gWifiAPEstablishEndSuccessTime = System.currentTimeMillis();
@@ -132,7 +112,7 @@ public class WaitFriendActivity extends BaseActivity {
 
                                 @Override
                                 public void onAnimationEnd(Animator arg0) {
-                                    // YoYo.with(Techniques.Swing).duration(1000).playOn(mWaitHintReceive);
+                                    
                                 }
 
                                 @Override
@@ -197,6 +177,22 @@ public class WaitFriendActivity extends BaseActivity {
     };
 
     @Override
+    protected void refreshEstablish() {
+        super.refreshEstablish();
+        Intent intent = new Intent(WaitFriendActivity.this, RecordsActivity1.class);
+        startActivity(intent);
+        WaEntry.statEpv(WaKeys.CATEGORY_XPREAD, WaKeys.KEY_XPREAD_WAIT_SELECT_SUCESS);
+        finish();
+    }
+
+    @Override
+    protected void refreshDisconnected() {
+        super.refreshDisconnected();
+        Intent intent = new Intent(WaitFriendActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -208,7 +204,6 @@ public class WaitFriendActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-
                 mController.resumeToDefault();
                 finish();
             }
@@ -226,7 +221,7 @@ public class WaitFriendActivity extends BaseActivity {
         });
 
         mUserIcon = (RoundImageView)findViewById(R.id.user_icon);
-        mUserIcon.setImageResource(Utils.photos[Utils.getOwerIcon(this)]);
+        mUserIcon.setImageResource(Utils.photos[Utils.getOwerIcon()]);
 
         // 开启服务器服务
         mController = Controller.getInstance(this);
@@ -327,7 +322,7 @@ public class WaitFriendActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mController.setNetworkStateChangeListener(mNetworkStateChangeListener);
+//        mController.setNetworkStateChangeListener(mNetworkStateChangeListener);
     }
 
     @Override
@@ -386,10 +381,10 @@ public class WaitFriendActivity extends BaseActivity {
             this.mWifiAdmin.closeWifi();
         }
 
-        String deviceId = Utils.getDeviceId(this);
+        String deviceId = Utils.getDeviceId();
         WifiConfiguration xpreadWcg = this.mWifiApAdmin.buildConfiguration(userName, deviceId);
-        this.mWifiApAdmin.setWifiApConfiguration(xpreadWcg);
-        this.mWifiApAdmin.setWifiApEnabled(xpreadWcg, true);
+        mWifiApAdmin.setWifiApConfiguration(xpreadWcg);
+        mWifiApAdmin.setWifiApEnabled(xpreadWcg, true);
 
         mHandler.removeMessages(TIME_OUT);
         mHandler.sendEmptyMessageDelayed(TIME_OUT, 3 * 60 * 1000);
@@ -397,8 +392,6 @@ public class WaitFriendActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
-//        Log.e("***********WaitActivity************", "onResume ----- " + mController.isConnected());
-
         super.onStop();
     }
 
@@ -416,16 +409,16 @@ public class WaitFriendActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-//        Log.e("***********WaitActivity************", "onResume ----- " + mController.isConnected());
         super.onResume();
-
-        if (this.mWifiApAdmin.getWifiApState() != WIFI_AP_STATE_ENABLED) {
-
-            final String userName = Utils.getOwnerName(this);
+        if (mWifiApAdmin.getWifiApState() != WIFI_AP_STATE_ENABLED) {
+            final String userName = Utils.getOwnerName();
             // 实验室数据
             LaboratoryData.addOne(LaboratoryData.KEY_XPREAD_DATA_WIFI_AP_ESTABLISH_TOTAL_COUNT);
             LaboratoryData.gWifiAPEstablishBeginTime = System.currentTimeMillis();
             // ------------------------------------
+            if (MobileNetworkManager.getMobileNetworkState()) {
+                MobileNetworkManager.setMobileNetworkState(false);
+            }
             setupWifiAp(userName);
 
             if (this.mWaitWifiApThread == null) {
@@ -446,8 +439,8 @@ public class WaitFriendActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
 
-        Controller.getInstance(WaitFriendActivity.this).unRegisterNetworkStateChangeListener(
-                mNetworkStateChangeListener);
+//        Controller.getInstance(WaitFriendActivity.this).unRegisterNetworkStateChangeListener(
+//                mNetworkStateChangeListener);
 
         mHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
@@ -486,7 +479,7 @@ public class WaitFriendActivity extends BaseActivity {
                             Log.e(TAG, "setup ap fail, try again");
                         }
                     }
-                    setupWifiAp(Utils.getOwnerName(WaitFriendActivity.this));
+                    setupWifiAp(Utils.getOwnerName());
                     count = 0;
                 }
             }

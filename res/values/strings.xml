@@ -14,9 +14,9 @@
     <string name="file_label">File</string>
     <string name="file_selected">Select (%1$d)</string>
     <!-- <string name="next_step">Next Step</string> -->
-    <string name="size_MB"> %1$.2f MB</string>
+<!--      <string name="size_MB"> %1$.2f MB</string>
     <string name="size_KB"> %1$d KB</string>
-    <string name="size_GB"> %1$.2f GB</string>
+    <string name="size_GB"> %1$.2f GB</string>  -->
     <string name="back">Back</string>
     <string name="share">Share</string>
     <string name="select_file">Select File</string>
@@ -35,9 +35,9 @@
     <string name="to_be_transfer">To be transferred</string>
     <string name="user_canceled">Canceled</string>
     <string name="root_dir">Storage</string>
-    <string name="drawer_bottom_text_kb">Transfer %1$.2fKB Data</string>
+<!--    <string name="drawer_bottom_text_kb">Transfer %1$.2fKB Data</string>
     <string name="drawer_bottom_text_mb">Transfer %1$.2fMB Data</string>
-    <string name="drawer_bottom_text_gb">Transfer %1$.2fGB Data</string>
+    <string name="drawer_bottom_text_gb">Transfer %1$.2fGB Data</string>  -->
     <string name="drawer_update">Update</string>
     <string name="drawer_about_us">About us</string>
     <string name="share_title">Share This App</string>
@@ -75,6 +75,10 @@
     <string name="file_not_found">%1$s not found</string>
     <string name="file_fragment_empty_hint">No file here&#8230;</string>
     
-    <string name="image_header_prefix">图片文件夹： </string>
+    <string name="image_header_prefix">Bucket Name: </string>
+    <string name="wait_connect">Wait Connect</string>
 
+    <string name="order_by_time">Order By Time</string>
+    <string name="order_by_size">Order By Size</string>
+    <string name="delete_all">Delete All</string>
 </resources>

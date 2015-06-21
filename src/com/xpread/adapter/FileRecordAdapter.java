@@ -127,7 +127,7 @@ public class FileRecordAdapter extends BaseAdapter {
         Bitmap fileIcon = mFileIconList == null ? null : mFileIconList.get(position);
 
         if (type == Const.SENDER) {
-            viewHolder.userIcon.setImageResource(photos[Utils.getOwerIcon(mContext)]);
+            viewHolder.userIcon.setImageResource(photos[Utils.getOwerIcon()]);
         } else {
             viewHolder.userIcon.setImageResource(photos[item.targetIcon]);
         }
@@ -203,15 +203,7 @@ public class FileRecordAdapter extends BaseAdapter {
 
                 viewHolder.fileSize.setTextColor(mContext.getResources().getColor(
                         R.color.record_file_size));
-                float size = item.size / Const.KILO;
-                if (size >= Const.KILO) {
-                    size /= Const.KILO;
-                    viewHolder.fileSize.setText(String.format(mContext.getString(R.string.size_MB),
-                            size));
-                } else {
-                    viewHolder.fileSize.setText(String.format(mContext.getString(R.string.size_KB),
-                            (int)size));
-                }
+                viewHolder.fileSize.setText(Utils.getFileSizeForDisplay(item.size));
 
             } else {
                 if (item.role == Const.RECEIVER) {
@@ -464,7 +456,6 @@ public class FileRecordAdapter extends BaseAdapter {
         }
 
         item.status = status;
-
         if (pos < visiblePosition) {
             return;
         }
@@ -528,15 +519,7 @@ public class FileRecordAdapter extends BaseAdapter {
 
                 viewHolder.fileSize.setTextColor(mContext.getResources().getColor(
                         R.color.record_file_size));
-                float size = item.size / Const.KILO;
-                if (size >= Const.KILO) {
-                    size /= Const.KILO;
-                    viewHolder.fileSize.setText(String.format(mContext.getString(R.string.size_MB),
-                            size));
-                } else {
-                    viewHolder.fileSize.setText(String.format(mContext.getString(R.string.size_KB),
-                            (int)size));
-                }
+                viewHolder.fileSize.setText(Utils.getFileSizeForDisplay(item.size));
             } else {
                 if (item.role == Const.RECEIVER) {
                     viewHolder.actionButton.setEnabled(false);
@@ -563,11 +546,8 @@ public class FileRecordAdapter extends BaseAdapter {
                     viewHolder.fileSize.setText(R.string.user_canceled);
                 }
             }
-
         }
-
         mListView.closeAnimate(pos);
-
     }
 
     public void updateViewTransferInfo(int pos, int progress, int speed) {
@@ -623,31 +603,18 @@ public class FileRecordAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-
         RoundImageView userIcon;
-
         ImageView fileIcon;
-
         TextView fileName;
-
         RelativeLayout fileInfo;
-
         TextView fileSize;
-
         ProgressBar fileBar;
-
         TextView fileProgress;
-
         TextView fileSpeed;
-
         ImageButton shareButton;
-
         ImageButton actionButton;
-
         ImageButton deleteButton;
-
         TextView deleteText;
-
         TextView stopText;
     }
 

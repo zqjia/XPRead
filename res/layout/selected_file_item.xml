@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dp" >
+
+    <ImageView
+        android:id="@+id/select_file_thumb_image"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="3dp" 
+        android:scaleType="centerCrop"/>
+
+    <com.xpread.widget.RobotoTextView
+        android:id="@+id/selected_file_name"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignTop="@id/select_file_thumb_image"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/select_file_thumb_image"
+        android:gravity="center_vertical" 
+        android:textColor="#333333"
+        android:textSize="16sp"
+        android:singleLine="true"/>
+
+    <com.xpread.widget.RobotoTextView
+        android:id="@+id/selected_file_size"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@id/select_file_thumb_image"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/select_file_thumb_image"
+        android:gravity="center_vertical" 
+        android:textColor="#999999"
+        android:textSize="14sp"
+        android:singleLine="true"/>
+
+</RelativeLayout>

@@ -34,7 +34,6 @@ public class WifiApAdmin {
     private static final Map<String, Method> mMethodMap = new HashMap<String, Method>();
 
     private static Boolean mIsSupport = null;
-
     private static boolean mIsHtc;
 
     // hardcode 密码
@@ -62,7 +61,6 @@ public class WifiApAdmin {
         }
 
         boolean result = Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO;
-
         if (result) {
             try {
                 Field field = WifiConfiguration.class.getDeclaredField("mWifiApProfile");
@@ -71,9 +69,7 @@ public class WifiApAdmin {
                 mIsHtc = false;
                 if (LogUtil.isLog) {
                     Log.d(TAG, "get declared field mWifiApProfile error, not htc");
-
                 }
-
             }
         }
 
@@ -264,11 +260,8 @@ public class WifiApAdmin {
 
     private void setupHtcWifiConfiguration(WifiConfiguration config) {
         try {
-
             Field fieldApProfile = WifiConfiguration.class.getDeclaredField("mWifiApProfile");
-
             fieldApProfile.setAccessible(true);
-
             Object configObject = fieldApProfile.get(config);
 
             if (configObject != null) {
@@ -276,7 +269,6 @@ public class WifiApAdmin {
                 ssidField.setAccessible(true);
                 ssidField.set(configObject, config.SSID);
                 ssidField.setAccessible(false);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -325,11 +317,14 @@ public class WifiApAdmin {
         return field.get(object);
     }
 
+    /**
+     * 
+     * */
     public WifiConfiguration buildConfiguration(String userName, String deviceId) {
         WifiConfiguration config = new WifiConfiguration();
 
         if (userName == null) {
-            userName = Utils.getOwnerName(mContext);
+            userName = Utils.getOwnerName();
         }
 
         String ssid = "xpread_" + userName + "_" + deviceId;
